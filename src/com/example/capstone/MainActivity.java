@@ -1,12 +1,7 @@
-// hello
-// Charlie-roy was here.
-// and Joseph
-
-
 package com.example.capstone;
 
-import android.os.Bundle;
 import android.app.Activity;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.Window;
 
@@ -18,6 +13,7 @@ public class MainActivity extends Activity {
 		// Remove the title bar for "fullscreen" //
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_main);
+
 	}
 
 	@Override

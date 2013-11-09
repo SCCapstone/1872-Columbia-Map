@@ -13,14 +13,19 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        <activity
-            android:name="com.example.capstone.MainActivity"
-            android:label="@string/app_name" >
+         <activity
+            android:name="com.example.capstone.MainMenu"
+            android:label="@string/app_menu" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="com.example.capstone.MainActivity"
+            android:label="@string/app_name" 
+            android:parentActivityName="com.example.capstone.MainActivity">
         </activity>
     </application>
 

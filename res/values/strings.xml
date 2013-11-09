@@ -2,7 +2,10 @@
 <resources>
 
     <string name="app_name">Capstone</string>
+    <string name="app_menu">Columbia 1872 Historic Map</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
-
+    <string name="MapView">View Map</string>
+	<string name="AdminLogin">Admin Login</string>
+	
 </resources>
