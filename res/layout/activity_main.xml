@@ -3,17 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/map_crop"
     android:orientation="horizontal"
     tools:context=".MainMenu" >
 
 
-    <!--     <ImageView
-        android:id="@+id/imageView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
-        android:contentDescription="@string/temp"
-        android:src="@drawable/fullmap" /> -->
+    <ImageView
+        android:id="@+id/Map"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:scaleType="matrix"
+        android:src="@drawable/map_crop" 
+        android:contentDescription="@null" />
     
 </RelativeLayout>
