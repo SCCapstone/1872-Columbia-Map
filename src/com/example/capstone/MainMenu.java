@@ -31,8 +31,9 @@ public class MainMenu extends Activity {
     	startActivity(intent);
 	}
 	
-//	public void AdminLogin(View view) {
-//    	Intent intent = new Intent(this, MainActivity.class);
-//    	startActivity(intent);
-//	}
+	//called when user clicks on Admin Login
+	public void AdminLogin(View view) {
+    	Intent intent = new Intent(this, AdminLogin.class);
+    	startActivity(intent);
+	}
 }
