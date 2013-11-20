@@ -10,10 +10,13 @@
 
     <ImageView
         android:id="@+id/Map"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:scaleType="matrix"
+        
         android:src="@drawable/map_crop" 
         android:contentDescription="@null" />
+    
+    
     
 </RelativeLayout>
