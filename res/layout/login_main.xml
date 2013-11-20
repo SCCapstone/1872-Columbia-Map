@@ -23,7 +23,7 @@
         android:layout_alignRight="@+id/password"
         android:layout_below="@+id/logintitle"
         android:layout_marginTop="30dp"
-        android:text="Username: "
+        android:text="@string/username"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <TextView
@@ -33,7 +33,7 @@
         android:layout_alignBaseline="@+id/passwordedit"
         android:layout_alignBottom="@+id/passwordedit"
         android:layout_toLeftOf="@+id/login"
-        android:text="Password: "
+        android:text="@string/password"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <EditText
@@ -71,6 +71,6 @@
         android:layout_below="@+id/passwordedit"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="42dp"
-        android:text="Login" />
+        android:text="@string/login_button" />
 
 </RelativeLayout>

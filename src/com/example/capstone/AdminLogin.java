@@ -2,8 +2,10 @@ package com.example.capstone;
 
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Menu;
+import android.widget.TextView;
 
 public class AdminLogin extends Activity {
 
@@ -13,7 +15,12 @@ public class AdminLogin extends Activity {
 	super.onCreate(savedInstanceState);
 	setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 	setContentView(R.layout.login_main);
-	
+
+	TextView UserName = (TextView) findViewById(R.id.username);
+	TextView Password = (TextView) findViewById(R.id.password);
+	Typeface TradeGothicReg = Typeface.createFromAsset(getAssets(),"TradeGothic.ttf");
+	UserName.setTypeface(TradeGothicReg);
+	Password.setTypeface(TradeGothicReg);
 	
 	}
 	

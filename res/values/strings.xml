@@ -8,5 +8,7 @@
     <string name="MapView">View Map</string>
 	<string name="AdminLogin">Admin Login</string>
 	<string name="app_login">Administrator Login</string>
-	
+	<string name="username">Username</string>
+	<string name="password">Password</string>
+	<string name="login_button">Login</string>
 </resources>
