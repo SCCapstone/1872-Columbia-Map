@@ -12,14 +12,14 @@
     tools:context=".MainMenu" >
     
     <Button
-        android:id="@+id/adminlogin"
+        android:id="@+id/AdminLogin"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="52dp"
-        android:onClick="adminlogin"
+        android:onClick="AdminLogin"
         android:text="@string/AdminLogin" />
 
     <TextView
@@ -42,10 +42,10 @@
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <Button
-        android:id="@+id/viewmap"
+        android:id="@+id/ViewMap"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/adminlogin"
+        android:layout_alignRight="@+id/AdminLogin"
         android:layout_below="@+id/maptitle"
         android:layout_marginTop="41dp"
         android:gravity="center"
