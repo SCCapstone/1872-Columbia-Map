@@ -4,9 +4,12 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 public class MainMenu extends Activity {
 
@@ -16,6 +19,17 @@ public class MainMenu extends Activity {
 	super.onCreate(savedInstanceState);
 	setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 	setContentView(R.layout.menu_main);
+	
+	Button AdminLogin = (Button) findViewById(R.id.adminlogin);
+	Button ViewMap = (Button) findViewById(R.id.viewmap);
+	TextView MainTitle = (TextView) findViewById(R.id.maintitle);
+	TextView MapTitle = (TextView) findViewById(R.id.maptitle);
+	Typeface TradeGothic18 = Typeface.createFromAsset(getAssets(),"TradeG18.ttf");
+	Typeface TradeGothicBold2 = Typeface.createFromAsset(getAssets(),"Trade Gothic Bold No. 2.ttf");
+	MainTitle.setTypeface(TradeGothicBold2);
+	MapTitle.setTypeface(TradeGothic18);
+	ViewMap.setTypeface(TradeGothic18);
+	AdminLogin.setTypeface(TradeGothic18);
 	
 	
 	}

@@ -10,35 +10,46 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainMenu" >
-
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:text="@string/app_menu" />
     
     <Button
-        android:id="@+id/AdminLogin"
+        android:id="@+id/adminlogin"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="52dp"
-        android:onClick="AdminLogin"
+        android:onClick="adminlogin"
         android:text="@string/AdminLogin" />
 
-    <Button
-        android:id="@+id/ViewMap"
+    <TextView
+        android:id="@+id/maptitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/title"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="133dp"
+        android:text="@string/app_menu" />
+
+    <TextView
+        android:id="@+id/maintitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/maptitle"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="64dp"
+        android:text="@string/main_title"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <Button
+        android:id="@+id/viewmap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/adminlogin"
+        android:layout_below="@+id/maptitle"
+        android:layout_marginTop="41dp"
         android:gravity="center"
-        android:onClick="ViewMap"
+        android:onClick="viewmap"
         android:text="@string/MapView" />
 
 </RelativeLayout>

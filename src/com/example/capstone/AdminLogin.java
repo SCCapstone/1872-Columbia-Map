@@ -5,6 +5,8 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Menu;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 public class AdminLogin extends Activity {
@@ -18,9 +20,15 @@ public class AdminLogin extends Activity {
 
 	TextView UserName = (TextView) findViewById(R.id.username);
 	TextView Password = (TextView) findViewById(R.id.password);
-	Typeface TradeGothicReg = Typeface.createFromAsset(getAssets(),"TradeGothic.ttf");
-	UserName.setTypeface(TradeGothicReg);
-	Password.setTypeface(TradeGothicReg);
+	EditText UserNameEdit = (EditText) findViewById(R.id.usernameedit);
+	EditText PasswordEdit = (EditText) findViewById(R.id.passwordedit);
+	Button login = (Button) findViewById(R.id.login);
+	Typeface TradeGothic18 = Typeface.createFromAsset(getAssets(),"TradeG18.ttf");
+	UserName.setTypeface(TradeGothic18);
+	Password.setTypeface(TradeGothic18);
+	UserNameEdit.setTypeface(TradeGothic18);
+	PasswordEdit.setTypeface(TradeGothic18);
+	login.setTypeface(TradeGothic18);
 	
 	}
 	
