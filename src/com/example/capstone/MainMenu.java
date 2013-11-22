@@ -31,8 +31,8 @@ public class MainMenu extends Activity {
 	MapTitle.setTypeface(TradeGothic18);
 	ViewMap.setTypeface(TradeGothic18);
 	AdminLogin.setTypeface(TradeGothic18);
-	AdminLogin.getBackground().setColorFilter(new LightingColorFilter(0x000000, 0xFFC72C));
-	ViewMap.getBackground().setColorFilter(new LightingColorFilter(0x000000, 0xD22630));
+	AdminLogin.getBackground().setColorFilter(new LightingColorFilter(0x000000, 0xFFCE00));
+	ViewMap.getBackground().setColorFilter(new LightingColorFilter(0x000000, 0xFF2D14));
 	
 	
 	}
