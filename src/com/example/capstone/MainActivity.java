@@ -32,6 +32,8 @@ public class MainActivity extends Activity {
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 		setContentView(R.layout.activity_main);
+		
+		
 		imageDetail = (ImageView) findViewById(R.id.Map);
 		/** * set on touch listener on image */
 		imageDetail.setOnTouchListener(new View.OnTouchListener() {
@@ -73,18 +75,22 @@ public class MainActivity extends Activity {
 					}
 					break;
 				}
+				
+				
 				view.setImageMatrix(matrix);
 				return true;
 			}
 
 			@SuppressLint("FloatMath")
-			private float spacing(MotionEvent event) {
+			private float spacing(MotionEvent event) 
+			{
 				float x = event.getX(0) - event.getX(1);
 				float y = event.getY(0) - event.getY(1);
 				return FloatMath.sqrt(x * x + y * y);
 			}
 
-			private void midPoint(PointF point, MotionEvent event) {
+			private void midPoint(PointF point, MotionEvent event) 
+			{
 				float x = event.getX(0) + event.getX(1);
 				float y = event.getY(0) + event.getY(1);
 				point.set(x / 2, y / 2);
