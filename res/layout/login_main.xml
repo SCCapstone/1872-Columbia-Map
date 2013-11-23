@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="horizontal"
     android:screenOrientation="landscape"
+    android:background="@color/gray"
     tools:context=".MainMenu">
 
     <TextView
