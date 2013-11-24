@@ -12,11 +12,8 @@
         android:id="@+id/Map"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="matrix"
-        
-        android:src="@drawable/map_crop" 
-        android:contentDescription="@null" />
-    
-    
+        android:contentDescription="@null"
+        android:scaleType="fitCenter"
+        android:src="@drawable/map_highres" />
     
 </RelativeLayout>
