@@ -2,6 +2,7 @@ package com.example.capstone;
 
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
+import android.graphics.LightingColorFilter;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Menu;
@@ -18,6 +19,7 @@ public class AdminLogin extends Activity {
 	setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 	setContentView(R.layout.login_main);
 
+	TextView LoginTitle = (TextView) findViewById(R.id.logintitle);
 	TextView UserName = (TextView) findViewById(R.id.username);
 	TextView Password = (TextView) findViewById(R.id.password);
 	EditText UserNameEdit = (EditText) findViewById(R.id.usernameedit);
@@ -29,6 +31,8 @@ public class AdminLogin extends Activity {
 	UserNameEdit.setTypeface(TradeGothic18);
 	PasswordEdit.setTypeface(TradeGothic18);
 	login.setTypeface(TradeGothic18);
+	LoginTitle.setTypeface(TradeGothic18);
+	login.getBackground().setColorFilter(new LightingColorFilter(0x000000, 0xFF2D14));
 	
 	}
 	

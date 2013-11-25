@@ -4,13 +4,13 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.graphics.LightingColorFilter;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
 
 public class MainMenu extends Activity {
 
@@ -31,8 +31,6 @@ public class MainMenu extends Activity {
 	MapTitle.setTypeface(TradeGothic18);
 	ViewMap.setTypeface(TradeGothic18);
 	AdminLogin.setTypeface(TradeGothic18);
-	AdminLogin.getBackground().setColorFilter(new LightingColorFilter(0x000000, 0xFFCE00));
-	ViewMap.getBackground().setColorFilter(new LightingColorFilter(0x000000, 0xFF2D14));
 	
 	
 	}
