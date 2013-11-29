@@ -11,7 +11,8 @@
     <ImageView
         android:id="@+id/Map"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+   		android:layout_height="match_parent"
+    	android:adjustViewBounds="true"
         android:contentDescription="@null"
         android:scaleType="matrix"
         android:src="@drawable/map_highres" />
