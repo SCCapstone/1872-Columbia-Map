@@ -25,12 +25,13 @@ public class MainMenu extends Activity {
 	Button ViewMap = (Button) findViewById(R.id.ViewMap);
 	TextView MainTitle = (TextView) findViewById(R.id.maintitle);
 	TextView MapTitle = (TextView) findViewById(R.id.maptitle);
+	Typeface TradeGothic = Typeface.createFromAsset(getAssets(),"TradeGothic.ttf");
 	Typeface TradeGothic18 = Typeface.createFromAsset(getAssets(),"TradeG18.ttf");
 	Typeface TradeGothicBold2 = Typeface.createFromAsset(getAssets(),"Trade Gothic Bold No. 2.ttf");
 	MainTitle.setTypeface(TradeGothicBold2);
 	MapTitle.setTypeface(TradeGothic18);
-	ViewMap.setTypeface(TradeGothic18);
-	AdminLogin.setTypeface(TradeGothic18);
+	ViewMap.setTypeface(TradeGothic);
+	AdminLogin.setTypeface(TradeGothic);	
 	
 	
 	}
