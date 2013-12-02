@@ -17,23 +17,25 @@
         android:src="@drawable/map_highrescrop" />
 
      <ImageButton
-         android:id="@+id/show_popup1"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:layout_alignBottom="@+id/imageView1"
-         android:layout_marginBottom="154dp"
-         android:layout_marginRight="255dp"
-         android:layout_toLeftOf="@+id/show_popup2"
-         android:src="@drawable/red_box" />
-
-     <ImageButton
          android:id="@+id/show_popup2"
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
          android:layout_alignRight="@+id/imageView1"
          android:layout_alignTop="@+id/show_popup1"
-         android:layout_marginRight="95dp"
-         android:layout_marginTop="62dp"
+         android:layout_marginRight="114dp"
+         android:layout_marginTop="54dp"
+         android:background="@android:color/transparent"
+         android:src="@drawable/red_box" />
+
+     <ImageButton
+         android:id="@+id/show_popup1"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_alignBottom="@+id/imageView1"
+         android:layout_marginBottom="173dp"
+         android:layout_marginRight="284dp"
+         android:layout_toLeftOf="@+id/show_popup2"
+         android:background="@android:color/transparent"
          android:src="@drawable/red_box" />
     
 </RelativeLayout>
