@@ -2,10 +2,12 @@ package com.example.capstone;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.pm.ActivityInfo;
 import android.graphics.Matrix;
 import android.graphics.PointF;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.FloatMath;
 import android.view.Menu;
 import android.view.MotionEvent;
@@ -53,6 +55,19 @@ public class MainActivity extends Activity {
 			@Override
 			  public boolean onTouch(View view, MotionEvent event) {
         ImageView imageView = (ImageView)view;
+        
+        String x = String.valueOf(event.getX());
+        String y = String.valueOf(event.getY());
+        final Handler handler = new Handler();
+        final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setMessage(x+"-"+y);
+        final AlertDialog dialog = builder.create();
+        dialog.show();
+        handler.postDelayed(new Runnable() {
+          public void run() {
+            dialog.dismiss();    
+          }
+        }, 3000);
 
         switch(event.getAction() & MotionEvent.ACTION_MASK) {
 

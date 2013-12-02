@@ -16,5 +16,14 @@
         android:contentDescription="@null"
         android:scaleType="matrix"
         android:src="@drawable/map_highres" />
+
+    <Button
+        android:id="@+id/button1"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@android:color/transparent" 
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true" />
     
 </RelativeLayout>
