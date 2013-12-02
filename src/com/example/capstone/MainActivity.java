@@ -106,21 +106,24 @@ public class MainActivity extends Activity {
         dx = event.getX() - start.x;
         dy = event.getY() - start.y;
 
+        //-500 and +500 values are modified
+        //need to replace these with better approximation based upon zoom level.
+        
         //if image will go outside left bound
-        if (matrixX + dx < 0){
-            dx = -matrixX;
+        if (matrixX + dx < 0 - 500){
+            dx = -matrixX - 500;
         }
         //if image will go outside right bound
-        if(matrixX + dx + width > view.getWidth()){
-            dx = view.getWidth() - matrixX - width;
+        if(matrixX + dx + width > view.getWidth() + 500){
+            dx = view.getWidth() - matrixX - width + 500;
         }
-        //if image will go oustside top bound
-        if (matrixY + dy < 0){
-            dy = -matrixY;
+        //if image will go outside top bound
+        if (matrixY + dy < 0 - 500){
+            dy = -matrixY - 500;
         }
         //if image will go outside bottom bound
-        if(matrixY + dy + height > view.getHeight()){
-            dy = view.getHeight() - matrixY - height;
+        if(matrixY + dy + height > view.getHeight() + 500){
+            dy = view.getHeight() - matrixY - height + 500;
         }
         matrix.postTranslate(dx, dy);   
                 }
