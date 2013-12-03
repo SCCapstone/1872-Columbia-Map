@@ -106,24 +106,24 @@ public class MainActivity extends Activity {
         dx = event.getX() - start.x;
         dy = event.getY() - start.y;
 
-        // width/2 and height/2 are modified values
-        // image will not translate past 1/2 width or length of image
+        // (7*width/8) and (7*height/8) are modified values
+        // image will not translate past 7/8 width or length of image
         //if image will go outside left bound        
-        if (matrixX + dx < 0 -width/2){
-            dx = -matrixX -width/2;        
+        if (matrixX + dx < 0 -7*width/8){
+            dx = -matrixX -7*width/8;        
         }
         //if image will go outside right bound
-        if(matrixX + dx + width > view.getWidth() + width/2){
-            dx = view.getWidth() - matrixX - width + width/2;        
+        if(matrixX + dx + width > view.getWidth() + 7*width/8){
+            dx = view.getWidth() - matrixX - width + 7*width/8;        
         }
         
         //if image will go outside top bound
-        if (matrixY + dy < 0 - height/2){
-            dy = -matrixY - height/2;
+        if (matrixY + dy < 0 - 7*height/8){
+            dy = -matrixY - 7*height/8;
         }
         //if image will go outside bottom bound
-        if(matrixY + dy + height > view.getHeight() + height/2){
-            dy = view.getHeight() - matrixY - height + height/2;
+        if(matrixY + dy + height > view.getHeight() + 7*height/8){
+            dy = view.getHeight() - matrixY - height + 7*height/8;
         }
         matrix.postTranslate(dx, dy);   
                 }
