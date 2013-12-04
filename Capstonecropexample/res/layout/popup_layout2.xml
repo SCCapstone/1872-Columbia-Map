@@ -16,14 +16,15 @@
         android:textColor="@android:color/white"
         android:textSize="23sp"
         android:textStyle="bold"
-        android:text="The University of South Carolina" />
+        android:text="@string/univ_south_carolina" />
 
     <ImageView
         android:id="@+id/imageView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:src="@drawable/post_office_circa1900" />
+        android:src="@drawable/post_office_circa1900"
+        android:contentDescription="@null" />
 
     <TextView
         android:id="@+id/textView2"
@@ -33,7 +34,7 @@
         android:layout_marginLeft="40dp"
         android:layout_marginRight="50dp"
         android:layout_marginTop="30dp"
-        android:text="The Palmetto State established South Carolina College — the precursor to the University of South Carolina — on Dec. 19, 1801, as part of an effort to unite South Carolinians in the wake of the American Revolution. South Carolina's leaders saw the new college as a way to promote the good order and harmony of the state."
+        android:text="@string/univ_desc"
         android:textColor="@android:color/white"
         android:textSize="16sp"
         android:textStyle="bold" />
@@ -43,6 +44,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="Close" />
+        android:text="@string/close_button" />
 
 </LinearLayout>
