@@ -18,6 +18,10 @@
 	<string name="wilson_howe">Wilson and Howe Families</string>
 	<string name="family_desc">A photograph of the Wilson and Howe families.</string>
 	
+	<!-- Zion Baptist Church Strings -->
+	<string name="zion_baptist">Zion Baptist Church</string>
+	<string name="zion_desc">The Zion Baptist Church of Columbia was founded in 1865 by a group of people led by Reverend Frank Dobbins.</string>
+	
 	<!-- Close button string -->
 	<string name="close_button">Close</string>
 	

@@ -52,6 +52,32 @@ public class MainActivity extends Activity
 			}			
 		});
 		
+		/* Button 3 created and on click listener added */
+		
+		ImageButton btn3_show = (ImageButton) findViewById(R.id.show_popup3);
+		btn3_show.setOnClickListener(new OnClickListener()
+		{
+			@Override
+			public void onClick(View arg0)
+			{
+				if(button3p != null)
+					showPopup(MainActivity.this, button3p);
+			}
+		});
+		
+		/* Button 4 creates and on click listener added */
+		
+		ImageButton btn4_show = (ImageButton) findViewById(R.id.show_popup4);
+		btn4_show.setOnClickListener(new OnClickListener()
+		{
+			@Override
+			public void onClick(View arg0)
+			{
+				if(button4p != null)
+					showPopup(MainActivity.this, button4p);
+			}
+		});
+		
 			
 	}
 	
@@ -80,6 +106,18 @@ public class MainActivity extends Activity
 		button2p.x = location[0];    
 		button2p.y = location[1];	
 		
+		ImageButton button3 = (ImageButton) findViewById(R.id.show_popup3);
+		button3.getLocationOnScreen(location);
+		button3p = new Point();
+		button3p.x = location[0];
+		button3p.y = location[1];
+		
+		ImageButton button4 = (ImageButton) findViewById(R.id.show_popup4);
+		button4.getLocationOnScreen(location);
+		button4p = new Point();
+		button4p.x = location[0];
+		button4p.y = location[1];
+		
 	}   
 	
 	// The method that displays the popup. 
@@ -93,14 +131,13 @@ public class MainActivity extends Activity
 		
 		if (p==button1p)
 			temp = R.id.popup1;
-		else
-			if (p==button2p)
-				temp = R.id.popup2;
-			/*
-			else
-				if (p==button3p)
-					temp = R.id.popup3;
-		    */
+		else if (p==button2p)
+			temp = R.id.popup2;
+		else if (p==button3p)
+			temp = R.id.popup3;
+		else if (p==button4p)
+			temp = R.id.popup4;
+		
 		
 		// Inflate part 1
 		LinearLayout viewGroup = (LinearLayout)context.findViewById(temp);
@@ -112,14 +149,13 @@ public class MainActivity extends Activity
 		temp = 0;
 		if (p==button1p)
 			temp = R.layout.popup_layout1;
-		else
-			if (p==button2p)
-				temp = R.layout.popup_layout2;
-		/*
-			else
-				if (p==button3p)
-					temp = R.layout.popup_layout3;
-		*/
+		else if (p==button2p)
+			temp = R.layout.popup_layout2;
+		else if (p==button3p)
+			temp = R.layout.popup_layout3;
+		else if (p==button4p)
+			temp = R.layout.popup_layout4;
+		
 		
 		//View layout = layoutInflater.inflate(R.layout.popup_layoutx, viewGroup);		
 		View layout = layoutInflater.inflate(temp, viewGroup);
