@@ -2,12 +2,12 @@ package com.example.capstone;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-//import android.app.AlertDialog;
+import android.app.AlertDialog;
 import android.content.pm.ActivityInfo;
 import android.graphics.Matrix;
 import android.graphics.PointF;
 import android.os.Bundle;
-//import android.os.Handler;
+import android.os.Handler;
 import android.util.FloatMath;
 import android.view.Menu;
 import android.view.MotionEvent;
@@ -57,7 +57,31 @@ public class MainActivity extends Activity
 			@Override
 			public boolean onTouch(View view, MotionEvent event)
 			{
-				ImageView imageView = (ImageView)view;
+				ImageView imageView = (ImageView)view;				
+				Matrix inverse = new Matrix();
+				imageView.getImageMatrix().invert(inverse);
+				
+				//getX and getY will return the touch location in the ImageView's
+				//coordinate system. The inverse matrix of the coordinate system
+				//is the point within the image.
+				float[] touchPoint = new float[] {event.getX(), event.getY()};
+				inverse.mapPoints(touchPoint);
+				//touchPoint now contains x and y in image's coordinate system.
+				String x = String.valueOf(touchPoint[0]);
+				String y = String.valueOf(touchPoint[1]);
+				
+				
+        		final Handler handler = new Handler();
+        		final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        		builder.setMessage(x+"-"+y);
+        		final AlertDialog dialog = builder.create();
+        		dialog.show();
+        		handler.postDelayed(new Runnable() {
+          		public void run() {
+            		dialog.dismiss();    
+        		}
+        		}, 3000);				
+				
 				/*
         		String x = String.valueOf(event.getX());
         		String y = String.valueOf(event.getY());
