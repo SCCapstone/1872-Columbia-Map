@@ -3,16 +3,25 @@ package com.example.capstone;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.graphics.Matrix;
+import android.graphics.Point;
 import android.graphics.PointF;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.FloatMath;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 
 public class MainActivity extends Activity 
 {	
@@ -39,6 +48,8 @@ public class MainActivity extends Activity
 	float matrixY = 0; // Y coordinate of matrix inside the ImageView
 	float width = 0; // width of drawable
 	float height = 0; // height of drawable
+	
+	Point button1p;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
@@ -73,7 +84,14 @@ public class MainActivity extends Activity
 				
         		final Handler handler = new Handler();
         		final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        		builder.setMessage(x+"-"+y);
+        		if(event.getX() > 200 && event.getY() > 200)
+        		{
+        			showPopup(MainActivity.this, event.getX(), event.getY());
+        		}
+        		else
+        		{
+        			builder.setMessage(x+"-"+y);
+        		}
         		final AlertDialog dialog = builder.create();
         		dialog.show();
         		handler.postDelayed(new Runnable() {
@@ -81,21 +99,7 @@ public class MainActivity extends Activity
             		dialog.dismiss();    
         		}
         		}, 3000);				
-				
-				/*
-        		String x = String.valueOf(event.getX());
-        		String y = String.valueOf(event.getY());
-        		final Handler handler = new Handler();
-        		final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        		builder.setMessage(x+"-"+y);
-        		final AlertDialog dialog = builder.create();
-        		dialog.show();
-        		handler.postDelayed(new Runnable() {
-          		public void run() {
-            		dialog.dismiss();    
-        		}
-        		}, 3000);
-				*/
+
 				
 				switch(event.getAction() & MotionEvent.ACTION_MASK)
 				{				
@@ -197,8 +201,80 @@ public class MainActivity extends Activity
 		
 	} //end of protected void onCreate(Bundle savedInstanceState) 
 
-	
 
+	// The method that displays the popup. 
+		@SuppressWarnings({ "deprecation"})
+		private void showPopup(final Activity context, float x, float y) 
+		{    
+			int popupWidth = 600;    
+			int popupHeight = 500;
+			
+			// Determine the correct pop-up (button) that needs inflating		
+			int temp = 0;		
+			
+			//if (p==button1p)
+				temp = R.id.popup1;
+			/*else
+				if (p==button2p)
+					temp = R.id.popup2;
+				
+				else
+					if (p==button3p)
+						temp = R.id.popup3;
+			    */
+			
+			// Inflate part 1
+			LinearLayout viewGroup = (LinearLayout)context.findViewById(temp);
+			
+			LayoutInflater layoutInflater = (LayoutInflater) context      
+					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+			// Inflate part 2
+			temp = 0;
+			//if (p==button1p)
+				temp = R.layout.popup_layout1;
+			/*else
+				if (p==button2p)
+					temp = R.layout.popup_layout2;
+			
+				else
+					if (p==button3p)
+						temp = R.layout.popup_layout3;
+			*/
+			
+			//View layout = layoutInflater.inflate(R.layout.popup_layoutx, viewGroup);		
+			View layout = layoutInflater.inflate(temp, viewGroup);
+					
+			// Creating the PopupWindow    
+			final PopupWindow popup = new PopupWindow(context);    
+			popup.setContentView(layout);    
+			popup.setWidth(popupWidth);    
+			popup.setHeight(popupHeight);    
+			popup.setFocusable(true);      
+			
+			// Offset: x aligns the popup to the right, y down, relative to button's position.
+			int OFFSET_X = -160;    
+			int	OFFSET_Y = 35;      
+			
+			// Clear the default translucent background    
+			popup.setBackgroundDrawable(new BitmapDrawable());      
+			
+			// Displaying the popup at the specified location, + offsets.    
+			popup.showAtLocation(layout, Gravity.NO_GRAVITY, (int) x + OFFSET_X, (int) y  + OFFSET_Y);      
+			
+			// Getting a reference to Close button, and close the popup when clicked.    
+			Button close = (Button) layout.findViewById(R.id.close);    
+			close.setOnClickListener(new OnClickListener() 
+			{   	
+				@Override     
+				public void onClick(View v) 
+				{				  
+					popup.dismiss();      
+				}    
+			}); 
+		} 
+	
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) 
 	{
