@@ -37,5 +37,26 @@
          android:layout_toLeftOf="@+id/show_popup2"
          android:background="@android:color/transparent"
          android:src="@drawable/red_box" />
+
+     <ImageButton
+         android:id="@+id/show_popup3"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_alignTop="@+id/imageView1"
+         android:layout_marginRight="24dp"
+         android:layout_marginTop="147dp"
+         android:layout_toLeftOf="@+id/show_popup2"
+         android:background="@android:color/transparent"
+         android:src="@drawable/red_box" />
+
+     <ImageButton
+         android:id="@+id/show_popup4"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_centerVertical="true"
+         android:layout_marginRight="99dp"
+         android:layout_toLeftOf="@+id/show_popup3"
+         android:background="@android:color/transparent"
+         android:src="@drawable/red_box" />
     
 </RelativeLayout>

@@ -20,6 +20,7 @@ public class MainActivity extends Activity
 	Point button1p;
 	Point button2p;
 	Point button3p;
+	Point button4p;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState)
