@@ -22,6 +22,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.Toast;
 
 public class MainActivity extends Activity 
 {	
@@ -86,19 +87,21 @@ public class MainActivity extends Activity
         		final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         		if(event.getX() > 200 && event.getY() > 200 && event.getX() < 250 && event.getY() < 250)
         		{
-        			showPopup(MainActivity.this, event.getX(), event.getY(), 1);
+        			//showPopup(MainActivity.this, event.getX(), event.getY(), 1);
         		}
         		else if(event.getX() > 300 && event.getY() > 300 && event.getX() < 350 && event.getY() < 350)
         		{
-        			showPopup(MainActivity.this, event.getX(), event.getY(), 2);
+        			//showPopup(MainActivity.this, event.getX(), event.getY(), 2);
         		}
-        		else if(event.getX() > 400 && event.getY() > 400 && event.getX() < 450 && event.getY() < 450)
+        		else if(event.getX() > 400 && event.getY() > 320 && event.getX() < 450 && event.getY() < 375)
         		{
-        			showPopup(MainActivity.this, event.getX(), event.getY(), 3);
+        			//testing with toast
+        			Toast.makeText(getApplicationContext(), "StateHouse Area", Toast.LENGTH_LONG).show();
+        			//showPopup(MainActivity.this, event.getX(), event.getY(), 3);
         		}
         		else if(event.getX() > 500 && event.getY() > 500 && event.getX() < 550 && event.getY() < 550)
         		{
-        			showPopup(MainActivity.this, event.getX(), event.getY(), 4);
+        			//showPopup(MainActivity.this, event.getX(), event.getY(), 4);
         		}
         		else
         		{
