@@ -4,5 +4,9 @@
     <string name="app_name">Capstonecropexample</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
-
+	<string name="state_house">The State House</string>
+	<string name="s_h_desc">Columbia was the location of South Carolina’s second State House. The legislature first met in this State House in 1790.</string>
+    
+	<string name="close_button">Close</string>
+	
 </resources>

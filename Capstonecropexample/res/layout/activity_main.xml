@@ -14,7 +14,8 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:src="@drawable/map_highrescrop" />
+        android:src="@drawable/map_highrescrop"
+        android:contentDescription="@null" />
 
      <ImageButton
          android:id="@+id/show_popup2"
@@ -25,7 +26,8 @@
          android:layout_marginRight="114dp"
          android:layout_marginTop="54dp"
          android:background="@android:color/transparent"
-         android:src="@drawable/red_box" />
+         android:src="@drawable/red_box"
+         android:contentDescription="@null" />
 
      <ImageButton
          android:id="@+id/show_popup1"
@@ -36,7 +38,8 @@
          android:layout_marginRight="284dp"
          android:layout_toLeftOf="@+id/show_popup2"
          android:background="@android:color/transparent"
-         android:src="@drawable/red_box" />
+         android:src="@drawable/red_box"
+         android:contentDescription="@null" />
 
      <ImageButton
          android:id="@+id/show_popup3"
@@ -45,9 +48,10 @@
          android:layout_alignTop="@+id/imageView1"
          android:layout_marginRight="24dp"
          android:layout_marginTop="147dp"
-         android:layout_toLeftOf="@+id/show_popup2"
+         android:layout_toLeftOf="@+id/show_popup3"
          android:background="@android:color/transparent"
-         android:src="@drawable/red_box" />
+         android:src="@drawable/red_box"
+         android:contentDescription="@null" />
 
      <ImageButton
          android:id="@+id/show_popup4"
@@ -55,8 +59,9 @@
          android:layout_height="wrap_content"
          android:layout_centerVertical="true"
          android:layout_marginRight="99dp"
-         android:layout_toLeftOf="@+id/show_popup3"
+         android:layout_toLeftOf="@+id/show_popup4"
          android:background="@android:color/transparent"
-         android:src="@drawable/red_box" />
+         android:src="@drawable/red_box"
+         android:contentDescription="@null" />
     
 </RelativeLayout>
