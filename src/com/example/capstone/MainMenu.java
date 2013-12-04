@@ -21,8 +21,8 @@ public class MainMenu extends Activity {
 	setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 	setContentView(R.layout.menu_main);
 	
-	Button AdminLogin = (Button) findViewById(R.id.AdminLogin);
-	Button ViewMap = (Button) findViewById(R.id.ViewMap);
+	final Button AdminLogin = (Button) findViewById(R.id.AdminLogin);
+	final Button ViewMap = (Button) findViewById(R.id.ViewMap);
 	TextView MainTitle = (TextView) findViewById(R.id.maintitle);
 	TextView MapTitle = (TextView) findViewById(R.id.maptitle);
 	Typeface TradeGothic = Typeface.createFromAsset(getAssets(),"TradeGothic.ttf");
@@ -32,7 +32,6 @@ public class MainMenu extends Activity {
 	MapTitle.setTypeface(TradeGothic18);
 	ViewMap.setTypeface(TradeGothic);
 	AdminLogin.setTypeface(TradeGothic);	
-	
 	
 	}
 	
@@ -54,4 +53,6 @@ public class MainMenu extends Activity {
     	Intent intent = new Intent(this, AdminLogin.class);
     	startActivity(intent);
 	}
+	
+	
 }

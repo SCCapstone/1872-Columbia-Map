@@ -30,7 +30,7 @@
         android:layout_below="@+id/maptitle"
         android:layout_marginTop="35dp"
         android:layout_centerHorizontal="true" 
-        android:background="@color/lightblue"   
+        android:background="@drawable/button_color"  
         android:onClick="ViewMap"
         android:text="@string/MapView"
         android:textSize="32sp"/>
@@ -56,7 +56,7 @@
         android:layout_below="@+id/ViewMap"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="173dp"
-        android:background="@color/lightblue"
+        android:background="@drawable/button_color" 
         android:onClick="AdminLogin"
         android:text="@string/AdminLogin"
         android:textSize="24sp"/>
