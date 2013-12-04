@@ -107,15 +107,15 @@ public class MainActivity extends Activity
 		button2p.y = location[1];	
 		
 		ImageButton button3 = (ImageButton) findViewById(R.id.show_popup3);
-		button3.getLocationOnScreen(location);
-		button3p = new Point();
-		button3p.x = location[0];
+		button3.getLocationOnScreen(location);    
+		button3p = new Point();    
+		button3p.x = location[0];    
 		button3p.y = location[1];
 		
 		ImageButton button4 = (ImageButton) findViewById(R.id.show_popup4);
-		button4.getLocationOnScreen(location);
-		button4p = new Point();
-		button4p.x = location[0];
+		button4.getLocationOnScreen(location);    
+		button4p = new Point();    
+		button4p.x = location[0];    
 		button4p.y = location[1];
 		
 	}   
