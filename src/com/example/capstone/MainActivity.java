@@ -84,13 +84,25 @@ public class MainActivity extends Activity
 				
         		final Handler handler = new Handler();
         		final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        		if(event.getX() > 200 && event.getY() > 200)
+        		if(event.getX() > 200 && event.getY() > 200 && event.getX() < 250 && event.getY() < 250)
         		{
-        			showPopup(MainActivity.this, event.getX(), event.getY());
+        			showPopup(MainActivity.this, event.getX(), event.getY(), 1);
+        		}
+        		else if(event.getX() > 300 && event.getY() > 300 && event.getX() < 350 && event.getY() < 350)
+        		{
+        			showPopup(MainActivity.this, event.getX(), event.getY(), 2);
+        		}
+        		else if(event.getX() > 400 && event.getY() > 400 && event.getX() < 450 && event.getY() < 450)
+        		{
+        			showPopup(MainActivity.this, event.getX(), event.getY(), 3);
+        		}
+        		else if(event.getX() > 500 && event.getY() > 500 && event.getX() < 550 && event.getY() < 550)
+        		{
+        			showPopup(MainActivity.this, event.getX(), event.getY(), 4);
         		}
         		else
         		{
-        			builder.setMessage(x+"-"+y);
+        			builder.setMessage(x+"-"+y+" Nothing is Here ");
         		}
         		final AlertDialog dialog = builder.create();
         		dialog.show();
@@ -204,7 +216,7 @@ public class MainActivity extends Activity
 
 	// The method that displays the popup. 
 		@SuppressWarnings({ "deprecation"})
-		private void showPopup(final Activity context, float x, float y) 
+		private void showPopup(final Activity context, float x, float y, int popnum) 
 		{    
 			int popupWidth = 600;    
 			int popupHeight = 500;
@@ -212,16 +224,15 @@ public class MainActivity extends Activity
 			// Determine the correct pop-up (button) that needs inflating		
 			int temp = 0;		
 			
-			//if (p==button1p)
+			if (popnum == 1)
 				temp = R.id.popup1;
-			/*else
-				if (p==button2p)
-					temp = R.id.popup2;
-				
-				else
-					if (p==button3p)
-						temp = R.id.popup3;
-			    */
+			else if (popnum == 1)
+				temp = R.id.popup2;
+			else if (popnum ==3)
+				temp = R.id.popup3;
+			else if (popnum ==4)
+				temp = R.id.popup4;
+			    	
 			
 			// Inflate part 1
 			LinearLayout viewGroup = (LinearLayout)context.findViewById(temp);
@@ -231,16 +242,15 @@ public class MainActivity extends Activity
 
 			// Inflate part 2
 			temp = 0;
-			//if (p==button1p)
-				temp = R.layout.popup_layout1;
-			/*else
-				if (p==button2p)
-					temp = R.layout.popup_layout2;
 			
-				else
-					if (p==button3p)
-						temp = R.layout.popup_layout3;
-			*/
+			if (popnum == 1)
+				temp = R.id.popup1;
+			else if (popnum == 1)
+				temp = R.id.popup2;
+			else if (popnum ==3)
+				temp = R.id.popup3;
+			else if (popnum ==4)
+				temp = R.id.popup4;
 			
 			//View layout = layoutInflater.inflate(R.layout.popup_layoutx, viewGroup);		
 			View layout = layoutInflater.inflate(temp, viewGroup);
