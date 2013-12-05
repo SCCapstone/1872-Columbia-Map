@@ -3,7 +3,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/popup2"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_height="wrap_content"	
     android:background="@drawable/login_square"
     android:orientation="vertical" >
 
@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:textColor="@android:color/white"
         android:textSize="23sp"
         android:textStyle="bold"
@@ -20,10 +20,10 @@
 
     <ImageView
         android:id="@+id/imageView1"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:src="@drawable/post_office_circa1900"
+        android:src="@drawable/historic_usc"
         android:contentDescription="@null" />
 
     <TextView
@@ -33,7 +33,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="50dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         android:text="@string/univ_desc"
         android:textColor="@android:color/white"
         android:textSize="16sp"

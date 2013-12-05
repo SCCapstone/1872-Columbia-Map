@@ -2,15 +2,13 @@ package com.example.capstone;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.Context;
+//import android.app.AlertDialog;
 import android.content.pm.ActivityInfo;
 import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.PointF;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.os.Handler;
+//import android.os.Handler;
 import android.util.FloatMath;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -19,11 +17,12 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.Gallery.LayoutParams;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.Toast;
+//import android.widget.Toast;
 
+@SuppressWarnings("deprecation")
 public class MainActivity extends Activity 
 {	
 	ImageView imageDetail;
@@ -31,8 +30,8 @@ public class MainActivity extends Activity
     private static final int DRAG = 1;
     private static final int ZOOM = 2;
 
-    private static final float MIN_ZOOM = 1f;
-    private static final float MAX_ZOOM = 5f;
+    private static final float MIN_ZOOM = 0.5f;
+    private static final float MAX_ZOOM = 4f;
 
     private Matrix matrix = new Matrix();
     private Matrix savedMatrix = new Matrix();
@@ -49,6 +48,14 @@ public class MainActivity extends Activity
 	float matrixY = 0; // Y coordinate of matrix inside the ImageView
 	float width = 0; // width of drawable
 	float height = 0; // height of drawable
+	public int[] USC_loc = {1567, 1047}; //locs for this map resolution
+	public int[] Statehouse_loc = {1257, 966};
+	public int[] Church_loc = {1371, 805};
+	public int[] WWFH_loc = {1556, 650};
+	public int lowprecision = 50; //for big buildings
+	public int highprecision = 30; //for small buildings
+	public final int popupWidth = 700;    
+	public final int popupHeight = 700;
 	
 	Point button1p;
 	
@@ -79,41 +86,139 @@ public class MainActivity extends Activity
 				float[] touchPoint = new float[] {event.getX(), event.getY()};
 				inverse.mapPoints(touchPoint);
 				//touchPoint now contains x and y in image's coordinate system.
-				String x = String.valueOf(touchPoint[0]);
-				String y = String.valueOf(touchPoint[1]);
-				
-				
-        		final Handler handler = new Handler();
-        		final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        		if(event.getX() > 200 && event.getY() > 200 && event.getX() < 250 && event.getY() < 250)
+
+        		
+        		//pointCheck(int X_touched, int Y_touched, int locs[], int precision)
+        		if (pointCheck(touchPoint[0], touchPoint[1], USC_loc, lowprecision))
         		{
-        			//showPopup(MainActivity.this, event.getX(), event.getY(), 1);
+        			//Toast.makeText(getApplicationContext(), "USC", Toast.LENGTH_SHORT).show();
+        			
+        			LayoutInflater layoutInflator = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+        			View layout = layoutInflator.inflate(R.layout.popup_layout2, null);
+
+        			// Creating the PopupWindow 
+        			final PopupWindow popup = new PopupWindow(layout, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);        			
+        			popup.setContentView(layout);    
+        			popup.setWidth(popupWidth);    
+        			popup.setHeight(popupHeight);    
+        			popup.setFocusable(true);      
+        			
+        			// Clear the default translucent background    
+        			//popup.setBackgroundDrawable(new BitmapDrawable());
+        			// Displaying the popup at a specified location
+        			popup.showAtLocation(layout, Gravity.CENTER, 0,0);
+        			
+        			// Getting a reference to Close button, and close the popup when clicked.    
+        			Button close = (Button) layout.findViewById(R.id.close);    
+        			close.setOnClickListener(new OnClickListener() 
+        			{   	
+        				@Override     
+        				public void onClick(View v) 
+        				{				  
+        					popup.dismiss();        					
+        				}    
+        			});         			
         		}
-        		else if(event.getX() > 300 && event.getY() > 300 && event.getX() < 350 && event.getY() < 350)
+        		else if (pointCheck(touchPoint[0], touchPoint[1], Church_loc, highprecision))
         		{
-        			//showPopup(MainActivity.this, event.getX(), event.getY(), 2);
+        			//Toast.makeText(getApplicationContext(), "Church", Toast.LENGTH_SHORT).show();
+
+        			LayoutInflater layoutInflator = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+        			View layout = layoutInflator.inflate(R.layout.popup_layout4, null);
+
+        			// Creating the PopupWindow 
+        			final PopupWindow popup = new PopupWindow(layout, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);        			
+        			popup.setContentView(layout);    
+        			popup.setWidth(popupWidth);    
+        			popup.setHeight(popupHeight);    
+        			popup.setFocusable(true);      
+        			
+        			// Clear the default translucent background    
+        			//popup.setBackgroundDrawable(new BitmapDrawable());
+        			// Displaying the popup at a specified location
+        			popup.showAtLocation(layout, Gravity.CENTER, 0,0); 
+        			
+        			// Getting a reference to Close button, and close the popup when clicked.    
+        			Button close = (Button) layout.findViewById(R.id.close);    
+        			close.setOnClickListener(new OnClickListener() 
+        			{   	
+        				@Override     
+        				public void onClick(View v) 
+        				{				  
+        					popup.dismiss();      
+        				}    
+        			}); 
         		}
-        		else if(event.getX() > 400 && event.getY() > 320 && event.getX() < 450 && event.getY() < 375)
+        		else if (pointCheck(touchPoint[0], touchPoint[1], Statehouse_loc, highprecision))
         		{
         			//testing with toast
-        			Toast.makeText(getApplicationContext(), "StateHouse Area", Toast.LENGTH_LONG).show();
-        			//showPopup(MainActivity.this, event.getX(), event.getY(), 3);
+        			//Toast.makeText(getApplicationContext(), "StateHouse Area", Toast.LENGTH_SHORT).show();
+
+        			LayoutInflater layoutInflator = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+        			View layout = layoutInflator.inflate(R.layout.popup_layout1, null);
+
+        			// Creating the pop-upWindow 
+        			final PopupWindow popup = new PopupWindow(layout, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);        			
+        			popup.setContentView(layout);    
+        			popup.setWidth(popupWidth);    
+        			popup.setHeight(popupHeight);    
+        			popup.setFocusable(true);      
+        			
+        			// Clear the default translucent background    
+        			// popup.setBackgroundDrawable(new BitmapDrawable());
+        			// Displaying the pop-up at a specified location
+        			popup.showAtLocation(layout, Gravity.CENTER, 0, 0);
+        			
+        			// Getting a reference to Close button, and close the popup when clicked.    
+        			Button close = (Button) layout.findViewById(R.id.close);    
+        			close.setOnClickListener(new OnClickListener() 
+        			{   	
+        				@Override     
+        				public void onClick(View v) 
+        				{				  
+        					popup.dismiss();      
+        				}    
+        			}); 
+        			
         		}
-        		else if(event.getX() > 500 && event.getY() > 500 && event.getX() < 550 && event.getY() < 550)
+        		else if (pointCheck(touchPoint[0], touchPoint[1], WWFH_loc, highprecision))
         		{
-        			//showPopup(MainActivity.this, event.getX(), event.getY(), 4);
-        		}
+        			//Toast.makeText(getApplicationContext(), "WWFH", Toast.LENGTH_SHORT).show();
+        			
+        			LayoutInflater layoutInflator = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+        			View layout = layoutInflator.inflate(R.layout.popup_layout3, null);
+
+        			// Creating the PopupWindow 
+        			final PopupWindow popup = new PopupWindow(layout, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);        			
+        			popup.setContentView(layout);    
+        			popup.setWidth(popupWidth);    
+        			popup.setHeight(popupHeight);    
+        			popup.setFocusable(true);      
+        			
+        			// Clear the default translucent background    
+        			//popup.setBackgroundDrawable(new BitmapDrawable());
+        			// Displaying the pop-up at a specified location
+        			popup.showAtLocation(layout, Gravity.CENTER, 0, 0);
+        			
+        			// Getting a reference to Close button, and close the popup when clicked.    
+        			Button close = (Button) layout.findViewById(R.id.close);    
+        			close.setOnClickListener(new OnClickListener() 
+        			{   	
+        				@Override     
+        				public void onClick(View v) 
+        				{				  
+        					popup.dismiss();      
+        				}    
+        			});        			
+        			
+        		} 
         		else
         		{
-        			builder.setMessage(x+"-"+y+" Nothing is Here ");
+    				//String x = String.valueOf(touchPoint[0]);
+    				//String y = String.valueOf(touchPoint[1]);
+        			//Toast.makeText(getApplicationContext(), x+"-"+y+" Nothing is Here ", Toast.LENGTH_SHORT).show();
         		}
-        		final AlertDialog dialog = builder.create();
-        		dialog.show();
-        		handler.postDelayed(new Runnable() {
-          		public void run() {
-            		dialog.dismiss();    
-        		}
-        		}, 3000);				
+        		
 
 				
 				switch(event.getAction() & MotionEvent.ACTION_MASK)
@@ -217,19 +322,20 @@ public class MainActivity extends Activity
 	} //end of protected void onCreate(Bundle savedInstanceState) 
 
 
+	/* Yeah, this code didn't work.  It will be commented out for now. -Charles
 	// The method that displays the popup. 
 		@SuppressWarnings({ "deprecation"})
 		private void showPopup(final Activity context, float x, float y, int popnum) 
 		{    
-			int popupWidth = 600;    
-			int popupHeight = 500;
+			int popupWidth = 500;    
+			int popupHeight = 400;
 			
 			// Determine the correct pop-up (button) that needs inflating		
 			int temp = 0;		
 			
 			if (popnum == 1)
 				temp = R.id.popup1;
-			else if (popnum == 1)
+			else if (popnum == 2)
 				temp = R.id.popup2;
 			else if (popnum ==3)
 				temp = R.id.popup3;
@@ -270,7 +376,7 @@ public class MainActivity extends Activity
 			int	OFFSET_Y = 35;      
 			
 			// Clear the default translucent background    
-			popup.setBackgroundDrawable(new BitmapDrawable());      
+			//popup.setBackgroundDrawable(new BitmapDrawable());      
 			
 			// Displaying the popup at the specified location, + offsets.    
 			popup.showAtLocation(layout, Gravity.NO_GRAVITY, (int) x + OFFSET_X, (int) y  + OFFSET_Y);      
@@ -286,7 +392,7 @@ public class MainActivity extends Activity
 				}    
 			}); 
 		} 
-	
+	*/
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) 
@@ -296,4 +402,19 @@ public class MainActivity extends Activity
 		return true;
 	}
 
+	//Input: event.get(X), event.get(Y), int locs[], precision
+	//Output: boolean: true- within bounds
+	//                 false- out of bounds
+	public boolean pointCheck(double X_touched, double Y_touched, int loc[], int precision)
+	{
+		//former code: 
+		//if(event.getX() > 200 && event.getY() > 200 && event.getX() < 250 && event.getY() < 250)
+		if ( X_touched > loc[0]-precision && 
+				Y_touched > loc[1]-precision && 
+				X_touched < loc[0]+precision && 
+				Y_touched < loc[1]+precision)
+			return true;
+		else
+			return false;
+	}
 }//end class MainActivity
