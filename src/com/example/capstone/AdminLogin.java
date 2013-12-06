@@ -2,7 +2,6 @@ package com.example.capstone;
 
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
-import android.graphics.LightingColorFilter;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Menu;
@@ -32,7 +31,7 @@ public class AdminLogin extends Activity {
 	PasswordEdit.setTypeface(TradeGothic18);
 	login.setTypeface(TradeGothic18);
 	LoginTitle.setTypeface(TradeGothic18);
-	login.getBackground().setColorFilter(new LightingColorFilter(0x000000, 0xFF2D14));
+	
 	
 	}
 	
