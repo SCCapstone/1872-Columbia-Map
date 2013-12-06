@@ -26,6 +26,7 @@
         android:layout_below="@+id/passwordedit"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="32dp"
+        android:background="@drawable/button_color_login" 
         android:textSize="24sp"
         android:text="@string/login_button"
         android:textStyle="bold" />
