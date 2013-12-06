@@ -1,49 +1,114 @@
-<?xml version="1.0"
- encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/create_login"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"	
-    android:background="@drawable/login_square"
-    android:orientation="vertical" >
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:screenOrientation="landscape"
+    android:background="@color/black" >
 
-    <TextView
-        android:id="@+id/textView1"
+    <Button
+        android:id="@+id/login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp"
-        android:textColor="@android:color/white"
-        android:textSize="23sp"
-        android:textStyle="bold"
-        android:text="@string/univ_south_carolina" />
-
-    <ImageView
-        android:id="@+id/imageView1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:src="@drawable/historic_usc"
-        android:contentDescription="@null" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="50dp"
-        android:layout_marginTop="10dp"
-        android:text="@string/univ_desc"
-        android:textColor="@android:color/white"
-        android:textSize="16sp"
+        android:layout_below="@+id/adminpasswordedit"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/button_color" 
+        android:textSize="24sp"
+        android:text="@string/save_button"
         android:textStyle="bold" />
 
     <Button
-        android:id="@+id/close"
+        android:id="@+id/createlogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/close_button" />
+        android:layout_below="@+id/adminpasswordedit"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+        android:background="@drawable/button_color"
+        android:textSize="24sp"
+        android:text="@string/close_button"
+        android:textStyle="bold" />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/createlogintitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+		android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:textColor="@color/yellow"
+        android:text="@string/create_logintitle"
+        android:textSize="64sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/passwordedit"
+        android:layout_alignBottom="@+id/passwordedit"
+        android:layout_alignRight="@+id/username"
+        android:textSize="24sp"
+        android:text="@string/password"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/passwordedit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/usernameedit"
+        android:layout_below="@+id/usernameedit"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+    
+    <TextView
+        android:id="@+id/adminpassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/adminpasswordedit"
+        android:layout_alignBottom="@+id/adminpasswordedit"
+        android:layout_alignRight="@+id/password"
+        android:textSize="24sp"
+        android:text="@string/admin_password"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/adminpasswordedit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/passwordedit"
+        android:layout_below="@+id/passwordedit"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/createlogintitle"
+        android:layout_marginTop="69dp"
+        android:layout_toLeftOf="@+id/usernameedit"
+        android:text="@string/username"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/usernameedit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/username"
+        android:layout_alignLeft="@+id/login"
+        android:layout_marginLeft="42dp"
+        android:ems="10"
+        android:inputType="text"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+</RelativeLayout>

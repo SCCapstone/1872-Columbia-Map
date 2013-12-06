@@ -37,5 +37,8 @@
 	<!-- Close button string -->
 	<string name="close_button">Close</string>
 	<string name="create_login">Create Administrator Login</string>
+	<string name="save_button">Register Username and Password?</string>
+	<string name="create_logintitle">Administrator Registration</string>
+	<string name="admin_password">Admin Password:</string>
 	
 </resources>
