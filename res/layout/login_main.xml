@@ -5,19 +5,8 @@
     android:layout_height="match_parent"
     android:orientation="horizontal"
     android:screenOrientation="landscape"
-    android:background="@color/gray"
+    android:background="@color/black"
     tools:context=".MainMenu" >
-
-    <EditText
-        android:id="@+id/passwordedit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/usernameedit"
-        android:layout_toRightOf="@+id/login"
-        android:ems="10"
-        android:textSize="24sp"
-        android:inputType="textPassword"
-        android:textStyle="bold" />
 
     <Button
         android:id="@+id/login"
@@ -26,20 +15,21 @@
         android:layout_below="@+id/passwordedit"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="32dp"
-        android:background="@drawable/button_color_login" 
+        android:background="@drawable/button_color" 
         android:textSize="24sp"
         android:text="@string/login_button"
         android:textStyle="bold" />
-
-    <EditText
-        android:id="@+id/usernameedit"
+    
+    <Button
+        android:id="@+id/createlogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/passwordedit"
-        android:layout_alignTop="@+id/username"
+        android:layout_below="@+id/passwordedit"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+        android:background="@drawable/button_color" 
         android:textSize="24sp"
-        android:ems="10"
-        android:inputType="text"
+        android:text="@string/create_login"
         android:textStyle="bold" />
 
     <TextView
@@ -47,22 +37,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="35dp"
-        android:textColor="@color/orange"
+		android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:textColor="@color/yellow"
         android:text="@string/app_login"
         android:textSize="64sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/username"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/login"
-        android:layout_below="@+id/logintitle"
-        android:layout_marginRight="29dp"
-        android:layout_marginTop="52dp"
-        android:textSize="24sp"
-        android:text="@string/username"
         android:textStyle="bold" />
 
     <TextView
@@ -74,6 +53,40 @@
         android:layout_alignRight="@+id/username"
         android:textSize="24sp"
         android:text="@string/password"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/passwordedit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/usernameedit"
+        android:layout_below="@+id/usernameedit"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/logintitle"
+        android:layout_marginTop="69dp"
+        android:layout_toLeftOf="@+id/usernameedit"
+        android:text="@string/username"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/usernameedit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/username"
+        android:layout_alignLeft="@+id/login"
+        android:layout_marginLeft="42dp"
+        android:ems="10"
+        android:inputType="text"
+        android:textSize="24sp"
         android:textStyle="bold" />
 
 </RelativeLayout>

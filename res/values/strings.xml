@@ -36,5 +36,6 @@
 	
 	<!-- Close button string -->
 	<string name="close_button">Close</string>
+	<string name="create_login">Create Administrator Login</string>
 	
 </resources>
