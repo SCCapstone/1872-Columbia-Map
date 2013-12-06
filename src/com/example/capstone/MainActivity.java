@@ -28,16 +28,12 @@ public class MainActivity extends Activity
     private static final int NONE = 0;
     private static final int DRAG = 1;
     private static final int ZOOM = 2;
-
     private static final float MIN_ZOOM = 0.5f;
     private static final float MAX_ZOOM = 4f;
-
     private Matrix matrix = new Matrix();
     private Matrix savedMatrix = new Matrix();
-
     private PointF start = new PointF();
     private PointF mid = new PointF();
-
     private int mode = NONE;
     private float oldDistance = 1f;
     private float dx; // postTranslate X distance
@@ -64,31 +60,26 @@ public class MainActivity extends Activity
 		//this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 		setContentView(R.layout.activity_main);		
-		
-		imageDetail = (ImageView) findViewById(R.id.Map);
-		
+		imageDetail = (ImageView) findViewById(R.id.Map);		
 		
 		/** * set on touch listener on image */
 		imageDetail.setOnTouchListener(new View.OnTouchListener() 
 		{
 			@Override
 			public boolean onTouch(View view, MotionEvent event)
-			{
-				
+			{				
 				ImageView imageView = (ImageView)view;				
 				Matrix inverse = new Matrix();
 				imageView.getImageMatrix().invert(inverse);
 				
 				//getX and getY will return the touch location in the ImageView's
 				//coordinate system. The inverse matrix of the coordinate system
-				//is the point within the image.
-				
+				//is the point within the image.				
 				if (!popupon) //prevents multi-popup error
 				{					
 					float[] touchPoint = new float[] {event.getX(), event.getY()};
 					inverse.mapPoints(touchPoint);
 					//touchPoint now contains x and y in image's coordinate system.
-
         		
 					//pointCheck(int X_touched, int Y_touched, int locs[], int precision)
 					if (pointCheck(touchPoint[0], touchPoint[1], USC_loc, lowprecision))
@@ -127,9 +118,9 @@ public class MainActivity extends Activity
 				case MotionEvent.ACTION_DOWN:	
 					if (!popupon)
 					{
-					savedMatrix.set(matrix);
-					start.set(event.getX(), event.getY());
-					mode = DRAG;
+						savedMatrix.set(matrix);
+						start.set(event.getX(), event.getY());
+						mode = DRAG;
 					}
 					break;
 
@@ -209,12 +200,10 @@ public class MainActivity extends Activity
 					break;
 				
 				}//end switch
-				if (!popupon)
-				{
+				if (!popupon)				
 					imageView.setImageMatrix(matrix);
-				}
-				return true;				
 				
+				return true;				
 				}//end of public boolean onTouch(View view, MotionEvent event)
 
 			
@@ -231,82 +220,8 @@ public class MainActivity extends Activity
 				point.set((event.getX(0) + event.getX(1)) / 2, (event.getY(0) + event.getY(1)) / 2);
 			}
 
-		}); //end of imageDetail.setOnTouchListener(new View.OnTouchListener()
-		
+		}); //end of imageDetail.setOnTouchListener(new View.OnTouchListener()		
 	} //end of protected void onCreate(Bundle savedInstanceState) 
-
-
-	/* Yeah, this code didn't work.  It will be commented out for now. -Charles
-	// The method that displays the popup. 
-		@SuppressWarnings({ "deprecation"})
-		private void showPopup(final Activity context, float x, float y, int popnum) 
-		{    
-			int popupWidth = 500;    
-			int popupHeight = 400;
-			
-			// Determine the correct pop-up (button) that needs inflating		
-			int temp = 0;		
-			
-			if (popnum == 1)
-				temp = R.id.popup1;
-			else if (popnum == 2)
-				temp = R.id.popup2;
-			else if (popnum ==3)
-				temp = R.id.popup3;
-			else if (popnum ==4)
-				temp = R.id.popup4;
-			    	
-			
-			// Inflate part 1
-			LinearLayout viewGroup = (LinearLayout)context.findViewById(temp);
-			
-			LayoutInflater layoutInflater = (LayoutInflater) context      
-					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-			// Inflate part 2
-			temp = 0;
-			
-			if (popnum == 1)
-				temp = R.id.popup1;
-			else if (popnum == 1)
-				temp = R.id.popup2;
-			else if (popnum ==3)
-				temp = R.id.popup3;
-			else if (popnum ==4)
-				temp = R.id.popup4;
-			
-			//View layout = layoutInflater.inflate(R.layout.popup_layoutx, viewGroup);		
-			View layout = layoutInflater.inflate(temp, viewGroup);
-					
-			// Creating the PopupWindow    
-			final PopupWindow popup = new PopupWindow(context);    
-			popup.setContentView(layout);    
-			popup.setWidth(popupWidth);    
-			popup.setHeight(popupHeight);    
-			popup.setFocusable(true);      
-			
-			// Offset: x aligns the popup to the right, y down, relative to button's position.
-			int OFFSET_X = -160;    
-			int	OFFSET_Y = 35;      
-			
-			// Clear the default translucent background    
-			//popup.setBackgroundDrawable(new BitmapDrawable());      
-			
-			// Displaying the popup at the specified location, + offsets.    
-			popup.showAtLocation(layout, Gravity.NO_GRAVITY, (int) x + OFFSET_X, (int) y  + OFFSET_Y);      
-			
-			// Getting a reference to Close button, and close the popup when clicked.    
-			Button close = (Button) layout.findViewById(R.id.close);    
-			close.setOnClickListener(new OnClickListener() 
-			{   	
-				@Override     
-				public void onClick(View v) 
-				{				  
-					popup.dismiss();      
-				}    
-			}); 
-		} 
-	*/
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) 
@@ -350,13 +265,11 @@ public class MainActivity extends Activity
 		popup.showAtLocation(layout, Gravity.CENTER, 0,0);
 	
 		// Getting a reference to Close button, and close the popup when clicked.    
-		Button close = (Button) layout.findViewById(R.id.close);   
-		
+		Button close = (Button) layout.findViewById(R.id.close);		
 												
 		close.setOnClickListener(new OnClickListener() 
 		{
-			@Override     
-					
+			@Override					
 			public void onClick(View v) 
 			{				  
 				popup.dismiss();	
