@@ -92,135 +92,26 @@ public class MainActivity extends Activity
         		
 					//pointCheck(int X_touched, int Y_touched, int locs[], int precision)
 					if (pointCheck(touchPoint[0], touchPoint[1], USC_loc, lowprecision))
-					{
-						popupon=true;
+					{	
 						//Toast.makeText(getApplicationContext(), "USC", Toast.LENGTH_SHORT).show();
-        			
-						LayoutInflater layoutInflator = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-						View layout = layoutInflator.inflate(R.layout.popup_layout2, null);
-
-						// Creating the PopupWindow 
-						final PopupWindow popup = new PopupWindow(layout, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);        			
-						popup.setContentView(layout);    
-						popup.setWidth(popupWidth);    
-						popup.setHeight(popupHeight);    
-						popup.setFocusable(true);        			
-						
-						// Displaying the pop-up at a specified location
-						popup.showAtLocation(layout, Gravity.CENTER, 0,0);
-        			
-						// Getting a reference to Close button, and close the popup when clicked.    
-						Button close = (Button) layout.findViewById(R.id.close);   
-						
-																
-						close.setOnClickListener(new OnClickListener() 
-						{
-							@Override     
-									
-							public void onClick(View v) 
-							{				  
-								popup.dismiss();	
-								popupon=false;
-							}								
-						});						
-						
-						
-													
+						createPopup(R.layout.popup_layout2);																		
 					}
 					else if (pointCheck(touchPoint[0], touchPoint[1], Church_loc, highprecision))
-					{
-						popupon=true;
+					{						
 						//Toast.makeText(getApplicationContext(), "Church", Toast.LENGTH_SHORT).show();
-
-						LayoutInflater layoutInflator = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-						View layout = layoutInflator.inflate(R.layout.popup_layout4, null);
-
-						// Creating the PopupWindow 
-						final PopupWindow popup = new PopupWindow(layout, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);        			
-						popup.setContentView(layout);    
-						popup.setWidth(popupWidth);    
-						popup.setHeight(popupHeight);    
-						popup.setFocusable(true);      
-        			
-						// Clear the default translucent background    
-						//popup.setBackgroundDrawable(new BitmapDrawable());
-						// Displaying the popup at a specified location
-						popup.showAtLocation(layout, Gravity.CENTER, 0,0); 
-        			
-						// Getting a reference to Close button, and close the popup when clicked.    
-						Button close = (Button) layout.findViewById(R.id.close);    
-						close.setOnClickListener(new OnClickListener() 
-						{   	
-							@Override     
-							public void onClick(View v) 
-							{				  
-								popup.dismiss();  
-								popupon=false;
-							}    
-						}); 
+						createPopup(R.layout.popup_layout4);						 
 					}
 					else if (pointCheck(touchPoint[0], touchPoint[1], Statehouse_loc, highprecision))
 					{
-						popupon=true;
-						//testing with toast
 						//Toast.makeText(getApplicationContext(), "StateHouse Area", Toast.LENGTH_SHORT).show();
-
-						LayoutInflater layoutInflator = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-						View layout = layoutInflator.inflate(R.layout.popup_layout1, null);
-
-						// Creating the pop-upWindow 
-						final PopupWindow popup = new PopupWindow(layout, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);        			
-						popup.setContentView(layout);    
-						popup.setWidth(popupWidth);    
-						popup.setHeight(popupHeight);    
-						popup.setFocusable(true);      
-						
-						// Displaying the pop-up at a specified location
-						popup.showAtLocation(layout, Gravity.CENTER, 0, 0);
-        			
-						// Getting a reference to Close button, and close the popup when clicked.    
-						Button close = (Button) layout.findViewById(R.id.close);    
-						close.setOnClickListener(new OnClickListener() 
-						{   	
-							@Override     
-							public void onClick(View v) 
-							{				  
-								popup.dismiss();    
-								popupon=false;
-							}    
-						}); 
-        			
+						createPopup(R.layout.popup_layout1);        			
 					}
 					else if (pointCheck(touchPoint[0], touchPoint[1], WWFH_loc, highprecision))
 					{
-						popupon=true;
-						//Toast.makeText(getApplicationContext(), "WWFH", Toast.LENGTH_SHORT).show();
-        			
-						LayoutInflater layoutInflator = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-						View layout = layoutInflator.inflate(R.layout.popup_layout3, null);
-
-						// Creating the PopupWindow 
-						final PopupWindow popup = new PopupWindow(layout, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);        			
-						popup.setContentView(layout);    
-						popup.setWidth(popupWidth);    
-						popup.setHeight(popupHeight);    
-						popup.setFocusable(true);      
-        									
-						// Displaying the pop-up at a specified location
-						popup.showAtLocation(layout, Gravity.CENTER, 0, 0);
-        			
-						// Getting a reference to Close button, and close the popup when clicked.    
-						Button close = (Button) layout.findViewById(R.id.close);    
-						close.setOnClickListener(new OnClickListener() 
-						{   	
-							@Override     
-							public void onClick(View v) 
-							{				  
-								popup.dismiss();   
-								popupon=false;								
-							}    
-						});		
-					} 
+						//Toast.makeText(getApplicationContext(), "WWFH", Toast.LENGTH_SHORT).show();						
+						createPopup(R.layout.popup_layout3);
+					}
+ 
 					/*Coordinate Display Test
 					else
 					{
@@ -440,4 +331,38 @@ public class MainActivity extends Activity
 		else
 			return false;
 	}
+	
+	public void createPopup(int location)
+	{		
+		popupon=true;		
+		LayoutInflater layoutInflator = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);		
+			
+		View layout = layoutInflator.inflate(location, null);
+
+		// Creating the PopupWindow 
+		final PopupWindow popup = new PopupWindow(layout, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);        			
+		popup.setContentView(layout);    
+		popup.setWidth(popupWidth);    
+		popup.setHeight(popupHeight);    
+		popup.setFocusable(true);        			
+		
+		// Displaying the pop-up at a specified location
+		popup.showAtLocation(layout, Gravity.CENTER, 0,0);
+	
+		// Getting a reference to Close button, and close the popup when clicked.    
+		Button close = (Button) layout.findViewById(R.id.close);   
+		
+												
+		close.setOnClickListener(new OnClickListener() 
+		{
+			@Override     
+					
+			public void onClick(View v) 
+			{				  
+				popup.dismiss();	
+				popupon=false;
+			}								
+		});						
+		
+	}//end public void createPopup(int location)
 }//end class MainActivity
