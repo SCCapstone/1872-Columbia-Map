@@ -5,7 +5,6 @@ import android.app.Activity;
 //import android.app.AlertDialog;
 import android.content.pm.ActivityInfo;
 import android.graphics.Matrix;
-import android.graphics.Point;
 import android.graphics.PointF;
 import android.os.Bundle;
 //import android.os.Handler;
@@ -46,9 +45,9 @@ public class MainActivity extends Activity
 	private float[] matrixValues = new float[9];
 	float matrixX = 0; // X coordinate of matrix inside the ImageView
 	float matrixY = 0; // Y coordinate of matrix inside the ImageView
-	float width = 0; // width of drawable
-	float height = 0; // height of drawable
-	public int[] USC_loc = {1567, 1047}; //locs for this map resolution
+	float width = 0; // width of draw-able
+	float height = 0; // height of draw-able
+	public int[] USC_loc = {1567, 1047}; //locations for this map resolution
 	public int[] Statehouse_loc = {1257, 966};
 	public int[] Church_loc = {1371, 805};
 	public int[] WWFH_loc = {1556, 650};
@@ -56,8 +55,7 @@ public class MainActivity extends Activity
 	public int highprecision = 30; //for small buildings
 	public final int popupWidth = 700;    
 	public final int popupHeight = 700;
-	
-	Point button1p;
+	public boolean popupon = false;	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
@@ -65,10 +63,10 @@ public class MainActivity extends Activity
 		super.onCreate(savedInstanceState);
 		//this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-		setContentView(R.layout.activity_main);
-		
+		setContentView(R.layout.activity_main);		
 		
 		imageDetail = (ImageView) findViewById(R.id.Map);
+		
 		
 		/** * set on touch listener on image */
 		imageDetail.setOnTouchListener(new View.OnTouchListener() 
@@ -76,6 +74,7 @@ public class MainActivity extends Activity
 			@Override
 			public boolean onTouch(View view, MotionEvent event)
 			{
+				
 				ImageView imageView = (ImageView)view;				
 				Matrix inverse = new Matrix();
 				imageView.getImageMatrix().invert(inverse);
@@ -83,222 +82,246 @@ public class MainActivity extends Activity
 				//getX and getY will return the touch location in the ImageView's
 				//coordinate system. The inverse matrix of the coordinate system
 				//is the point within the image.
-				float[] touchPoint = new float[] {event.getX(), event.getY()};
-				inverse.mapPoints(touchPoint);
-				//touchPoint now contains x and y in image's coordinate system.
+				
+				if (!popupon) //prevents multi-popup error
+				{					
+					float[] touchPoint = new float[] {event.getX(), event.getY()};
+					inverse.mapPoints(touchPoint);
+					//touchPoint now contains x and y in image's coordinate system.
 
         		
-        		//pointCheck(int X_touched, int Y_touched, int locs[], int precision)
-        		if (pointCheck(touchPoint[0], touchPoint[1], USC_loc, lowprecision))
-        		{
-        			//Toast.makeText(getApplicationContext(), "USC", Toast.LENGTH_SHORT).show();
+					//pointCheck(int X_touched, int Y_touched, int locs[], int precision)
+					if (pointCheck(touchPoint[0], touchPoint[1], USC_loc, lowprecision))
+					{
+						popupon=true;
+						//Toast.makeText(getApplicationContext(), "USC", Toast.LENGTH_SHORT).show();
         			
-        			LayoutInflater layoutInflator = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-        			View layout = layoutInflator.inflate(R.layout.popup_layout2, null);
+						LayoutInflater layoutInflator = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+						View layout = layoutInflator.inflate(R.layout.popup_layout2, null);
 
-        			// Creating the PopupWindow 
-        			final PopupWindow popup = new PopupWindow(layout, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);        			
-        			popup.setContentView(layout);    
-        			popup.setWidth(popupWidth);    
-        			popup.setHeight(popupHeight);    
-        			popup.setFocusable(true);      
+						// Creating the PopupWindow 
+						final PopupWindow popup = new PopupWindow(layout, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);        			
+						popup.setContentView(layout);    
+						popup.setWidth(popupWidth);    
+						popup.setHeight(popupHeight);    
+						popup.setFocusable(true);        			
+						
+						// Displaying the pop-up at a specified location
+						popup.showAtLocation(layout, Gravity.CENTER, 0,0);
         			
-        			// Clear the default translucent background    
-        			//popup.setBackgroundDrawable(new BitmapDrawable());
-        			// Displaying the popup at a specified location
-        			popup.showAtLocation(layout, Gravity.CENTER, 0,0);
-        			
-        			// Getting a reference to Close button, and close the popup when clicked.    
-        			Button close = (Button) layout.findViewById(R.id.close);    
-        			close.setOnClickListener(new OnClickListener() 
-        			{   	
-        				@Override     
-        				public void onClick(View v) 
-        				{				  
-        					popup.dismiss();        					
-        				}    
-        			});         			
-        		}
-        		else if (pointCheck(touchPoint[0], touchPoint[1], Church_loc, highprecision))
-        		{
-        			//Toast.makeText(getApplicationContext(), "Church", Toast.LENGTH_SHORT).show();
+						// Getting a reference to Close button, and close the popup when clicked.    
+						Button close = (Button) layout.findViewById(R.id.close);   
+						
+																
+						close.setOnClickListener(new OnClickListener() 
+						{
+							@Override     
+									
+							public void onClick(View v) 
+							{				  
+								popup.dismiss();	
+								popupon=false;
+							}								
+						});						
+						
+						
+													
+					}
+					else if (pointCheck(touchPoint[0], touchPoint[1], Church_loc, highprecision))
+					{
+						popupon=true;
+						//Toast.makeText(getApplicationContext(), "Church", Toast.LENGTH_SHORT).show();
 
-        			LayoutInflater layoutInflator = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-        			View layout = layoutInflator.inflate(R.layout.popup_layout4, null);
+						LayoutInflater layoutInflator = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+						View layout = layoutInflator.inflate(R.layout.popup_layout4, null);
 
-        			// Creating the PopupWindow 
-        			final PopupWindow popup = new PopupWindow(layout, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);        			
-        			popup.setContentView(layout);    
-        			popup.setWidth(popupWidth);    
-        			popup.setHeight(popupHeight);    
-        			popup.setFocusable(true);      
+						// Creating the PopupWindow 
+						final PopupWindow popup = new PopupWindow(layout, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);        			
+						popup.setContentView(layout);    
+						popup.setWidth(popupWidth);    
+						popup.setHeight(popupHeight);    
+						popup.setFocusable(true);      
         			
-        			// Clear the default translucent background    
-        			//popup.setBackgroundDrawable(new BitmapDrawable());
-        			// Displaying the popup at a specified location
-        			popup.showAtLocation(layout, Gravity.CENTER, 0,0); 
+						// Clear the default translucent background    
+						//popup.setBackgroundDrawable(new BitmapDrawable());
+						// Displaying the popup at a specified location
+						popup.showAtLocation(layout, Gravity.CENTER, 0,0); 
         			
-        			// Getting a reference to Close button, and close the popup when clicked.    
-        			Button close = (Button) layout.findViewById(R.id.close);    
-        			close.setOnClickListener(new OnClickListener() 
-        			{   	
-        				@Override     
-        				public void onClick(View v) 
-        				{				  
-        					popup.dismiss();      
-        				}    
-        			}); 
-        		}
-        		else if (pointCheck(touchPoint[0], touchPoint[1], Statehouse_loc, highprecision))
-        		{
-        			//testing with toast
-        			//Toast.makeText(getApplicationContext(), "StateHouse Area", Toast.LENGTH_SHORT).show();
+						// Getting a reference to Close button, and close the popup when clicked.    
+						Button close = (Button) layout.findViewById(R.id.close);    
+						close.setOnClickListener(new OnClickListener() 
+						{   	
+							@Override     
+							public void onClick(View v) 
+							{				  
+								popup.dismiss();  
+								popupon=false;
+							}    
+						}); 
+					}
+					else if (pointCheck(touchPoint[0], touchPoint[1], Statehouse_loc, highprecision))
+					{
+						popupon=true;
+						//testing with toast
+						//Toast.makeText(getApplicationContext(), "StateHouse Area", Toast.LENGTH_SHORT).show();
 
-        			LayoutInflater layoutInflator = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-        			View layout = layoutInflator.inflate(R.layout.popup_layout1, null);
+						LayoutInflater layoutInflator = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+						View layout = layoutInflator.inflate(R.layout.popup_layout1, null);
 
-        			// Creating the pop-upWindow 
-        			final PopupWindow popup = new PopupWindow(layout, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);        			
-        			popup.setContentView(layout);    
-        			popup.setWidth(popupWidth);    
-        			popup.setHeight(popupHeight);    
-        			popup.setFocusable(true);      
+						// Creating the pop-upWindow 
+						final PopupWindow popup = new PopupWindow(layout, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);        			
+						popup.setContentView(layout);    
+						popup.setWidth(popupWidth);    
+						popup.setHeight(popupHeight);    
+						popup.setFocusable(true);      
+						
+						// Displaying the pop-up at a specified location
+						popup.showAtLocation(layout, Gravity.CENTER, 0, 0);
         			
-        			// Clear the default translucent background    
-        			// popup.setBackgroundDrawable(new BitmapDrawable());
-        			// Displaying the pop-up at a specified location
-        			popup.showAtLocation(layout, Gravity.CENTER, 0, 0);
+						// Getting a reference to Close button, and close the popup when clicked.    
+						Button close = (Button) layout.findViewById(R.id.close);    
+						close.setOnClickListener(new OnClickListener() 
+						{   	
+							@Override     
+							public void onClick(View v) 
+							{				  
+								popup.dismiss();    
+								popupon=false;
+							}    
+						}); 
         			
-        			// Getting a reference to Close button, and close the popup when clicked.    
-        			Button close = (Button) layout.findViewById(R.id.close);    
-        			close.setOnClickListener(new OnClickListener() 
-        			{   	
-        				@Override     
-        				public void onClick(View v) 
-        				{				  
-        					popup.dismiss();      
-        				}    
-        			}); 
+					}
+					else if (pointCheck(touchPoint[0], touchPoint[1], WWFH_loc, highprecision))
+					{
+						popupon=true;
+						//Toast.makeText(getApplicationContext(), "WWFH", Toast.LENGTH_SHORT).show();
         			
-        		}
-        		else if (pointCheck(touchPoint[0], touchPoint[1], WWFH_loc, highprecision))
-        		{
-        			//Toast.makeText(getApplicationContext(), "WWFH", Toast.LENGTH_SHORT).show();
-        			
-        			LayoutInflater layoutInflator = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-        			View layout = layoutInflator.inflate(R.layout.popup_layout3, null);
+						LayoutInflater layoutInflator = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+						View layout = layoutInflator.inflate(R.layout.popup_layout3, null);
 
-        			// Creating the PopupWindow 
-        			final PopupWindow popup = new PopupWindow(layout, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);        			
-        			popup.setContentView(layout);    
-        			popup.setWidth(popupWidth);    
-        			popup.setHeight(popupHeight);    
-        			popup.setFocusable(true);      
+						// Creating the PopupWindow 
+						final PopupWindow popup = new PopupWindow(layout, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);        			
+						popup.setContentView(layout);    
+						popup.setWidth(popupWidth);    
+						popup.setHeight(popupHeight);    
+						popup.setFocusable(true);      
+        									
+						// Displaying the pop-up at a specified location
+						popup.showAtLocation(layout, Gravity.CENTER, 0, 0);
         			
-        			// Clear the default translucent background    
-        			//popup.setBackgroundDrawable(new BitmapDrawable());
-        			// Displaying the pop-up at a specified location
-        			popup.showAtLocation(layout, Gravity.CENTER, 0, 0);
-        			
-        			// Getting a reference to Close button, and close the popup when clicked.    
-        			Button close = (Button) layout.findViewById(R.id.close);    
-        			close.setOnClickListener(new OnClickListener() 
-        			{   	
-        				@Override     
-        				public void onClick(View v) 
-        				{				  
-        					popup.dismiss();      
-        				}    
-        			});        			
-        			
-        		} 
-        		else
-        		{
-    				//String x = String.valueOf(touchPoint[0]);
-    				//String y = String.valueOf(touchPoint[1]);
-        			//Toast.makeText(getApplicationContext(), x+"-"+y+" Nothing is Here ", Toast.LENGTH_SHORT).show();
-        		}
-        		
-
+						// Getting a reference to Close button, and close the popup when clicked.    
+						Button close = (Button) layout.findViewById(R.id.close);    
+						close.setOnClickListener(new OnClickListener() 
+						{   	
+							@Override     
+							public void onClick(View v) 
+							{				  
+								popup.dismiss();   
+								popupon=false;								
+							}    
+						});		
+					} 
+					/*Coordinate Display Test
+					else
+					{
+						String x = String.valueOf(touchPoint[0]);
+						String y = String.valueOf(touchPoint[1]);
+						Toast.makeText(getApplicationContext(), x+"-"+y+" Nothing is Here ", Toast.LENGTH_SHORT).show();
+					}
+					*/
+				}//end of (!popupon)	
 				
 				switch(event.getAction() & MotionEvent.ACTION_MASK)
 				{				
-				case MotionEvent.ACTION_DOWN:
+				case MotionEvent.ACTION_DOWN:	
+					if (!popupon)
+					{
 					savedMatrix.set(matrix);
 					start.set(event.getX(), event.getY());
 					mode = DRAG;
+					}
 					break;
 
 				case MotionEvent.ACTION_POINTER_DOWN:
-					oldDistance = spacing(event);					
-					if(oldDistance > 10f) 
+					if (!popupon)
 					{
-						savedMatrix.set(matrix);
-						midPoint(mid, event);
-						mode = ZOOM;
+						oldDistance = spacing(event);					
+						if(oldDistance > 10f) 
+						{
+							savedMatrix.set(matrix);
+							midPoint(mid, event);
+							mode = ZOOM;
+						}
 					}
 					break;
 
 				case MotionEvent.ACTION_UP:
-				case MotionEvent.ACTION_POINTER_UP:
-					mode = NONE;
+				case MotionEvent.ACTION_POINTER_UP:	
+					if (!popupon)
+						mode = NONE;					
 					break;
-				case MotionEvent.ACTION_MOVE:
-					if(mode == DRAG) 
+					
+				case MotionEvent.ACTION_MOVE:	
+					if (!popupon)
 					{
-						matrix.set(savedMatrix);
-						matrix.getValues(matrixValues);
-						matrixX = matrixValues[2];
-						matrixY = matrixValues[5];
-						width = matrixValues[0] * (((ImageView) view).getDrawable().getIntrinsicWidth());
-						height = matrixValues[4] * (((ImageView) view).getDrawable().getIntrinsicHeight());
-						dx = event.getX() - start.x;
-						dy = event.getY() - start.y;
-								
-						// (7*width/8) and (7*height/8) are modified values
-						// image will not translate past 7/8 width or length of image
-						//if image will go outside left bound
-						if (matrixX + dx < 0 -7*width/8)
-							dx = -matrixX -7*width/8;
-       
-						//if image will go outside right bound
-						if(matrixX + dx + width > view.getWidth() + 7*width/8)
-							dx = view.getWidth() - matrixX - width + 7*width/8;
-
-						//if image will go outside top bound
-						if (matrixY + dy < 0 - 7*height/8)            
-							dy = -matrixY - 7*height/8;
-       
-						//if image will go outside bottom bound
-						if(matrixY + dy + height > view.getHeight() + 7*height/8)
-							dy = view.getHeight() - matrixY - height + 7*height/8;
-        
-						matrix.postTranslate(dx, dy);
-					}
-					else
-						if(mode == ZOOM) 
+						if(mode == DRAG) 
 						{
-							float newDistance = spacing(event);
-							if(newDistance > 10f) 
-							{
-								matrix.set(savedMatrix);
-								float scale = newDistance / oldDistance;
-								float[] values = new float[9];
-								matrix.getValues(values);
-								float currentScale = values[Matrix.MSCALE_X];
-								if(scale * currentScale > MAX_ZOOM)
-									scale = MAX_ZOOM / currentScale;
-								else 
-									if (scale * currentScale < MIN_ZOOM)
-										scale = MIN_ZOOM / currentScale;
-								matrix.postScale(scale, scale, mid.x, mid.y);
-							 }
+							matrix.set(savedMatrix);
+							matrix.getValues(matrixValues);
+							matrixX = matrixValues[2];
+							matrixY = matrixValues[5];
+							width = matrixValues[0] * (((ImageView) view).getDrawable().getIntrinsicWidth());
+							height = matrixValues[4] * (((ImageView) view).getDrawable().getIntrinsicHeight());
+							dx = event.getX() - start.x;
+							dy = event.getY() - start.y;
+								
+							// (7*width/8) and (7*height/8) are modified values
+							// image will not translate past 7/8 width or length of image
+							//if image will go outside left bound
+							if (matrixX + dx < 0 -7*width/8)
+								dx = -matrixX -7*width/8;
+       
+							//if image will go outside right bound
+							if(matrixX + dx + width > view.getWidth() + 7*width/8)
+								dx = view.getWidth() - matrixX - width + 7*width/8;
+
+							//if image will go outside top bound
+							if (matrixY + dy < 0 - 7*height/8)            
+								dy = -matrixY - 7*height/8;
+							
+							//if image will go outside bottom bound
+							if(matrixY + dy + height > view.getHeight() + 7*height/8)
+								dy = view.getHeight() - matrixY - height + 7*height/8;
+        
+							matrix.postTranslate(dx, dy);
 						}
+						else
+							if(mode == ZOOM) 
+							{
+								float newDistance = spacing(event);
+								if(newDistance > 10f) 
+								{
+									matrix.set(savedMatrix);
+									float scale = newDistance / oldDistance;
+									float[] values = new float[9];
+									matrix.getValues(values);
+									float currentScale = values[Matrix.MSCALE_X];
+									if(scale * currentScale > MAX_ZOOM)
+										scale = MAX_ZOOM / currentScale;
+									else 
+										if (scale * currentScale < MIN_ZOOM)
+											scale = MIN_ZOOM / currentScale;
+									matrix.postScale(scale, scale, mid.x, mid.y);
+								}
+							}
+					}
 					break;
 				
 				}//end switch
-				
-				imageView.setImageMatrix(matrix);
+				if (!popupon)
+				{
+					imageView.setImageMatrix(matrix);
+				}
 				return true;				
 				
 				}//end of public boolean onTouch(View view, MotionEvent event)
