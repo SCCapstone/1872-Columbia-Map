@@ -21,13 +21,28 @@ limitations under the License.
 */
 package com.example.capstone;
 
+import java.io.IOException;
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.AssetManager;
-import android.graphics.*;
+import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
+import android.graphics.BitmapFactory;
+import android.graphics.BitmapRegionDecoder;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Point;
+import android.graphics.PointF;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.os.AsyncTask;
-//import android.os.Handler;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -36,17 +51,15 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.view.ViewGroup.MarginLayoutParams;
 import android.widget.Button;
 import android.widget.Gallery.LayoutParams;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
+//import android.os.Handler;
 //import com.capstone.historiccolumbiamap.R;
-import java.io.IOException;
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 
 
 
@@ -67,7 +80,7 @@ import java.util.Map;
  * s prefixes - coordinates, translations and distances measured in source image pixels (scaled)
  */
 @SuppressWarnings("deprecation")
-@SuppressLint("DrawAllocation")
+@SuppressLint({ "DrawAllocation", "NewApi" })
 public class SubsamplingScaleImageView extends View implements OnTouchListener {
 
     private static final String TAG = SubsamplingScaleImageView.class.getSimpleName();
@@ -480,13 +493,25 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
             }
         }
         
-        /*paint.setColor(Color.BLACK);
-        paint.setStrokeWidth(10);        
-        canvas.drawRect(1000, 10, 1270, 210, paint);*/
+//        ImageView minimap = (ImageView) findViewById(R.drawable.map_mini);
+////        android.view.ViewGroup.MarginLayoutParams params = (MarginLayoutParams) minimap.getLayoutParams();
+////        params.height = 206;
+////        params.width = 270;
+////        params.leftMargin = 10;
+////        params.topMargin = 10;
+////        minimap.setLayoutParams(params);
+////        
+//        RelativeLayout.LayoutParams relativeParams = (android.widget.RelativeLayout.LayoutParams) minimap.getLayoutParams();
+//
+//        relativeParams.setMargins(10, 10, 100, 100); // setMargins(left, top, right, bottom);
+//        relativeParams.width = 206;
+//        relativeParams.height = 270;
+//        minimap.setLayoutParams(relativeParams);
+
         
         paint.setColor(Color.WHITE);
         paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeWidth(2);    
+        paint.setStrokeWidth(3);    
         canvas.drawRect(scale, scale, scale+200, scale+200, paint);
 
     }
