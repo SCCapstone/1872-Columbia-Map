@@ -11,18 +11,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Gallery.LayoutParams;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.graphics.Matrix;
-import android.graphics.PointF;
-import android.os.Handler;
-import android.util.FloatMath;
-import android.view.MotionEvent;
-import android.widget.Gallery.LayoutParams;
-import android.widget.ImageView;
 
+@SuppressWarnings("deprecation")
 public class AdminLogin extends Activity {
 
 	public final int popupWidth = 700;    

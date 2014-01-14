@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/gray"
-    android:orientation="horizontal"
-    android:screenOrientation="landscape"
-    tools:context=".MainMenu" >
+              android:orientation="vertical"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent">
 
+    <com.example.capstone.SubsamplingScaleImageView
+        android:id="@+id/imageView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"/>
+<!--  
     <ImageView
-        android:id="@+id/Map"
-        android:layout_width="match_parent"
-   		android:layout_height="match_parent"
-    	android:adjustViewBounds="true"
+        android:id="@+id/MiniMap"
+        android:layout_width="250dp"
+        android:layout_height="180dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
         android:contentDescription="@null"
-        android:scaleType="matrix"
-        android:src="@drawable/map_highresoriginal3" />
-     
+        android:src="@drawable/map_crop" /> -->
+    
 </RelativeLayout>
