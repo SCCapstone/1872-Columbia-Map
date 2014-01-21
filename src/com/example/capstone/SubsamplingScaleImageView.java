@@ -51,12 +51,10 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
-import android.view.ViewGroup.MarginLayoutParams;
 import android.widget.Button;
 import android.widget.Gallery.LayoutParams;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 //import android.os.Handler;
 //import com.capstone.historiccolumbiamap.R;
@@ -65,6 +63,7 @@ import android.widget.Toast;
 
 
 /**
+ * Credit to SubSampling Image View to Dave Morrissey
  * 
  * Displays an image sub-sampled as necessary to avoid loading too much image data into memory. After a pinch to zoom in,
  * a set of image tiles sub-sampled at higher resolution are loaded and displayed over the base layer. During pinch and
@@ -365,6 +364,8 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
 		PointF getpoint = viewToSourceCoord(event.getX(), event.getY());
 		//getpoint now contains x and y in image's coordinate system.		
 		//pointCheck(int X_touched, int Y_touched, int locs[], int precision)
+		if(isZooming == false){
+		
 		if (pointCheck(getpoint.x, getpoint.y, USC_loc, lowprecision))			
 			createPopup(R.layout.popup_layout2);							
 		
@@ -377,6 +378,7 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
 		else if (pointCheck(getpoint.x, getpoint.y, WWFH_loc, highprecision))						
 			createPopup(R.layout.popup_layout3);				 
 		
+		}
         return super.onTouchEvent(event);
     }
 
@@ -492,27 +494,24 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
                 }
             }
         }
-        
-//        ImageView minimap = (ImageView) findViewById(R.drawable.map_mini);
-////        android.view.ViewGroup.MarginLayoutParams params = (MarginLayoutParams) minimap.getLayoutParams();
-////        params.height = 206;
-////        params.width = 270;
-////        params.leftMargin = 10;
-////        params.topMargin = 10;
-////        minimap.setLayoutParams(params);
-////        
-//        RelativeLayout.LayoutParams relativeParams = (android.widget.RelativeLayout.LayoutParams) minimap.getLayoutParams();
-//
-//        relativeParams.setMargins(10, 10, 100, 100); // setMargins(left, top, right, bottom);
-//        relativeParams.width = 206;
-//        relativeParams.height = 270;
-//        minimap.setLayoutParams(relativeParams);
-
-        
+       
+        //MiniMap Testing
+        ImageView minimap = (ImageView) findViewById(R.drawable.map_mini);
+       // PointF getpoint = viewToSourceCoord(event.getX(), event.getY());
+     
         paint.setColor(Color.WHITE);
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(3);    
         canvas.drawRect(scale, scale, scale+200, scale+200, paint);
+        
+        
+//        //Rectangles for popup locations
+//        paint.setColor(Color.YELLOW);
+//        canvas.drawRect(getpoint.x, getpoint.y, (float) USC_loc, (float) lowprecision);
+//        canvas.drawRect(610, 410,640,440,paint); //USC
+//        canvas.drawRect(490, 370,520,400,paint); //Statehouse
+//        canvas.drawRect(540, 310,560,330,paint); //Church
+//        canvas.drawRect(610, 250,630,270,paint); //WWFH
 
     }
 

@@ -28,9 +28,8 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="100dp"
         android:background="@drawable/button_color" 
-        android:textSize="24sp"
-        android:text="@string/create_login"
-        android:textStyle="bold" />
+        android:textSize="20sp"
+        android:text="@string/create_login" />
 
     <TextView
         android:id="@+id/logintitle"

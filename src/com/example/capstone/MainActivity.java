@@ -1,10 +1,12 @@
 package com.example.capstone;
 
+import java.io.IOException;
+
 import android.app.Activity;
 import android.graphics.PointF;
 import android.os.Bundle;
 import android.util.Log;
-import java.io.IOException;
+
 import com.example.capstone.R.id;
 
 public class MainActivity extends Activity {
@@ -12,7 +14,7 @@ public class MainActivity extends Activity {
     private static final String STATE_SCALE = "state-scale";
     private static final String STATE_CENTER_X = "state-center-x";
     private static final String STATE_CENTER_Y = "state-center-y";
-
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +32,7 @@ public class MainActivity extends Activity {
         } catch (IOException e) {
             Log.e(MainActivity.class.getSimpleName(), "Could not load asset", e);
         }
+        
     }
 
     @Override
@@ -44,4 +47,5 @@ public class MainActivity extends Activity {
             outState.putFloat(STATE_CENTER_Y, center.y);
         }
     }
+
 }
