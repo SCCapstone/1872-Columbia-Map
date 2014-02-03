@@ -8,13 +8,16 @@
         android:minSdkVersion="8"
         android:targetSdkVersion="18" />
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/columbiaicon"
         android:label="@string/app_menu"
-        android:theme="@style/AppTheme" 
-        android:screenOrientation="landscape">
-         <activity
+        android:screenOrientation="landscape"
+        android:theme="@style/AppTheme" >
+        <activity
             android:name="com.example.capstone.MainMenu"
             android:label="@string/app_menu" >
             <intent-filter>
@@ -25,13 +28,21 @@
         </activity>
         <activity
             android:name="com.example.capstone.MainActivity"
-            android:label="@string/app_menu" 
-            android:parentActivityName="com.example.capstone.MainMenu">
+            android:label="@string/app_menu"
+            android:parentActivityName="com.example.capstone.MainMenu" >
         </activity>
         <activity
             android:name="com.example.capstone.AdminLogin"
-            android:label="@string/app_menu" 
-            android:parentActivityName="com.example.capstone.MainMenu">
+            android:label="@string/app_menu"
+            android:parentActivityName="com.example.capstone.MainMenu" >
+        </activity>
+        <activity
+            android:name="com.example.capstone.CreateAdminLogin"
+            android:label="@string/title_activity_create_admin_login"
+            android:parentActivityName="com.example.capstone.MainMenu" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.capstone.MainMenu" />
         </activity>
     </application>
 
