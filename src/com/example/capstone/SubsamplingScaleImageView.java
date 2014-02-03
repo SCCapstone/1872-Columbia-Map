@@ -42,6 +42,7 @@ import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -496,13 +497,15 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
         }
        
         //MiniMap Testing
-        ImageView minimap = (ImageView) findViewById(R.drawable.map_mini);
+        //ImageView minimap = (ImageView) findViewById(R.drawable.map_mini);
+        //Bitmap minibitmap = ((BitmapDrawable) minimap.getDrawable()).getBitmap();
+       // minimap.setImageBitmap(minibitmap);
        // PointF getpoint = viewToSourceCoord(event.getX(), event.getY());
      
         paint.setColor(Color.WHITE);
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(3);    
-        canvas.drawRect(scale, scale, scale+200, scale+200, paint);
+        canvas.drawRect(vTranslate.x, vTranslate.y, sWidth, sHeight, paint);
         
         
 //        //Rectangles for popup locations
