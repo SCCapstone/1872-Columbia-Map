@@ -48,4 +48,7 @@
     <string name="new_password">Please enter a new password:</string>
     <string name="cancel_button">Cancel</string>
     
+    <string name="kinvey_account">Kinvey</string>
+    <string name="login_google">Login with Google+</string>
+    
 </resources>

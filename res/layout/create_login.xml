@@ -44,71 +44,15 @@
         android:textSize="64sp"
         android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/passwordedit"
-        android:layout_alignBottom="@+id/passwordedit"
-        android:layout_alignRight="@+id/username"
-        android:textSize="24sp"
-        android:text="@string/password"
-        android:textStyle="bold" />
-
-    <EditText
-        android:id="@+id/passwordedit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/usernameedit"
-        android:layout_below="@+id/usernameedit"
-        android:ems="10"
-        android:inputType="textPassword"
-        android:textSize="24sp"
-        android:textStyle="bold" />
+    <Button
+            android:id="@+id/btnLoginGoogle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/admin_registration"
+            android:contentDescription="@string/login_google"
+            android:textColor="#000000"
+            android:text="@string/login_google"
+            android:onClick="launchGoogleLogin" />
     
-    <TextView
-        android:id="@+id/adminpassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/adminpasswordedit"
-        android:layout_alignBottom="@+id/adminpasswordedit"
-        android:layout_alignRight="@+id/password"
-        android:textSize="24sp"
-        android:text="@string/admin_password"
-        android:textStyle="bold" />
-
-    <EditText
-        android:id="@+id/adminpasswordedit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/passwordedit"
-        android:layout_below="@+id/passwordedit"
-        android:ems="10"
-        android:inputType="textPassword"
-        android:textSize="24sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/username"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/createlogintitle"
-        android:layout_marginTop="69dp"
-        android:layout_toLeftOf="@+id/usernameedit"
-        android:text="@string/username"
-        android:textSize="24sp"
-        android:textStyle="bold" />
-
-    <EditText
-        android:id="@+id/usernameedit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/username"
-        android:layout_alignLeft="@+id/login"
-        android:layout_marginLeft="42dp"
-        android:ems="10"
-        android:inputType="text"
-        android:textSize="24sp"
-        android:textStyle="bold" />
-
+    
 </RelativeLayout>

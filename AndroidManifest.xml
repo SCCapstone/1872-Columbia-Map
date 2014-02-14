@@ -10,19 +10,23 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+ 
     <application
-        android:allowBackup="true"
-        android:icon="@drawable/columbiaicon"
-        android:label="@string/app_menu"
-        android:screenOrientation="landscape"
-        android:theme="@style/AppTheme" >
+	        android:allowBackup="true"
+	        android:icon="@drawable/columbiaicon"
+	        android:label="@string/app_menu"
+	        android:screenOrientation="landscape"
+	        android:theme="@style/AppTheme" >
+        <meta-data 
+            android:name="com.google.android.gms.version" 
+            android:value="4132500" />
         <activity
             android:name="com.example.capstone.MainMenu"
             android:label="@string/app_menu" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -44,6 +48,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.capstone.MainMenu" />
         </activity>
+        
+        
     </application>
 
 </manifest>
