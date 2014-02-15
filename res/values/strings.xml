@@ -50,5 +50,6 @@
     
     <string name="kinvey_account">Kinvey</string>
     <string name="login_google">Login with Google+</string>
+    <string name="correct_password">Password is Correct</string>
     
 </resources>

@@ -66,15 +66,15 @@
         android:textStyle="bold" />
     
     <Button
-            android:id="@+id/btnLoginGoogle"
+            android:id="@+id/AdminPanel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/usernameedit"
             android:layout_marginTop="70dp" 
             android:layout_centerHorizontal="true"   
-            android:contentDescription="@string/login_google"
-            android:textColor="#000000"
-            android:text="@string/login_google"
-            android:onClick="launchGoogleLogin" />
+            android:background="@drawable/button_color"
+            android:onClick="AdminPanel"
+            android:text="@string/login_button"
+            android:textSize="28sp" />
    
 </RelativeLayout>
