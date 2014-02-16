@@ -5,11 +5,14 @@ import java.io.IOException;
 import android.app.Activity;
 import android.graphics.PointF;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 
 import com.example.capstone.R.id;
 
-public class AdminView extends Activity {
+public class AdminView extends FragmentActivity {
 
     private static final String STATE_SCALE = "state-scale";
     private static final String STATE_CENTER_X = "state-center-x";
@@ -19,6 +22,12 @@ public class AdminView extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_view);
+        FragmentManager fm = getSupportFragmentManager();
+        Fragment fragment = fm.findFragmentById(R.id.fragmentContainer);
+        if (fragment == null) {
+        	fragment = new LocationFragment();
+        	fm.beginTransaction().add(R.id.fragmentContainer, fragment).commit();
+        }
         try {
             SubsamplingScaleImageView imageView = (SubsamplingScaleImageView)findViewById(id.imageView);
             imageView.setImageAsset("MAPHIGHJ.JPG");
