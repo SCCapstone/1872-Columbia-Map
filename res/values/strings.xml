@@ -15,6 +15,7 @@
     <string name="location_title_label">Title</string>
     <string name="location_details_label">Details</string>
     <string name="location_solved_label">Solved?</string>
+    <string name="locations_title">Locations</string>
 
     <color name="yellow">#FFCE00</color>
     <color name="black">#66665B</color>

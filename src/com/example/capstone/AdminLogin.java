@@ -54,7 +54,7 @@ public class AdminLogin extends Activity {
 			EditText passwordedit = (EditText)findViewById(R.id.passwordedit);
 			password = passwordedit.getText().toString(); 
 			if(admin_username.equals(username) && admin_password.equals(password)){
-				Intent intent = new Intent(this, AdminView.class);
+				Intent intent = new Intent(this, LocationListActivity.class);
 		    	startActivity(intent);
         	} else {
         		Context context = getApplicationContext();
