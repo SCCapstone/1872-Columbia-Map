@@ -33,7 +33,7 @@ public class LocationListActivity extends SingleFragmentActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.adminview_fragment);
+        setContentView(R.layout.adminview_fragment);
         try {
             SubsamplingScaleImageView imageView = (SubsamplingScaleImageView)findViewById(id.imageView);
             imageView.setImageAsset("MAPHIGHJ.JPG");

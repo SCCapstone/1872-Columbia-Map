@@ -27,8 +27,8 @@ public class LocationFragment extends Fragment {
 	
 	@Override
 	public View onCreateView(LayoutInflater inflator, ViewGroup parent, Bundle savedInstanceState) {
-		//View v = inflator.inflate(R.layout.location_fragment, parent, false);
-		//mTitleField = (EditText)v.findViewById(R.id.location_title);
+		View v = inflator.inflate(R.layout.location_fragment, parent, false);
+		mTitleField = (EditText)v.findViewById(R.id.location_title);
 		mTitleField.addTextChangedListener(new TextWatcher() {
 			public void onTextChanged(CharSequence c, int start, int before, int count) {
 				mLocation.setTitle(c.toString());
@@ -40,17 +40,16 @@ public class LocationFragment extends Fragment {
 				//this too
 			}
 		});
-		//mDateButton = (Button)v.findViewById(R.id.location_date);
+		mDateButton = (Button)v.findViewById(R.id.location_date);
 		mDateButton.setText(mLocation.getDate().toString());
 		mDateButton.setEnabled(false);
-		//mSolvedCheckBox = (CheckBox)v.findViewById(R.id.location_solved);
+		mSolvedCheckBox = (CheckBox)v.findViewById(R.id.location_solved);
 		mSolvedCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				//set the location's solved property
 				mLocation.setSolved(isChecked);
 			}
 		});
-		//added null
-		return null;
+		return v;
 	}
 }

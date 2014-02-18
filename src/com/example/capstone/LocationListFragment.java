@@ -11,7 +11,7 @@ public class LocationListFragment extends ListFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		//getActivity().setTitle(R.string.locations_title);
+		getActivity().setTitle(R.string.locations_title);
 		mLocations = LocationList.get(getActivity()).getLocations();
 		ArrayAdapter<Location> adapter = new ArrayAdapter<Location>(getActivity(),android.R.layout.simple_list_item_1,mLocations);
 		setListAdapter(adapter);
