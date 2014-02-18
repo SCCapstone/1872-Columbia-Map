@@ -42,7 +42,6 @@ import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -54,7 +53,6 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.Gallery.LayoutParams;
-import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 //import android.os.Handler;
@@ -500,15 +498,18 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
         //ImageView minimap = (ImageView) findViewById(R.drawable.map_mini);
         //Bitmap minibitmap = ((BitmapDrawable) minimap.getDrawable()).getBitmap();
        // minimap.setImageBitmap(minibitmap);
-        PointF getpoint = sourceToViewCoord(6290, 4226);
-        //6290 4226 usc coord, view to source coord??
+        
         Bitmap minimap =BitmapFactory.decodeResource(getResources(), R.drawable.map_mini);
         Rect mapRect = new Rect(5,5,305,210);
         canvas.drawBitmap(minimap, null, mapRect, null);
         
+        PointF getpoint = sourceToViewCoord(6290, 4226);
         Bitmap pin =BitmapFactory.decodeResource(getResources(), R.drawable.mappin);
-        Rect pinRect = new Rect((int) getpoint.x-5,(int) getpoint.y-5,(int) getpoint.x+20,(int) getpoint.y+20);
-        canvas.drawBitmap(pin, null, pinRect, null);
+        Rect pinRectUSC = new Rect((int) getpoint.x-15,(int) getpoint.y-15,(int) getpoint.x+10,(int) getpoint.y+10);
+        canvas.drawBitmap(pin, null, pinRectUSC, null);
+        getpoint = sourceToViewCoord(5030, 3856);
+        Rect pinRectCapital = new Rect((int) getpoint.x-15,(int) getpoint.y-15,(int) getpoint.x+10,(int) getpoint.y+10);
+        canvas.drawBitmap(pin, null, pinRectCapital, null);
         
         paint.setColor(Color.WHITE);
         paint.setStyle(Paint.Style.STROKE);
