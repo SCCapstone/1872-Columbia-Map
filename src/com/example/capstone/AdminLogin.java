@@ -30,12 +30,12 @@ public class AdminLogin extends Activity {
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 		setContentView(R.layout.login_main);
 	
-		final Button AdminPanel = (Button) findViewById(R.id.AdminPanel);
+		//final Button AdminPanel = (Button) findViewById(R.id.AdminPanel);
 		TextView LoginTitle = (TextView) findViewById(R.id.logintitle);
 		Typeface TradeGothic = Typeface.createFromAsset(getAssets(),"TradeGothic.ttf");
 		Typeface TradeGothic18 = Typeface.createFromAsset(getAssets(),"TradeG18.ttf");
 		LoginTitle.setTypeface(TradeGothic18);
-		AdminPanel.setTypeface(TradeGothic);
+		//AdminPanel.setTypeface(TradeGothic);
 											
 	}
 

@@ -500,13 +500,23 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
         //ImageView minimap = (ImageView) findViewById(R.drawable.map_mini);
         //Bitmap minibitmap = ((BitmapDrawable) minimap.getDrawable()).getBitmap();
        // minimap.setImageBitmap(minibitmap);
-       // PointF getpoint = viewToSourceCoord(event.getX(), event.getY());
-     
+        PointF getpoint = sourceToViewCoord(6290, 4226);
+        //6290 4226 usc coord, view to source coord??
+        Bitmap minimap =BitmapFactory.decodeResource(getResources(), R.drawable.map_mini);
+        Rect mapRect = new Rect(5,5,305,210);
+        canvas.drawBitmap(minimap, null, mapRect, null);
+        
+        Bitmap pin =BitmapFactory.decodeResource(getResources(), R.drawable.mappin);
+        Rect pinRect = new Rect((int) getpoint.x-5,(int) getpoint.y-5,(int) getpoint.x+20,(int) getpoint.y+20);
+        canvas.drawBitmap(pin, null, pinRect, null);
+        
         paint.setColor(Color.WHITE);
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(3);    
-        canvas.drawRect(vTranslate.x, vTranslate.y, sWidth, sHeight, paint);
+        canvas.drawRect(vTranslate.x/10+5, vTranslate.y/10+5, sWidth/100, sHeight/100, paint);
         
+        //auto refresh canvas
+        //invalidate();
         
 //        //Rectangles for popup locations
 //        paint.setColor(Color.YELLOW);
