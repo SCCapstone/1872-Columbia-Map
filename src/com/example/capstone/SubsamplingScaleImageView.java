@@ -88,10 +88,10 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
 	public int[] Statehouse_loc = {5030, 3856};
 	public int[] Church_loc = {5508, 3264};
 	public int[] WWFH_loc = {6230, 2605};	
-	public int lowprecision = 300; //for big buildings
-	public int highprecision = 180; //for small buildings
+	public int lowprecision = 200; //for big buildings
+	public int highprecision = 120; //for small buildings
 	public final int popupWidth = 700;    
-	public final int popupHeight = 700;
+	public final int popupHeight = 720;
 	public boolean popupon = false;		
 	
 	// Visible window    
@@ -365,7 +365,7 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
 		//pointCheck(int X_touched, int Y_touched, int locs[], int precision)
 		if(isZooming == false){
 		
-		if (pointCheck(getpoint.x, getpoint.y, USC_loc, lowprecision))			
+		if (pointCheck(getpoint.x, getpoint.y, USC_loc, highprecision))			
 			createPopup(R.layout.popup_layout2);							
 		
 		else if (pointCheck(getpoint.x, getpoint.y, Church_loc, highprecision))			
@@ -494,38 +494,45 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
             }
         }
        
-        //MiniMap Testing
-        //ImageView minimap = (ImageView) findViewById(R.drawable.map_mini);
-        //Bitmap minibitmap = ((BitmapDrawable) minimap.getDrawable()).getBitmap();
-       // minimap.setImageBitmap(minibitmap);
         
+        //MiniMap
         Bitmap minimap =BitmapFactory.decodeResource(getResources(), R.drawable.map_mini);
         Rect mapRect = new Rect(5,5,305,210);
         canvas.drawBitmap(minimap, null, mapRect, null);
         
-        PointF getpoint = sourceToViewCoord(6290, 4226);
+        paint.setColor(Color.WHITE);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(2);    
+        PointF mmpoint1, mmpoint2;
+        mmpoint1 = sourceToViewCoord(0,0);
+        mmpoint2 = sourceToViewCoord(1280,800);
+        canvas.drawRect(mmpoint1.x+5, mmpoint1.y+5, mmpoint2.x-5, mmpoint2.y-5, paint);
+
+        
+        //Pins
+        PointF getpoint;
         Bitmap pin =BitmapFactory.decodeResource(getResources(), R.drawable.mappin);
+        
+        getpoint = sourceToViewCoord(6290, 4226);
         Rect pinRectUSC = new Rect((int) getpoint.x-15,(int) getpoint.y-15,(int) getpoint.x+10,(int) getpoint.y+10);
         canvas.drawBitmap(pin, null, pinRectUSC, null);
+        
         getpoint = sourceToViewCoord(5030, 3856);
         Rect pinRectCapital = new Rect((int) getpoint.x-15,(int) getpoint.y-15,(int) getpoint.x+10,(int) getpoint.y+10);
         canvas.drawBitmap(pin, null, pinRectCapital, null);
         
-        paint.setColor(Color.WHITE);
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeWidth(3);    
-        canvas.drawRect(vTranslate.x/10+5, vTranslate.y/10+5, sWidth/100, sHeight/100, paint);
+        getpoint = sourceToViewCoord(5508, 3264);
+        Rect pinRectChurch = new Rect((int) getpoint.x-15,(int) getpoint.y-15,(int) getpoint.x+10,(int) getpoint.y+10);
+        canvas.drawBitmap(pin, null, pinRectChurch, null);
+
+        getpoint = sourceToViewCoord(6230, 2605);
+        Rect pinRectWWH = new Rect((int) getpoint.x-15,(int) getpoint.y-15,(int) getpoint.x+10,(int) getpoint.y+10);
+        canvas.drawBitmap(pin, null, pinRectWWH, null);
+        
+        
         
         //auto refresh canvas
         //invalidate();
-        
-//        //Rectangles for popup locations
-//        paint.setColor(Color.YELLOW);
-//        canvas.drawRect(getpoint.x, getpoint.y, (float) USC_loc, (float) lowprecision);
-//        canvas.drawRect(610, 410,640,440,paint); //USC
-//        canvas.drawRect(490, 370,520,400,paint); //Statehouse
-//        canvas.drawRect(540, 310,560,330,paint); //Church
-//        canvas.drawRect(610, 250,630,270,paint); //WWFH
 
     }
 
@@ -1013,8 +1020,10 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
 		popup.showAtLocation(layout, Gravity.CENTER, 0,0);
 	
 		// Get a reference to Close button, and close the pop-up when clicked.    
-		Button close = (Button) layout.findViewById(R.id.close);		
-												
+		Button close = (Button) layout.findViewById(R.id.close);
+		//TextView title = (TextView)layout.findViewById(R.id.textView1);
+		//title.setText(m.get(location).getTitle());				
+		
 		close.setOnClickListener(new OnClickListener() 
 		{
 			@Override					
