@@ -35,7 +35,7 @@ public class LocationListActivity extends SingleFragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.adminview_fragment);
         try {
-            SubsamplingScaleImageView imageView = (SubsamplingScaleImageView)findViewById(id.imageView);
+            TestAdminSubsampling imageView = (TestAdminSubsampling)findViewById(id.imageView);
             imageView.setImageAsset("MAPHIGHJ.JPG");
 
             if (savedInstanceState != null &&
@@ -54,7 +54,7 @@ public class LocationListActivity extends SingleFragmentActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        SubsamplingScaleImageView imageView = (SubsamplingScaleImageView)findViewById(id.imageView);
+        TestAdminSubsampling imageView = (TestAdminSubsampling)findViewById(id.imageView);
         outState.putFloat(STATE_SCALE, imageView.getScale());
         PointF center = imageView.getCenter();
         if (center != null) {

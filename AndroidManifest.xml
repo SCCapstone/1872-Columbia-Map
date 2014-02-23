@@ -45,8 +45,8 @@
         <activity
             android:name="com.example.capstone.LocationListActivity"
             android:label="@string/app_admin" 
-            android:parentActivityName="com.example.capstone.Admin" >
-        </activity>    
+            android:parentActivityName="com.example.capstone.AdminLogin" >
+        </activity>   
         
     </application>
 
