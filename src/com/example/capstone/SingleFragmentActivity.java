@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 
 public abstract class SingleFragmentActivity extends FragmentActivity {
 
+	//test push
 	protected abstract Fragment createFragment();
     
     @Override
