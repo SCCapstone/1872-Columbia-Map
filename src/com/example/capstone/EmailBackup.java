@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class EmailBackup extends Activity 
 {
@@ -16,6 +17,7 @@ public class EmailBackup extends Activity
 	private String email = "";
 	private String subject = "";
 	private String body = "";
+	private String testEmail = "capstone1872@gmail.com";
 	
 	private EditText emailEdit;
 	private EditText textSubject;
@@ -34,30 +36,17 @@ public class EmailBackup extends Activity
 	    Typeface TradeGothic = Typeface.createFromAsset(getAssets(),"TradeGothic.ttf");
 		sendEmail.setTypeface(TradeGothic);
 		
-		emailEdit = (EditText) findViewById(R.id.emailedit);
+		emailEdit = (EditText) findViewById(R.id.emailedit);	
 		textSubject = (EditText) findViewById(R.id.editTextSubject);
 		textMessage = (EditText) findViewById(R.id.editTextMessage);
-		
-		email = emailEdit.getText().toString();
-		Log.v(SEND_EMAIL, email);
-		
-		subject = textSubject.getText().toString();
-		Log.v(SEND_EMAIL, subject);
-		
-		body = textMessage.getText().toString();
-		Log.v(SEND_EMAIL, body);
-		
-		//this need to be moved to onClick once I verify emails are being sent
-		EmailBackupAsync emailTask = new EmailBackupAsync();
-		emailTask.execute();
-		
+				
 		sendEmail.setOnClickListener(new View.OnClickListener() 
 		{
 			@Override
 			public void onClick(View v) 
 			{
-			    //EmailBackupAsync emailTask = new EmailBackupAsync();
-			    //emailTask.execute();
+			    EmailBackupAsync emailTask = new EmailBackupAsync();
+			    emailTask.execute();
 			}
 		});
 	}
@@ -67,14 +56,17 @@ public class EmailBackup extends Activity
 		    @Override
 		    protected Void doInBackground(Void...params) 
 		    {
-		    	
-				String[] toArr = {"capstone1872@gmail.com", "miohoya@gmail.com"}; 
+		    	email = emailEdit.getText().toString();				
+				subject = textSubject.getText().toString();
+				body = textMessage.getText().toString();
+
+				String[] toArr = {email}; 
 				Log.v(SEND_EMAIL, email);
 				
 				m.set_to(toArr); 
 				m.set_from("capstone1872@gmail.com"); 
-				m.set_subject("test"); 
-				m.setBody("test message"); 
+				m.set_subject(subject); 
+				m.setBody(body); 
 				
 				//m.addAttachment("/sdcard/filelocation"); 			 
 		        try 
@@ -83,11 +75,32 @@ public class EmailBackup extends Activity
 					{ 
 				  
 					  Log.v(SEND_EMAIL, "email sent");
+					  
+					  EmailBackup.this.runOnUiThread(new Runnable()
+						{
+							  @Override
+							  public void run() 
+							  {
+
+							      Toast.makeText(EmailBackup.this, "Sending email", Toast.LENGTH_SHORT).show();
+							  }
+					     });
+					 
 					} 
 					else 
 					{ 
 
 					  Log.v(SEND_EMAIL, "email not sent");
+					  
+					  EmailBackup.this.runOnUiThread(new Runnable()
+						{
+							  @Override
+							  public void run() 
+							  {
+
+							      Toast.makeText(EmailBackup.this, "Unable to send email", Toast.LENGTH_SHORT).show();
+							  }
+					     });
 					}
 				} 
 		        catch (Exception e) 
