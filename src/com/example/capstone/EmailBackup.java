@@ -1,6 +1,7 @@
 package com.example.capstone;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ public class EmailBackup extends Activity
 	private EditText emailEdit;
 	private EditText textSubject;
 	private EditText textMessage;
+	private static Context context;
 	private String SEND_EMAIL = "SEND EMAIL";
 	
 	Mail m = new Mail("capstone1872@gmail.com", "woodrowwilson"); 
@@ -31,7 +33,14 @@ public class EmailBackup extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_email_backup);
+		
+		context = getApplicationContext();
 					
+		ConnectionDetector cd = new ConnectionDetector(context);
+		boolean isInternetPresent = cd.isConnectingToInternet(); 
+		
+		Toast.makeText(EmailBackup.this, "Internet available?  " + isInternetPresent, Toast.LENGTH_LONG).show();
+		
 	    final Button sendEmail = (Button) findViewById(R.id.Send);
 	    Typeface TradeGothic = Typeface.createFromAsset(getAssets(),"TradeGothic.ttf");
 		sendEmail.setTypeface(TradeGothic);
@@ -56,7 +65,8 @@ public class EmailBackup extends Activity
 		    @Override
 		    protected Void doInBackground(Void...params) 
 		    {
-		    	email = emailEdit.getText().toString();				
+		    	email = emailEdit.getText().toString();	
+		    	
 				subject = textSubject.getText().toString();
 				body = textMessage.getText().toString();
 
@@ -73,15 +83,13 @@ public class EmailBackup extends Activity
 		        {
 					if(m.send())
 					{ 
-				  
-					  Log.v(SEND_EMAIL, "email sent");
+				     
 					  
 					  EmailBackup.this.runOnUiThread(new Runnable()
 						{
 							  @Override
 							  public void run() 
 							  {
-
 							      Toast.makeText(EmailBackup.this, "Sending email", Toast.LENGTH_SHORT).show();
 							  }
 					     });
