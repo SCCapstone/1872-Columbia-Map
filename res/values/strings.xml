@@ -3,6 +3,7 @@
 
     <string name="app_name">Capstone</string>
     <string name="app_menu">Columbia 1872 Historic Map</string>
+    <string name="app_admin">App Admin</string>
     <string name="action_settings">Settings</string>
     <string name="MapView">View Map</string>
     <string name="AdminLogin">Admin Login</string>
@@ -46,16 +47,14 @@
     <string name="save_button">Save</string>
     <string name="create_logintitle">Administrator Registration</string>
     <string name="admin_password">Admin Password:</string>
-    
-    <!--CreateAdminActivity-->
-    <string name="title_activity_create_admin_login">Registration</string>
-    <string name="new_username">Please enter a new user name:</string>
-    <string name="new_password">Please enter a new password:</string>
-    <string name="cancel_button">Cancel</string>
-    
-    <string name="kinvey_account">Kinvey</string>
-    <string name="login_google">Login with Google+</string>
-    <string name="correct_password">Password is Correct</string>
-    <string name="app_admin">Administrator View</string>
-    
+
+    <!-- Backup Email -->
+    <string name="EmailBackup">Email Options</string>
+    <string name="email_to">To:</string>
+    <string name="email_subject">Subject:</string>
+    <string name="email_message">Message:</string>
+    <string name="send">Send</string>
+    <string name="title_activity_email_backup">EmailBackup</string>
+    <string name="message">Message</string>
+
 </resources>

@@ -23,6 +23,7 @@ public class MainMenu extends Activity {
 	
 	final Button AdminLogin = (Button) findViewById(R.id.AdminLogin);
 	final Button ViewMap = (Button) findViewById(R.id.ViewMap);
+    final Button EmailBackup = (Button) findViewById(R.id.EmailBackup);
 	TextView MainTitle = (TextView) findViewById(R.id.maintitle);
 	TextView MapTitle = (TextView) findViewById(R.id.maptitle);
 	Typeface TradeGothic = Typeface.createFromAsset(getAssets(),"TradeGothic.ttf");
@@ -31,7 +32,8 @@ public class MainMenu extends Activity {
 	MainTitle.setTypeface(TradeGothicBold2);
 	MapTitle.setTypeface(TradeGothic18);
 	ViewMap.setTypeface(TradeGothic);
-	AdminLogin.setTypeface(TradeGothic);	
+	AdminLogin.setTypeface(TradeGothic);
+	EmailBackup.setTypeface(TradeGothic);
 	
 	}
 	
@@ -53,6 +55,13 @@ public class MainMenu extends Activity {
     	Intent intent = new Intent(this, AdminLogin.class);
     	startActivity(intent);
 	}
+	
+	//called when user clicks on EmailBackup
+	public void EmailBackup(View view) {
+    	Intent intent = new Intent(this, EmailBackup.class);
+    	startActivity(intent);
+	}
+	
 	
 	
 }
