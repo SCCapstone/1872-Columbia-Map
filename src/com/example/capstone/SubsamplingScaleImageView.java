@@ -21,12 +21,17 @@ limitations under the License.
 */
 package com.example.capstone;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStreamWriter;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
+import java.util.StringTokenizer;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -36,7 +41,6 @@ import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapRegionDecoder;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.PointF;
@@ -82,6 +86,8 @@ import android.widget.Toast;
 public class SubsamplingScaleImageView extends View implements OnTouchListener {
 
     private static final String TAG = SubsamplingScaleImageView.class.getSimpleName();
+
+    private static final String FILENAME = "LocationFile.txt";
 
     //locations for this map resolution
 	public int[] USC_loc = {6290, 4226};
@@ -497,16 +503,17 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
         
         //MiniMap
         Bitmap minimap =BitmapFactory.decodeResource(getResources(), R.drawable.map_mini);
-        Rect mapRect = new Rect(5,5,305,210);
+        Rect mapRect = new Rect(5,5,325,235);
         canvas.drawBitmap(minimap, null, mapRect, null);
         
+        /*Moving map rect
         paint.setColor(Color.WHITE);
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(2);    
         PointF mmpoint1, mmpoint2;
         mmpoint1 = sourceToViewCoord(0,0);
         mmpoint2 = sourceToViewCoord(1280,800);
-        canvas.drawRect(mmpoint1.x+5, mmpoint1.y+5, mmpoint2.x-5, mmpoint2.y-5, paint);
+        canvas.drawRect(mmpoint1.x+5, mmpoint1.y+5, mmpoint2.x-5, mmpoint2.y-5, paint);*/
 
         
         //Pins
@@ -529,6 +536,8 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
         Rect pinRectWWH = new Rect((int) getpoint.x-15,(int) getpoint.y-15,(int) getpoint.x+10,(int) getpoint.y+10);
         canvas.drawBitmap(pin, null, pinRectWWH, null);
         
+        //read - read read.next x coord and y coord, set pinrect
+        //write - touch sends x coord and y coord to file
         
         
         //auto refresh canvas
@@ -1034,5 +1043,52 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
 			}								
 		});			
 	}
+
+//WRITE
+	 private void WritetoFile() 
+	 {
+		 String textToSaveString = "Testing Token Method";
+		 StringTokenizer st = new StringTokenizer(textToSaveString);
+
+		 try {
+			 OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput(FILENAME, Context.MODE_APPEND));
+			 outputStreamWriter.write("Location Test");
+			 while (st.hasMoreElements()) {
+				 outputStreamWriter.write(st.nextElement().toString()+ "\n");
+			 }
+         
+			 outputStreamWriter.close();
+		 }
+		 catch (IOException e) {
+			 Log.e(TAG, "File write failed: " + e.toString());
+		 }
+
+		 //WRITE SPLIT WITH COMMA
+		 //System.out.println("---- Split by comma ',' ------");
+		 //StringTokenizer st2 = new StringTokenizer(str, ",");
+
+		 //while (st2.hasMoreElements()) {
+		 //	System.out.println(st2.nextElement());
+		 //}
+	 }
+	 
+//READ 
+     private String ReadfromFile(String s) 
+     {
+    	 try {
+         	InputStream inputStream = context.openFileInput(FILENAME);
+         	Scanner input = new Scanner(inputStream);
+
+             	while(input.hasNext()) {
+                 	Toast.makeText(context.getApplicationContext(), input.next(), Toast.LENGTH_LONG).show();
+             	}
+             
+             	input.close();
+     	}
+     	catch (FileNotFoundException e) {
+         	Log.e(TAG, "File not found: " + e.toString());
+     	}
+		return s;
+     }
 	
 }//end class
