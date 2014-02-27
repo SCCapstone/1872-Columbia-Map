@@ -87,7 +87,7 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
 
     private static final String TAG = SubsamplingScaleImageView.class.getSimpleName();
 
-    private static final String FILENAME = "LocationFile.txt";
+    private static final String FILENAME = "DataFile.txt";
 
     //locations for this map resolution
 	public int[] USC_loc = {6290, 4226};
@@ -537,6 +537,8 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
         canvas.drawBitmap(pin, null, pinRectWWH, null);
         
         //read - read read.next x coord and y coord, set pinrect
+        //WritetoFile("6230");
+        //ReadfromFile();
         //write - touch sends x coord and y coord to file
         
         
@@ -1045,10 +1047,10 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
 	}
 
 //WRITE
-	 private void WritetoFile() 
+	 private void WritetoFile(String output) 
 	 {
-		 String textToSaveString = "Testing Token Method";
-		 StringTokenizer st = new StringTokenizer(textToSaveString);
+		 //String textToSaveString = "Testing Token Method";
+		 StringTokenizer st = new StringTokenizer(output);
 
 		 try {
 			 OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput(FILENAME, Context.MODE_APPEND));
@@ -1056,7 +1058,7 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
 			 while (st.hasMoreElements()) {
 				 outputStreamWriter.write(st.nextElement().toString()+ "\n");
 			 }
-         
+			// Toast.makeText(context.getApplicationContext(), "writing: " + output, Toast.LENGTH_LONG).show();
 			 outputStreamWriter.close();
 		 }
 		 catch (IOException e) {
@@ -1073,22 +1075,24 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
 	 }
 	 
 //READ 
-     private String ReadfromFile(String s) 
+     private String ReadfromFile() 
      {
+    	 String input = "";
     	 try {
          	InputStream inputStream = context.openFileInput(FILENAME);
-         	Scanner input = new Scanner(inputStream);
+         	Scanner scanner = new Scanner(inputStream);
 
-             	while(input.hasNext()) {
-                 	Toast.makeText(context.getApplicationContext(), input.next(), Toast.LENGTH_LONG).show();
+             	while(scanner.hasNext()) {
+             		input = scanner.next();
+                 	//Toast.makeText(context.getApplicationContext(), "Reading: " + input, Toast.LENGTH_LONG).show();
              	}
              
-             	input.close();
+             	scanner.close();
      	}
      	catch (FileNotFoundException e) {
          	Log.e(TAG, "File not found: " + e.toString());
      	}
-		return s;
+		return input;
      }
 	
 }//end class
