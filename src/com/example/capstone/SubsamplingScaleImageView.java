@@ -86,9 +86,8 @@ import android.widget.Toast;
 public class SubsamplingScaleImageView extends View implements OnTouchListener {
 
     private static final String TAG = SubsamplingScaleImageView.class.getSimpleName();
-
-    private static final String FILENAME = "DataFile.txt";
-
+	private static final String FILENAME = "DataFile.txt";
+	
     //locations for this map resolution
 	public int[] USC_loc = {6290, 4226};
 	public int[] Statehouse_loc = {5030, 3856};
@@ -162,6 +161,14 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
     }
 
     /**
+	 * @return the filename
+	 */
+	public static String getFilename() 
+	{
+		return FILENAME;
+	}
+
+	/**
      * Display an image from a file in internal or external storage
      * @param extFile URI of the file to display
      */
@@ -1076,7 +1083,8 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
 			 while (st.hasMoreElements()) {
 				 outputStreamWriter.write(st.nextElement().toString()+ "\n");
 			 }
-			// Toast.makeText(context.getApplicationContext(), "writing: " + output, Toast.LENGTH_LONG).show();
+			
+			 Toast.makeText(context.getApplicationContext(), "writing: " + output, Toast.LENGTH_LONG).show();
 			 outputStreamWriter.close();
 		 }
 		 catch (IOException e) {

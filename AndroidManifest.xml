@@ -17,6 +17,7 @@
  
     <application
 	        android:allowBackup="true"
+	        android:debuggable="true"
 	        android:icon="@drawable/columbiaicon"
 	        android:label="@string/app_menu"
 	        android:screenOrientation="landscape"
