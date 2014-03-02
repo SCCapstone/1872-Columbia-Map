@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:screenOrientation="landscape"
+    android:background="@color/black"
+    tools:context=".MainMenu" >
+
+    <TextView
+        android:id="@+id/editscreentitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+		android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:textColor="@color/yellow"
+        android:text="@string/editlocation"
+        android:textSize="64sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/locationtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editscreentitle"
+        android:layout_marginTop="69dp"
+        android:layout_toLeftOf="@+id/titleedit"
+        android:text="@string/edittitle"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/titleedit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/locationtitle"
+        android:layout_centerHorizontal="true"
+        android:ems="10"
+        android:inputType="text"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/descriptionedit"
+        android:layout_alignBottom="@+id/descriptionedit"
+        android:layout_alignRight="@+id/locationtitle"
+        android:text="@string/editdescription"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/descriptionedit"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/titleedit"
+        android:layout_below="@+id/locationtitle"
+        android:ems="10"
+        android:gravity="top|left"
+        android:inputType="textMultiLine"
+        android:lines="8"
+        android:maxLines="20"
+        android:minLines="6"
+        android:scrollbars="vertical"
+        android:textSize="24sp"
+        android:textStyle="bold" >
+
+        <requestFocus />
+    </EditText>
+
+    <Button
+        android:id="@+id/DoneEditing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="98dp"
+        android:background="@drawable/button_color"
+        android:onClick="DoneEditing"
+        android:text="@string/finished_editing_button"
+        android:textSize="28sp" />
+   
+</RelativeLayout>
