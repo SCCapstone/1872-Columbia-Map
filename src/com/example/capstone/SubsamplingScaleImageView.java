@@ -521,7 +521,6 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
         mmpoint1 = sourceToViewCoord(0,0);
         mmpoint2 = sourceToViewCoord(1280,800);
         canvas.drawRect(mmpoint1.x+5, mmpoint1.y+5, mmpoint2.x-5, mmpoint2.y-5, paint);*/
-
         
         //Pins
         PointF getpoint;
@@ -550,7 +549,8 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
         int x = 0;
         int y = 0;
         
-        try {
+        try 
+        {
          	InputStream inputStream = context.openFileInput(FILENAME);
          	Scanner scanner = new Scanner(inputStream);
          

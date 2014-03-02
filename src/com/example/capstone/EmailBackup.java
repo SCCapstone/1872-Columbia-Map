@@ -1,6 +1,7 @@
 package com.example.capstone;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -38,17 +39,17 @@ public class EmailBackup extends Activity
 	private String subject = "";
 	private String body = "";
 	private static String fileName = "";
-	private String path = "";
-  	private InputStream inputStream;
 	
 	private EditText emailEdit;
 	private EditText textSubject;
 	private EditText textMessage;
 	private static Context context;
 	private CheckBox checkAttachment;
+	private CheckBox deleteLayoutFile;
+	private FileInputStream inputStream; 
 	private static String SEND_EMAIL = "SEND EMAIL";
 	
-	Mail m = new Mail("capstone1872@gmail.com", "woodrowwilson"); 
+	Mail m = new Mail("capstone1872@gmail.com", "woodrowwilson");
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
@@ -56,14 +57,16 @@ public class EmailBackup extends Activity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_email_backup);
 		
-		context = getApplicationContext();
-		path = context.getFilesDir().getPath()+"/";
+		context = getApplicationContext();		
+		fileName = SubsamplingScaleImageView.getFilename();
 		
-		//This causes a null pointer now and we need to think about SubsamplingScaleImageView
-		//and EmailBackup talk to each other
-		//fileName = path+SubsamplingScaleImageView.getFilename();
-	    fileName = "DataFile.txt";
-		
+		if (fileName == null)
+		{
+			//if no file has been written in SubsamplingScaleImageView
+			//then create a dummy file
+		    fileName = "DataFile.txt";
+		}
+
 		ConnectionDetector cd = new ConnectionDetector(context);
 		boolean isInternetPresent = cd.isConnectingToInternet(); 
 		
@@ -84,6 +87,36 @@ public class EmailBackup extends Activity
 		textSubject = (EditText) findViewById(R.id.editTextSubject);
 		textMessage = (EditText) findViewById(R.id.editTextMessage);
 		
+		//Checkbox to delete the default layout file
+		deleteLayoutFile = (CheckBox) findViewById(R.id.deleteLayoutFile);
+		
+		deleteLayoutFile.setOnClickListener(new OnClickListener() 
+		{
+	 
+		  @Override
+		  public void onClick(View v) 
+		  {
+	        //is the box checked?
+			if (((CheckBox) v).isChecked())
+			{
+				//Delete the previous version of the file if it exists by overwriting
+				//it with a blank file
+		        File file = new File("/data/data/com.example.capstone/files/DataFile.txt.");
+				if(file.exists() == true)
+				{
+				   file.delete();
+				   Toast.makeText(EmailBackup.this, "File deleted", Toast.LENGTH_SHORT).show();
+				}
+				else
+				{
+					Toast.makeText(EmailBackup.this, "File does not exist", Toast.LENGTH_SHORT).show();
+				}
+			}
+	 
+		  }
+		});
+		
+		
 		//Checkbox asking user if he/she wants to attach the default layout file (which
 		//is just DataFile.txt for now)
 		checkAttachment = (CheckBox) findViewById(R.id.checkAttachment);
@@ -103,6 +136,8 @@ public class EmailBackup extends Activity
 		  }
 		});
 		
+		
+		
 		//Begin asyncTask to send email
 		sendEmail.setOnClickListener(new View.OnClickListener() 
 		{
@@ -120,45 +155,43 @@ public class EmailBackup extends Activity
 	  */
 	 private void attachFile() 
 	{
-		//Delete the previous version of the file if it exists
-        File file = new File("/data/data/com.example.capstone/files/DataFile.txt.");
-		if(file.exists())
-		{
-		   file.delete();
-		}
 		
 		//Write a test file
 		//The default file name is DataFile.txt
-		String dummyInput = "1234 \n 5678 \n 8910";
-		WriteFile(dummyInput);
-		
-		//read from file on the path /data/data/com.example.capstone/files/somefile.txt
-		try 
-		{
-			inputStream = context.openFileInput(fileName);
-			Toast.makeText(EmailBackup.this, "File read successfully", Toast.LENGTH_LONG).show();
-			
-		} catch (FileNotFoundException e1) 
-		{
-			Toast.makeText(EmailBackup.this, "File was not read", Toast.LENGTH_LONG).show();
-			e1.printStackTrace();
-		}
-		
-     	Scanner scanner = new Scanner(inputStream);
-		//ReadFile(scanner);
-     	
+//		String dummyInput = "1234 \n 5678 \n 8910";
+//		WriteFile(dummyInput);
+
+		readFile();
+    	
 		//Attach a file
 		try 
 		{
 			//path:/data/data/com.example.capstone/files/somefile.txt.
 			m.addAttachment(context.getFilesDir().getPath()+"/"+SubsamplingScaleImageView.getFilename());
-			Toast.makeText(EmailBackup.this, "File attached successfully", Toast.LENGTH_LONG).show();
+			Toast.makeText(EmailBackup.this, "File attached successfully", Toast.LENGTH_SHORT).show();
 			
 		} 
 		catch (Exception e) 
 		{
-			Toast.makeText(EmailBackup.this, "Failed to attach file", Toast.LENGTH_LONG).show();
+			Toast.makeText(EmailBackup.this, "Failed to attach file", Toast.LENGTH_SHORT).show();
 			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * 
+	 */
+	private void readFile() {
+		//read from file on the path /data/data/com.example.capstone/files/somefile.txt
+		try 
+		{
+			inputStream = context.openFileInput(fileName);
+			Toast.makeText(EmailBackup.this, "File read successfully", Toast.LENGTH_SHORT).show();
+			
+		} catch (FileNotFoundException e1) 
+		{
+			Toast.makeText(EmailBackup.this, "File was not read", Toast.LENGTH_SHORT).show();
+			e1.printStackTrace();
 		}
 	}
 	
@@ -223,7 +256,7 @@ public class EmailBackup extends Activity
 		    }
 	 }
 	 
-     public static void WriteFile(String output) 
+     public static void writeFile(String output) 
 	 {
 		 //String textToSaveString = "Testing Token Method";
 		 StringTokenizer st = new StringTokenizer(output);
@@ -248,21 +281,5 @@ public class EmailBackup extends Activity
 		 }
 	 }
 	 
-	 //Leave this here for now: not yet sure how we will read files
-     private String ReadFile(Scanner scanner) 
-     {
-    	 String input = "";
-    	 
-             	if(scanner.hasNext()) 
-             	{
-             		input = scanner.next();
-             		scanner.next();
-             		
-                 	//Toast.makeText(context.getApplicationContext(), "Reading: " + input, Toast.LENGTH_LONG).show();
-             	}
-             	//scanner.close();
-     	
-		return input;
-     }
 	
 }
