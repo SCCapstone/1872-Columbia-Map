@@ -15,13 +15,15 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
 /**
  * @author Olga Agafonova
- * March 1, 2014
+ * March 2, 2014
  * 
  * This class enables the user to send a message with or without an attachment. 
  * Right now, the attached file is written and read in this class. In the future,
@@ -43,6 +45,7 @@ public class EmailBackup extends Activity
 	private EditText textSubject;
 	private EditText textMessage;
 	private static Context context;
+	private CheckBox checkAttachment;
 	private static String SEND_EMAIL = "SEND EMAIL";
 	
 	Mail m = new Mail("capstone1872@gmail.com", "woodrowwilson"); 
@@ -81,6 +84,42 @@ public class EmailBackup extends Activity
 		textSubject = (EditText) findViewById(R.id.editTextSubject);
 		textMessage = (EditText) findViewById(R.id.editTextMessage);
 		
+		//Checkbox asking user if he/she wants to attach the default layout file (which
+		//is just DataFile.txt for now)
+		checkAttachment = (CheckBox) findViewById(R.id.checkAttachment);
+		 
+		checkAttachment.setOnClickListener(new OnClickListener() 
+		{
+	 
+		  @Override
+		  public void onClick(View v) 
+		  {
+	        //is the box checked?
+			if (((CheckBox) v).isChecked())
+			{
+				attachFile();
+			}
+	 
+		  }
+		});
+		
+		//Begin asyncTask to send email
+		sendEmail.setOnClickListener(new View.OnClickListener() 
+		{
+			@Override
+			public void onClick(View v) 
+			{
+			    EmailBackupAsync emailTask = new EmailBackupAsync();
+			    emailTask.execute();
+			}
+		});
+	}
+
+	 /**
+	  * This method overwrites the existing file and attaches a new one 
+	  */
+	 private void attachFile() 
+	{
 		//Delete the previous version of the file if it exists
         File file = new File("/data/data/com.example.capstone/files/DataFile.txt.");
 		if(file.exists())
@@ -120,21 +159,11 @@ public class EmailBackup extends Activity
 		{
 			Toast.makeText(EmailBackup.this, "Failed to attach file", Toast.LENGTH_LONG).show();
 			e.printStackTrace();
-		} 
-		
-		//Begin asyncTask to send email
-		sendEmail.setOnClickListener(new View.OnClickListener() 
-		{
-			@Override
-			public void onClick(View v) 
-			{
-			    EmailBackupAsync emailTask = new EmailBackupAsync();
-			    emailTask.execute();
-			}
-		});
+		}
 	}
 	
 	 private class EmailBackupAsync extends AsyncTask<Void, Void, Void> 
+
 	 {
 		    @Override
 		    protected Void doInBackground(Void...params) 
@@ -194,7 +223,7 @@ public class EmailBackup extends Activity
 		    }
 	 }
 	 
-	 public static void WriteFile(String output) 
+     public static void WriteFile(String output) 
 	 {
 		 //String textToSaveString = "Testing Token Method";
 		 StringTokenizer st = new StringTokenizer(output);
@@ -209,7 +238,7 @@ public class EmailBackup extends Activity
 				 outputStreamWriter.write(st.nextElement().toString()+ "\n");
 			 }
 			 
-			 Toast.makeText(context.getApplicationContext(), "Writing: " + output, Toast.LENGTH_LONG).show();
+			 //Toast.makeText(context.getApplicationContext(), "Writing: " + output, Toast.LENGTH_LONG).show();
 			 outputStreamWriter.flush();
 			 outputStreamWriter.close();
 		 }
@@ -229,7 +258,7 @@ public class EmailBackup extends Activity
              		input = scanner.next();
              		scanner.next();
              		
-                 	Toast.makeText(context.getApplicationContext(), "Reading: " + input, Toast.LENGTH_LONG).show();
+                 	//Toast.makeText(context.getApplicationContext(), "Reading: " + input, Toast.LENGTH_LONG).show();
              	}
              	//scanner.close();
      	
