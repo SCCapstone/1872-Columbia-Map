@@ -129,7 +129,7 @@ public class EmailBackup extends Activity
 		
 		//Write a test file
 		//The default file name is DataFile.txt
-		String dummyInput = "Sample input";
+		String dummyInput = "1234 \n 5678 \n 8910";
 		WriteFile(dummyInput);
 		
 		//read from file on the path /data/data/com.example.capstone/files/somefile.txt
