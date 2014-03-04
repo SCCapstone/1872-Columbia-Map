@@ -49,6 +49,16 @@
             android:parentActivityName="com.example.capstone.AdminLogin" >
         </activity>  
         <activity
+            android:name="com.example.capstone.AdminActivity"
+            android:label="@string/app_admin" 
+            android:parentActivityName="com.example.capstone.AdminLogin" >
+        </activity>
+        <activity
+            android:name="com.example.capstone.EditLocation"
+            android:label="@string/app_admin" 
+            android:parentActivityName="com.example.capstone.AdminActivity" >
+        </activity>
+        <activity
             android:name="com.example.capstone.EmailBackup"
             android:label="@string/title_activity_email_backup">
         </activity> 

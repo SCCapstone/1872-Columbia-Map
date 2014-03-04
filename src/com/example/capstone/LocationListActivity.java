@@ -62,4 +62,5 @@ public class LocationListActivity extends SingleFragmentActivity {
             outState.putFloat(STATE_CENTER_Y, center.y);
         }
     }
+
 }

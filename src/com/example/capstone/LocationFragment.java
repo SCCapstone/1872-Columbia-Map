@@ -41,13 +41,13 @@ public class LocationFragment extends Fragment {
 			}
 		});
 		mDateButton = (Button)v.findViewById(R.id.location_date);
-		mDateButton.setText(mLocation.getDate().toString());
+		mDateButton.setText(mLocation.getDescription());
 		mDateButton.setEnabled(false);
 		mSolvedCheckBox = (CheckBox)v.findViewById(R.id.location_solved);
 		mSolvedCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				//set the location's solved property
-				mLocation.setSolved(isChecked);
+				mLocation.setChecked(isChecked);
 			}
 		});
 		return v;

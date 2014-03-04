@@ -30,6 +30,7 @@ import java.util.Map;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
@@ -77,6 +78,7 @@ import android.widget.Toast;
  * v prefixes - coordinates, translations and distances measured in screen (view) pixels
  * s prefixes - coordinates, translations and distances measured in source image pixels (scaled)
  */
+
 @SuppressWarnings("deprecation")
 @SuppressLint({ "DrawAllocation", "NewApi" })
 public class TestAdminSubsampling extends View implements OnTouchListener {
@@ -364,7 +366,7 @@ public class TestAdminSubsampling extends View implements OnTouchListener {
 		//getpoint now contains x and y in image's coordinate system.		
 		//pointCheck(int X_touched, int Y_touched, int locs[], int precision)
 		if(isZooming == false){
-		
+		/*
 		if (pointCheck(getpoint.x, getpoint.y, USC_loc, highprecision))			
 			createPopup(R.layout.popup_layout2);							
 		
@@ -376,7 +378,9 @@ public class TestAdminSubsampling extends View implements OnTouchListener {
 			
 		else if (pointCheck(getpoint.x, getpoint.y, WWFH_loc, highprecision))						
 			createPopup(R.layout.popup_layout3);				 
-		
+		*/
+			Intent i1 = new Intent (context, EditLocation.class);
+	        context.startActivity(i1);
 		}
         return super.onTouchEvent(event);
     }
@@ -1034,5 +1038,6 @@ public class TestAdminSubsampling extends View implements OnTouchListener {
 			}								
 		});			
 	}
+	
 	
 }//end class

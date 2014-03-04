@@ -15,7 +15,7 @@ public class LocationList {
 		for (int i=0; i<100; i++) {
 			Location c = new Location();
 			c.setTitle("Location #" + i);
-			c.setSolved(i%2==0);
+			c.setDescription("Enter location description here...");
 			mLocations.add(c);
 		}
 	}

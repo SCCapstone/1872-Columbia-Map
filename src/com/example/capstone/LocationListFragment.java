@@ -46,7 +46,7 @@ public class LocationListFragment extends ListFragment {
 			TextView titleTextView = (TextView)convertView.findViewById(R.id.location_list_item_titleTextView);
 			titleTextView.setText(c.getTitle());
 			TextView dateTextView = (TextView)convertView.findViewById(R.id.location_list_item_dateTextView);
-			dateTextView.setText(c.getDate().toString());
+			dateTextView.setText(c.getDescription());
 			CheckBox solvedCheckBox = (CheckBox)convertView.findViewById(R.id.location_list_item_solvedCheckBox);
 			solvedCheckBox.setChecked(c.isSolved());
 			return convertView;
