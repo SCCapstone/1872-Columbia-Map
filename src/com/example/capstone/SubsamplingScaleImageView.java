@@ -543,8 +543,8 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
         canvas.drawBitmap(pin, null, pinRectWWH, null);
         
         //write - touch sends x coord and y coord to file
-        WritetoFile("6000");
-        WritetoFile("2000");
+        //WritetoFile("6000");
+        //WritetoFile("2000");
         
         int x = 0;
         int y = 0;
