@@ -4,7 +4,7 @@
  * 
  * Open-source sub-sampling algorithm obtained from David Morrissey at 
  * https://github.com/davemorrissey/subsampling-scale-image-view
- * and was further modified for the project.
+ * and was greatly modified for the project.
  * 
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -57,7 +57,9 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.Gallery.LayoutParams;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 import android.widget.Toast;
 //import android.os.Handler;
 //import com.capstone.historiccolumbiamap.R;
@@ -388,7 +390,10 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
 			createPopup(R.layout.popup_layout1);        			
 			
 		else if (pointCheck(getpoint.x, getpoint.y, WWFH_loc, highprecision))						
-			createPopup(R.layout.popup_layout3);				 
+			createPopup(R.layout.popup_layout3);
+		//else
+			//createPopup(R.layout.popup_layout);
+		
 		
 		}
         return super.onTouchEvent(event);
@@ -545,6 +550,8 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
         //write - touch sends x coord and y coord to file
         //WritetoFile("6000");
         //WritetoFile("2000");
+       // WritetoFile("This is the title");
+       // WritetoFile("This is the description");
         
         int x = 0;
         int y = 0;
@@ -1059,8 +1066,33 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
 	
 		// Get a reference to Close button, and close the pop-up when clicked.    
 		Button close = (Button) layout.findViewById(R.id.close);
-		//TextView title = (TextView)layout.findViewById(R.id.textView1);
-		//title.setText(m.get(location).getTitle());				
+		
+/*		
+		//Display title/description in popup
+		String titletext = "TITLE HERE";
+		String descrtext = "DESCRIPTION HERE";
+		TextView title = (TextView)layout.findViewById(R.id.title);
+		title.setText(titletext);
+		TextView description = (TextView)layout.findViewById(R.id.description);
+		description.setText(descrtext);
+		
+		//needs to reference popup layout
+		ImageView image = (ImageView)layout.findViewById(R.id.image);
+		//ImageView image = new ImageView(context);
+		//image.setImageDrawable(getResources().getDrawable(R.drawable.mappin));
+		
+		image.setImageResource(R.drawable.mappin);
+
+		
+		//Bitmap bImage = BitmapFactory.decodeResource(this.getResources(), R.drawable.ic_launcher);
+		//image.setImageBitmap(bImage);
+		
+		//Bitmap myBitmap = BitmapFactory.decodeFile("/sdcard/Images/test_image.jpg");
+		//Bitmap Bimage =BitmapFactory.decodeResource(getResources(), R.drawable.mappin);
+		//image.setImageBitmap(Bimage);
+		 
+		//title.setText(m.get(location).getTitle());	
+		*/
 		
 		close.setOnClickListener(new OnClickListener() 
 		{
@@ -1083,10 +1115,11 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
 			 OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput(FILENAME, Context.MODE_APPEND));
 			 //outputStreamWriter.write("Location Test");
 			 while (st.hasMoreElements()) {
-				 outputStreamWriter.write(st.nextElement().toString()+ "\n");
+				 outputStreamWriter.write(st.nextElement().toString());
 			 }
+			 outputStreamWriter.write("\n");
 			
-			 Toast.makeText(context.getApplicationContext(), "writing: " + output, Toast.LENGTH_LONG).show();
+			 //Toast.makeText(context.getApplicationContext(), "writing: " + output, Toast.LENGTH_LONG).show();
 			 outputStreamWriter.close();
 		 }
 		 catch (IOException e) {
@@ -1107,7 +1140,7 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
      {
     	 String input = "";
              	if(scanner.hasNext()) {
-             		input = scanner.next();
+             		input = scanner.nextLine();
              		scanner.next();
              		
                  	//Toast.makeText(context.getApplicationContext(), "Reading: " + input, Toast.LENGTH_LONG).show();
@@ -1117,5 +1150,6 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
      	
 		return input;
      }
+     
 	
 }//end class
