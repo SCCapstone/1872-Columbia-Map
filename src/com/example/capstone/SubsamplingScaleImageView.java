@@ -46,6 +46,7 @@ import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -61,6 +62,7 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
 //import android.os.Handler;
 //import com.capstone.historiccolumbiamap.R;
 
@@ -1067,8 +1069,8 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
 		// Get a reference to Close button, and close the pop-up when clicked.    
 		Button close = (Button) layout.findViewById(R.id.close);
 		
-/*		
-		//Display title/description in popup
+		
+		/*//Display title/description in popup
 		String titletext = "TITLE HERE";
 		String descrtext = "DESCRIPTION HERE";
 		TextView title = (TextView)layout.findViewById(R.id.title);
@@ -1081,8 +1083,13 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
 		//ImageView image = new ImageView(context);
 		//image.setImageDrawable(getResources().getDrawable(R.drawable.mappin));
 		
-		image.setImageResource(R.drawable.mappin);
-
+		image.setImageResource(R.drawable.mappin);*/
+		
+		
+		//VideoView video = (VideoView)layout.findViewById(R.id.video);
+		//String fileName = "android.resource://" + getPackageName() + "/" + R.raw.my_video;
+		//video.setVideoURI(Uri.parse(fileName));
+		//video.start();
 		
 		//Bitmap bImage = BitmapFactory.decodeResource(this.getResources(), R.drawable.ic_launcher);
 		//image.setImageBitmap(bImage);
@@ -1092,7 +1099,7 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
 		//image.setImageBitmap(Bimage);
 		 
 		//title.setText(m.get(location).getTitle());	
-		*/
+		
 		
 		close.setOnClickListener(new OnClickListener() 
 		{
