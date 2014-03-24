@@ -10,14 +10,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
-public class AdminActivity extends /*SingleFragmentActivity*/ Activity {
+public class AdminActivity extends Activity {
     
-	/*
-    @Override
-    protected Fragment createFragment() {
-    	return new LocationFragment();
-    }
-	*/
 	private static final String STATE_SCALE = "state-scale";
     private static final String STATE_CENTER_X = "state-center-x";
     private static final String STATE_CENTER_Y = "state-center-y";
