@@ -59,6 +59,8 @@ import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.Gallery.LayoutParams;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.MediaController;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -393,8 +395,8 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
 			
 		else if (pointCheck(getpoint.x, getpoint.y, WWFH_loc, highprecision))						
 			createPopup(R.layout.popup_layout3);
-		//else
-			//createPopup(R.layout.popup_layout);
+		else
+			createPopup(R.layout.popup_layout);
 		
 		
 		}
@@ -1070,7 +1072,7 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
 		Button close = (Button) layout.findViewById(R.id.close);
 		
 		
-		/*//Display title/description in popup
+		//Display title/description in popup
 		String titletext = "TITLE HERE";
 		String descrtext = "DESCRIPTION HERE";
 		TextView title = (TextView)layout.findViewById(R.id.title);
@@ -1082,14 +1084,32 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
 		ImageView image = (ImageView)layout.findViewById(R.id.image);
 		//ImageView image = new ImageView(context);
 		//image.setImageDrawable(getResources().getDrawable(R.drawable.mappin));
+		image.setImageResource(R.drawable.historic_usc);
+
+		ImageView image2 = (ImageView)layout.findViewById(R.id.image2);
+		image2.setImageResource(R.drawable.zion_church);
 		
-		image.setImageResource(R.drawable.mappin);*/
+		VideoView video = (VideoView)layout.findViewById(R.id.video);
 		
-		
-		//VideoView video = (VideoView)layout.findViewById(R.id.video);
-		//String fileName = "android.resource://" + getPackageName() + "/" + R.raw.my_video;
+		//video.setId(R.drawable.anim_page_transformer_zoomout);
+		//video.setVideoPath(R.drawable.anim_page_transformer_zoomout);
+
+		//String fileName = "android.resource://" + getPackageName() + "/" + R.drawable.anim_page_transformer_zoomout;
 		//video.setVideoURI(Uri.parse(fileName));
 		//video.start();
+		  //VideoView video = new VideoView(context);
+	      
+	      String uri = "android.resource://" + context.getPackageName() + "/" + R.raw.anim_page_transformer_zoomout;
+	      video.setVideoURI(Uri.parse(uri));
+	      
+	      MediaController ctlr=new MediaController(context);
+	      ctlr.setMediaPlayer(video);
+	      video.setMediaController(ctlr);
+	      video.requestFocus();
+	      
+	      //LinearLayout linearLayout = (LinearLayout)findViewById(R.id.layout);
+	      //linearLayout.addView(video, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+
 		
 		//Bitmap bImage = BitmapFactory.decodeResource(this.getResources(), R.drawable.ic_launcher);
 		//image.setImageBitmap(bImage);

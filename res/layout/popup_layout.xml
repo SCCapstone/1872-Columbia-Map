@@ -17,28 +17,39 @@
        android:textStyle="bold" />
     
 	 <HorizontalScrollView
+	   android:id="@+id/horiz"
 	   android:layout_width="wrap_content"
 	   android:layout_height="wrap_content"
 	   android:layout_marginTop="10dp" 
 	   android:layout_gravity="center_horizontal">
 	   
-	     <LinearLayout	            
+	     <LinearLayout	
+	         android:id="@+id/layout"
 	         android:layout_width="wrap_content"
 	         android:layout_height="wrap_content"
-	         android:orientation="horizontal" 
-	         android:layout_gravity="center_horizontal"> 
+	         android:orientation="horizontal" > 
 	           
-     		<ImageView
+     		 <ImageView
        			android:id="@+id/image"
        			android:layout_width="wrap_content"
       			android:layout_height="wrap_content"
-       			android:layout_gravity="center_horizontal"/> 
+      			android:layout_marginLeft="10dp"
+      			android:layout_marginRight="10dp"/> 
        			
-     		<!-- <VideoView 
+     		<ImageView
+       			android:id="@+id/image2"
+       			android:layout_width="wrap_content"
+      			android:layout_height="wrap_content"
+      			android:layout_marginLeft="10dp"
+      			android:layout_marginRight="10dp"/> 
+ 
+       			
+     		<VideoView 
      		    android:id="@+id/video"
-     		    android:layout_height="wrap_content"
-	        	android:layout_width="wrap_content"
-	        	android:layout_gravity="center_horizontal"/> -->
+     		    android:layout_height="480dp"
+	        	android:layout_width="640dp"
+	        	android:layout_marginLeft="10dp"
+      			android:layout_marginRight="10dp"/>
     
       	</LinearLayout>
 	 </HorizontalScrollView>
