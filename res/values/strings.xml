@@ -56,8 +56,9 @@
     <string name="send">Send</string>
     <string name="title_activity_email_backup">EmailBackup</string>
     <string name="message">Message</string>
-    <string name="attach_file">Attach default layout file</string>
-    <string name="delete_file">Delete default layout file</string>
+    <string name="attach_file">Attach layout file</string>
+    <string name="delete_file">Delete layout file</string>
+    <string name="load_image">Load Image</string>
     
     <!-- Location -->
     <string name="editlocation">Editing Location</string>

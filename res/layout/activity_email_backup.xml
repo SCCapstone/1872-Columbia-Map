@@ -68,7 +68,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/attach_file" />
- 
+    
+    <Button
+        android:id="@+id/LoadImage"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/load_image"
+        />
+     
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+    
     <Button
         android:id="@+id/Send"
         android:layout_width="fill_parent"

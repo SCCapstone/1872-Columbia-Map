@@ -11,15 +11,22 @@ import java.util.StringTokenizer;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 /**
@@ -50,6 +57,7 @@ public class EmailBackup extends Activity
 	private static String SEND_EMAIL = "SEND EMAIL";
 	
 	Mail m = new Mail("capstone1872@gmail.com", "woodrowwilson");
+	private static int RESULT_LOAD_IMAGE = 1;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
@@ -83,6 +91,9 @@ public class EmailBackup extends Activity
 	    Typeface TradeGothic = Typeface.createFromAsset(getAssets(),"TradeGothic.ttf");
 		sendEmail.setTypeface(TradeGothic);
 		
+		final Button loadImage = (Button) findViewById(R.id.LoadImage);
+		loadImage.setTypeface(TradeGothic);
+		
 		emailEdit = (EditText) findViewById(R.id.emailedit);	
 		textSubject = (EditText) findViewById(R.id.editTextSubject);
 		textMessage = (EditText) findViewById(R.id.editTextMessage);
@@ -102,6 +113,7 @@ public class EmailBackup extends Activity
 				//Delete the previous version of the file if it exists by overwriting
 				//it with a blank file
 		        File file = new File("/data/data/com.example.capstone/files/DataFile.txt.");
+		        
 				if(file.exists() == true)
 				{
 				   file.delete();
@@ -114,6 +126,7 @@ public class EmailBackup extends Activity
 			}
 	 
 		  }
+		  
 		});
 		
 		
@@ -135,9 +148,7 @@ public class EmailBackup extends Activity
 	 
 		  }
 		});
-		
-		
-		
+			
 		//Begin asyncTask to send email
 		sendEmail.setOnClickListener(new View.OnClickListener() 
 		{
@@ -148,6 +159,18 @@ public class EmailBackup extends Activity
 			    emailTask.execute();
 			}
 		});
+		
+		//Begin another syncTask to browse and attach an image file
+		loadImage.setOnClickListener(new View.OnClickListener() 
+		{
+			@Override
+			public void onClick(View v) 
+			{
+			    LoadImageAsync loadImageTask = new LoadImageAsync();
+			    loadImageTask.execute();
+			}
+		});
+		
 	}
 
 	 /**
@@ -181,7 +204,7 @@ public class EmailBackup extends Activity
 	/**
 	 * 
 	 */
-	private void readFile() {
+	 private void readFile() {
 		//read from file on the path /data/data/com.example.capstone/files/somefile.txt
 		try 
 		{
@@ -255,6 +278,67 @@ public class EmailBackup extends Activity
 		    	return null;
 		    }
 	 }
+	 
+	 private class LoadImageAsync extends AsyncTask<Void, Void, Void> 
+	 {
+		    @Override
+		    protected Void doInBackground(Void...params) 
+		    {
+		    	 Intent load = new Intent(
+		                    Intent.ACTION_PICK,
+		                    android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+		            startActivityForResult(load, RESULT_LOAD_IMAGE);
+		    	
+		    
+		        try 
+		        {			  
+					  EmailBackup.this.runOnUiThread(new Runnable()
+						{
+							  @Override
+							  public void run() 
+							  {
+							      Toast.makeText(EmailBackup.this, "Loading image", Toast.LENGTH_SHORT).show();
+							  }
+					     });
+		
+				} 
+		        catch (Exception e) 
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}       
+		    	
+		    	return null;
+		    }
+	 }
+	 
+	 @Override
+	 protected void onActivityResult(int requestCode, int resultCode, Intent data) 
+	 {
+	     super.onActivityResult(requestCode, resultCode, data);
+
+	     if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) 
+	     {
+	         Uri selectedImage = data.getData();
+	         String[] filePathColumn = {MediaStore.Images.Media.DATA};
+
+	         Cursor cursor = getContentResolver().query(selectedImage,
+	                 filePathColumn, null, null, null);
+	         
+	         cursor.moveToFirst();
+
+	         int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+	         String picturePath = cursor.getString(columnIndex);
+	         cursor.close();
+
+	         //ImageView imageView = (ImageView) findViewById(R.id.imageView1);
+	         //imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+	         Bitmap loadedImage = BitmapFactory.decodeFile(picturePath);
+	         
+	     }
+	     }
+	 
 	 
      public static void writeFile(String output) 
 	 {

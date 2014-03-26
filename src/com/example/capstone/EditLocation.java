@@ -30,11 +30,15 @@ import android.widget.Toast;
 public class EditLocation extends Activity {
 	
 	//test
-	private static final String FILENAME = "DataFile.txt";
+	private static  String FILENAME = "DataFile.txt";
 	private static final String TAG = EditLocation.class.getSimpleName();
 	private Context context;
 	private String finaloutput,title,description;
-	
+		
+	public EditLocation()
+	{
+		
+	}
 	
 	public EditLocation(Context context) 
 	{
@@ -55,6 +59,16 @@ public class EditLocation extends Activity {
 		Typeface TradeGothic18 = Typeface.createFromAsset(getAssets(),"TradeG18.ttf");
 		EditScreenTitle.setTypeface(TradeGothic18);
 		DoneEditing.setTypeface(TradeGothic);
+
+		context = getApplicationContext(); 
+        FILENAME = SubsamplingScaleImageView.getFilename();
+     
+		if (FILENAME == null)
+		{
+			//if no file has been written in SubsamplingScaleImageView
+			//then create a dummy file
+		    FILENAME = "DataFile.txt";
+		}
 											
 	}
 
@@ -90,7 +104,9 @@ public class EditLocation extends Activity {
 		 StringTokenizer st = new StringTokenizer(output);
 
 		 try {
+			 
 			 OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput(FILENAME, Context.MODE_APPEND));
+			 
 			 //outputStreamWriter.write("Location Test");
 			 while (st.hasMoreElements()) {
 				 outputStreamWriter.write(st.nextElement().toString()+ "\n");
