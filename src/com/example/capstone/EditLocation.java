@@ -29,11 +29,16 @@ import android.widget.Toast;
 
 public class EditLocation extends Activity {
 	
-	private static String FILENAME = "DataFile.txt";
+	//test
+	private static final String FILENAME = "DataFile.txt";
 	private static String TAG = "Location DATA";
-
 	private Context context;
-	private String finaloutput,title,description;
+	private String finaloutput,title,description,xLocation,yLocation;
+	
+	public EditLocation()
+	{
+		
+	}
 	
 	public EditLocation(Context context) 
 	{
@@ -54,18 +59,14 @@ public class EditLocation extends Activity {
 		Typeface TradeGothic18 = Typeface.createFromAsset(getAssets(),"TradeG18.ttf");
 		EditScreenTitle.setTypeface(TradeGothic18);
 		DoneEditing.setTypeface(TradeGothic);
-
-		context = getApplicationContext(); 
-        FILENAME = SubsamplingScaleImageView.getFilename();
-     
-		if (FILENAME == null)
-		{
-			//if no file has been written in SubsamplingScaleImageView
-			//then create a dummy file
-		    FILENAME = "DataFile.txt";
-		}
 											
 		context = getApplicationContext();
+		
+		Intent i1 = getIntent();
+		Double xLoc = i1.getDoubleExtra("xLocation", 0.0);
+		Double yLoc = i1.getDoubleExtra("yLocation", 0.0);
+		xLocation = new Double(xLoc).toString();
+		yLocation= new Double(yLoc).toString();
 	}
 
 	@Override
@@ -83,7 +84,7 @@ public class EditLocation extends Activity {
 		title=titleedit.getText().toString();
 		EditText descriptionedit = (EditText) findViewById(R.id.descriptionedit);
 		description=descriptionedit.getText().toString();
-		finaloutput=title+description;
+		finaloutput=xLocation+yLocation+title+description;
 		WritetoFile(finaloutput);
 		Toast.makeText(context.getApplicationContext(), "Location Saved", Toast.LENGTH_LONG).show();
 	}
@@ -100,9 +101,7 @@ public class EditLocation extends Activity {
 		 StringTokenizer st = new StringTokenizer(output);
 
 		 try {
-			 
 			 OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput(FILENAME, Context.MODE_APPEND));
-			 
 			 //outputStreamWriter.write("Location Test");
 			 while (st.hasMoreElements()) {
 				 outputStreamWriter.write(st.nextElement().toString()+ "\n");

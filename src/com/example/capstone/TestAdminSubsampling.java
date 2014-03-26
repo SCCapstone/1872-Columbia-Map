@@ -364,6 +364,8 @@ public class TestAdminSubsampling extends View implements OnTouchListener {
     		return true;
 		
 		PointF getpoint = viewToSourceCoord(event.getX(), event.getY());
+		final double xLoc = getpoint.x;
+		final double yLoc = getpoint.y;
 		//getpoint now contains x and y in image's coordinate system.		
 		//pointCheck(int X_touched, int Y_touched, int locs[], int precision)
 		if(isZooming == false){
@@ -372,6 +374,8 @@ public class TestAdminSubsampling extends View implements OnTouchListener {
 				public boolean onLongClick(View v){
 					popupon=true;
 					Intent i1 = new Intent (context, EditLocation.class);
+					i1.putExtra("xLocation", xLoc);
+					i1.putExtra("yLocation", yLoc);
 			        context.startActivity(i1);
 			        return true;
 				}
