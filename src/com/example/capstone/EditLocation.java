@@ -29,16 +29,11 @@ import android.widget.Toast;
 
 public class EditLocation extends Activity {
 	
-	//test
-	private static  String FILENAME = "DataFile.txt";
-	private static final String TAG = EditLocation.class.getSimpleName();
+	private static String FILENAME = "DataFile.txt";
+	private static String TAG = "Location DATA";
+
 	private Context context;
 	private String finaloutput,title,description;
-		
-	public EditLocation()
-	{
-		
-	}
 	
 	public EditLocation(Context context) 
 	{
@@ -70,6 +65,7 @@ public class EditLocation extends Activity {
 		    FILENAME = "DataFile.txt";
 		}
 											
+		context = getApplicationContext();
 	}
 
 	@Override
