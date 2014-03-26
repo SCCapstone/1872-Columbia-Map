@@ -31,10 +31,14 @@ public class EditLocation extends Activity {
 	
 	//test
 	private static final String FILENAME = "DataFile.txt";
-	private static final String TAG = EditLocation.class.getSimpleName();
+	private static String TAG = "Location DATA";
 	private Context context;
 	private String finaloutput,title,description;
 	
+	public EditLocation()
+	{
+		
+	}
 	
 	public EditLocation(Context context) 
 	{
@@ -56,6 +60,7 @@ public class EditLocation extends Activity {
 		EditScreenTitle.setTypeface(TradeGothic18);
 		DoneEditing.setTypeface(TradeGothic);
 											
+		context = getApplicationContext();
 	}
 
 	@Override
