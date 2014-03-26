@@ -29,6 +29,7 @@ import android.widget.Toast;
 
 public class EditLocation extends Activity {
 	
+	//test
 	private static final String FILENAME = "DataFile.txt";
 	private static final String TAG = EditLocation.class.getSimpleName();
 	private Context context;

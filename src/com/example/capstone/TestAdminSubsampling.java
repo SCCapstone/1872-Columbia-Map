@@ -334,6 +334,7 @@ public class TestAdminSubsampling extends View implements OnTouchListener {
         return true;
     }
 
+    //test
     @Override
     public boolean onTouch(View v, MotionEvent event) 
     {   
