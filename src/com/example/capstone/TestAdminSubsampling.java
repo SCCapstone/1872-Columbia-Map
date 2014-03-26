@@ -366,25 +366,25 @@ public class TestAdminSubsampling extends View implements OnTouchListener {
 		//getpoint now contains x and y in image's coordinate system.		
 		//pointCheck(int X_touched, int Y_touched, int locs[], int precision)
 		if(isZooming == false){
-		/*
-		if (pointCheck(getpoint.x, getpoint.y, USC_loc, highprecision))			
-			createPopup(R.layout.popup_layout2);							
-		
-		else if (pointCheck(getpoint.x, getpoint.y, Church_loc, highprecision))			
-			createPopup(R.layout.popup_layout4);						 
-			
-		else if (pointCheck(getpoint.x, getpoint.y, Statehouse_loc, highprecision))
-			createPopup(R.layout.popup_layout1);        			
-			
-		else if (pointCheck(getpoint.x, getpoint.y, WWFH_loc, highprecision))						
-			createPopup(R.layout.popup_layout3);				 
-		*/
-			Intent i1 = new Intent (context, EditLocation.class);
-	        context.startActivity(i1);
+			setOnLongClickListener(new OnLongClickListener(){
+				@Override
+				public boolean onLongClick(View v){
+					popupon=true;
+					Intent i1 = new Intent (context, EditLocation.class);
+			        context.startActivity(i1);
+			        return true;
+				}
+			});
 		}
         return super.onTouchEvent(event);
     }
-
+    /*
+    public boolean onDoubleTap(View v, MotionEvent event)
+    {
+    	editLocation();
+    	return super.onTouchEvent(event);
+    }
+	*/
     /**
      * Draw method should not be called until the view has dimensions so the first calls are used as triggers to calculate
      * the scaling and tiling required. Once the view is setup, tiles are displayed as they are loaded.
@@ -1038,6 +1038,7 @@ public class TestAdminSubsampling extends View implements OnTouchListener {
 			}								
 		});			
 	}
+	
 	
 	
 }//end class

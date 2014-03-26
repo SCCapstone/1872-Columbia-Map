@@ -29,16 +29,17 @@ import android.widget.Toast;
 
 public class EditLocation extends Activity {
 	
-	//private static final String FILENAME = null;
-	//private static final String TAG = null;
-	//private Context context;
+	private static final String FILENAME = "DataFile.txt";
+	private static final String TAG = EditLocation.class.getSimpleName();
+	private Context context;
 	private String finaloutput,title,description;
 	
-	/*
-	public EditLocation(Context context) {
+	
+	public EditLocation(Context context) 
+	{
         this.context = context;
     }
-    */
+    
 	
 	@Override	
 	protected void onCreate(Bundle savedInstanceState) 
@@ -64,30 +65,19 @@ public class EditLocation extends Activity {
 			return true;
 	}
 	
-	//called when user clicks on Login
-	public void DoneEditing(View view) {
+	//called when user clicks on Done Editing button
+	public void DoneEditing(View view) 
+	{
 		EditText titleedit = (EditText) findViewById(R.id.titleedit);
 		title=titleedit.getText().toString();
 		EditText descriptionedit = (EditText) findViewById(R.id.descriptionedit);
 		description=descriptionedit.getText().toString();
 		finaloutput=title+description;
-		Context context = getApplicationContext(); 
-		CharSequence text = "Location Saved"; 
-		int duration = Toast.LENGTH_SHORT; 
-		Toast toast = Toast.makeText(context, text, duration); 
-		toast.show();
-		//WritetoFile(finaloutput);
-		/*
-		 * if(admin_username.equals(username) &&
-		 * admin_password.equals(password)){ Intent intent = new Intent(this,
-		 * AdminActivity.class); startActivity(intent); } else { Context context
-		 * = getApplicationContext(); CharSequence text =
-		 * "Incorrect Credentials"; int duration = Toast.LENGTH_SHORT; Toast
-		 * toast = Toast.makeText(context, text, duration); toast.show(); }
-		 */
+		WritetoFile(finaloutput);
+		Toast.makeText(context.getApplicationContext(), "Location Saved", Toast.LENGTH_LONG).show();
 	}
 	
-	/*
+	
 	public static String getFilename() 
 	{
 		return FILENAME;
@@ -121,5 +111,5 @@ public class EditLocation extends Activity {
 		 //	System.out.println(st2.nextElement());
 		 //}
 	 }
-	 */
+	 
 }
