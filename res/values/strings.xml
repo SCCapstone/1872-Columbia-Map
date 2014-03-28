@@ -44,6 +44,10 @@
     <!-- Penitentiary Strings -->
     <string name="col_pen">Columbia Penitentiary</string>
     <string name="pen_desc">The cell blocks of the Columbia Penitentiary circa 1872.</string>
+    
+    <!-- Theological Seminary Strings -->
+    <string name="theol_sem">Columbia Theological Seminary</string>
+    <string name="theol_desc">Columbia became the first permanent home of the Columbia Theological Seminary in 1830 and moved to rural Atlanta in the 1920\'s.  The seminary is associated with the Presbyterian Church.</string>
 
     <!-- Close button string -->
     <string name="close_button">Close</string>
