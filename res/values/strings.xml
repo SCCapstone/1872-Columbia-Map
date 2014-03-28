@@ -49,6 +49,10 @@
     <string name="theol_sem">Columbia Theological Seminary</string>
     <string name="theol_desc">Columbia became the first permanent home of the Columbia Theological Seminary in 1830 and moved to rural Atlanta in the 1920\'s.  The seminary is associated with the Presbyterian Church.</string>
 
+    <!-- Female Lunatic Asylum Strings -->
+    <string name="lun_asyl">Female Lunatic Asylum</string>
+    <string name="asyl_desc">The Columbia female lunatic asylum.</string>
+    
     <!-- Close button string -->
     <string name="close_button">Close</string>
     <string name="create_login">Create Administrator Login</string>
