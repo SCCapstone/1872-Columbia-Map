@@ -40,6 +40,10 @@
     <!-- Zion Baptist Church Strings -->
     <string name="zion_baptist">Zion Baptist Church</string>
     <string name="zion_desc">The Zion Baptist Church of Columbia was founded in 1865 by a group of people led by Reverend Frank Dobbins.</string>
+    
+    <!-- Penitentiary Strings -->
+    <string name="col_pen">Columbia Penitentiary</string>
+    <string name="pen_desc">The cell blocks of the Columbia Penitentiary circa 1872.</string>
 
     <!-- Close button string -->
     <string name="close_button">Close</string>

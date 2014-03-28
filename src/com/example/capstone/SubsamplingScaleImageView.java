@@ -99,6 +99,10 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
 	public int[] Statehouse_loc = {5030, 3856};
 	public int[] Church_loc = {5508, 3264};
 	public int[] WWFH_loc = {6230, 2605};	
+	public int[] Penitentiary_loc = {700,3800};
+	// need to figure out location based off of map and resolution
+	// using temp values of {0,0} for the now
+	public int[] Courthouse_loc = {0,0};
 	public int lowprecision = 200; //for big buildings
 	public int highprecision = 120; //for small buildings
 	public final int popupWidth = 700;    
@@ -395,6 +399,10 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
 			
 		else if (pointCheck(getpoint.x, getpoint.y, WWFH_loc, highprecision))						
 			createPopup(R.layout.popup_layout3);
+		//else if (pointCheck(getpoint.x, getpoint.y, Courthouse_loc, highprecision))
+		//	createPopup(R.layout.popup_layout5);
+		else if (pointCheck(getpoint.x, getpoint.y, Penitentiary_loc, lowprecision))
+			createPopup(R.layout.popup_layout6);
 		else
 			createPopup(R.layout.popup_layout);
 		
@@ -550,6 +558,19 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
         getpoint = sourceToViewCoord(6230, 2605);
         Rect pinRectWWH = new Rect((int) getpoint.x-15,(int) getpoint.y-15,(int) getpoint.x+10,(int) getpoint.y+10);
         canvas.drawBitmap(pin, null, pinRectWWH, null);
+        
+        
+        /*
+        // draw rectangle pin for courthouse
+        getpoint = sourceToViewCoord(0,0);
+        Rect pinRectCourthouse = new Rect((int) getpoint.x-15,(int) getpoint.y-15, (int) getpoint.x+10, (int) getpoint.y+10);
+        canvas.drawBitmap(pin, null, pinRectCourthouse, null);
+        
+        */
+        
+        getpoint = sourceToViewCoord(700,3800);
+        Rect pinRectPenitentiary = new Rect((int) getpoint.x-25,(int) getpoint.y-25, (int) getpoint.x+20,(int) getpoint.y+20);
+        canvas.drawBitmap(pin, null, pinRectPenitentiary, null);
         
         //write - touch sends x coord and y coord to file
         //WritetoFile("6000");
