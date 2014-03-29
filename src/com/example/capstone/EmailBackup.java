@@ -128,8 +128,7 @@ public class EmailBackup extends Activity
 		  }
 		  
 		});
-		
-		
+				
 		//Checkbox asking user if he/she wants to attach the default layout file (which
 		//is just DataFile.txt for now)
 		checkAttachment = (CheckBox) findViewById(R.id.checkAttachment);
@@ -331,15 +330,22 @@ public class EmailBackup extends Activity
 	         int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
 	         String picturePath = cursor.getString(columnIndex);
 	         cursor.close();
-
-	         //ImageView imageView = (ImageView) findViewById(R.id.imageView1);
+	         
 	         //imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
 	         Bitmap loadedImage = BitmapFactory.decodeFile(picturePath);
+	         ImageView imageView = (ImageView) findViewById(R.id.imageView1);
 	         
+	         if(loadedImage != null)
+	         {
+	        	 imageView.setImageBitmap(loadedImage);	 
+	        	 Toast.makeText(EmailBackup.this, "Image loaded", Toast.LENGTH_SHORT).show();
+	         }
+	         
+	         Toast.makeText(EmailBackup.this, "Image not loaded", Toast.LENGTH_SHORT).show();
 	     }
-	     }
-	 
-	 
+	     
+}
+	 	 
      public static void writeFile(String output) 
 	 {
 		 //String textToSaveString = "Testing Token Method";
@@ -364,6 +370,10 @@ public class EmailBackup extends Activity
 			 Log.e(SEND_EMAIL, "Failed to write file: " + e.toString());
 		 }
 	 }
-	 
-	
+	 	
 }
+
+
+
+
+
