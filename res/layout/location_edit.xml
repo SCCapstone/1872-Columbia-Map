@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="horizontal"
-    android:screenOrientation="landscape"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
     android:background="@color/black"
     tools:context=".MainMenu" >
 
@@ -55,7 +54,7 @@
 
     <EditText
         android:id="@+id/descriptionedit"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/titleedit"
         android:layout_below="@+id/locationtitle"
@@ -68,18 +67,23 @@
         android:scrollbars="vertical"
         android:textSize="24sp"
         android:textStyle="bold" >
-
         <requestFocus />
     </EditText>
+    
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_below="@+id/descriptionedit"
+        android:layout_alignLeft="@+id/descriptionedit"
+        android:layout_marginLeft="85dp"
+        />
 
     <Button
         android:id="@+id/LoadImage"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/locationtitle"
-        android:layout_below="@+id/descriptionedit"
-        android:layout_marginTop="31dp"
-        android:layout_toLeftOf="@+id/DoneEditing"
+        android:layout_below="@+id/imageView1"
         android:text="@string/load_image" />
 
     <Button
@@ -94,13 +98,5 @@
         android:text="@string/finished_editing_button"
         android:textSize="28sp" />
 
-    <ImageView
-        android:id="@+id/imageView1"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_alignLeft="@+id/descriptionedit"
-        android:layout_below="@+id/LoadImage"
-        android:layout_marginLeft="85dp"
-        android:layout_marginTop="74dp" />
    
 </RelativeLayout>

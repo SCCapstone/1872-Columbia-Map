@@ -8,6 +8,15 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
+    
+    <ScrollView
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    
+    <LinearLayout 
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
       
     <TextView
         android:id="@+id/email_to"
@@ -56,18 +65,24 @@
         android:inputType="textMultiLine"
         android:lines="5" 
         android:textSize="24sp"/>
-    
-    <CheckBox
-        android:id="@+id/deleteLayoutFile"
+   
+   <ImageView
+        android:id="@+id/imageView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/delete_file" />
-        
+        />
+       
     <CheckBox
         android:id="@+id/checkAttachment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/attach_file" />
+    
+    <CheckBox
+        android:id="@+id/attachImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/attach_image" />
     
     <Button
         android:id="@+id/LoadImage"
@@ -76,17 +91,12 @@
         android:text="@string/load_image"
         />
      
-    <ImageView
-        android:id="@+id/imageView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        />
-    
     <Button
         android:id="@+id/Send"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/send" 
         />
-  
+</LinearLayout>
+</ScrollView>
 </LinearLayout>

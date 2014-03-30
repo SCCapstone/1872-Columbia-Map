@@ -172,8 +172,10 @@ public class EditLocation extends Activity {
 	        	 imageView.setImageBitmap(loadedImage);	 
 	        	 Toast.makeText(EditLocation.this, "Image loaded", Toast.LENGTH_SHORT).show();
 	         }
-	         
-	         Toast.makeText(EditLocation.this, "Image not loaded", Toast.LENGTH_SHORT).show();
+	         else if (loadedImage == null)
+	         {
+	        	 Toast.makeText(EditLocation.this, "Image not loaded", Toast.LENGTH_SHORT).show();
+	         }
 	     }
 	     
 	 }
@@ -217,7 +219,7 @@ public class EditLocation extends Activity {
 				 outputStreamWriter.write(st.nextElement().toString()+ "\n");
 			 }
 			
-			 Toast.makeText(context.getApplicationContext(), "writing: " + output, Toast.LENGTH_LONG).show();
+			 //Toast.makeText(context.getApplicationContext(), "writing: " + output, Toast.LENGTH_LONG).show();
 			 outputStreamWriter.close();
 			 Toast.makeText(context.getApplicationContext(), "Location Saved", Toast.LENGTH_LONG).show();
 		 }

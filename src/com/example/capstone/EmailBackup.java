@@ -1,11 +1,14 @@
 package com.example.capstone;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
@@ -19,7 +22,9 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
+import android.provider.MediaStore.Images;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -31,31 +36,28 @@ import android.widget.Toast;
 
 /**
  * @author Olga Agafonova
- * March 2, 2014
+ * Last edited on March 29, 2014
  * 
  * This class enables the user to send a message with or without an attachment. 
- * Right now, the attached file is written and read in this class. In the future,
- * it should be able to retrieve the file using the read and write methods in SubsamplingScaleImageView
- * (even if SubsamplingScaleImageView was not accessed first).
  */
 
 public class EmailBackup extends Activity 
 {
-
 	private String email = "";
 	private String subject = "";
 	private String body = "";
+	private static File layoutFile;
 	private static String fileName = "";
-	
+	private static String imageFileDir = "";
 	private EditText emailEdit;
 	private EditText textSubject;
 	private EditText textMessage;
 	private static Context context;
 	private CheckBox checkAttachment;
-	private CheckBox deleteLayoutFile;
-	private FileInputStream inputStream; 
+	private CheckBox attachImage;
 	private static String SEND_EMAIL = "SEND EMAIL";
-	
+	private Bitmap loadImage;
+		
 	Mail m = new Mail("capstone1872@gmail.com", "woodrowwilson");
 	private static int RESULT_LOAD_IMAGE = 1;
 	
@@ -65,16 +67,13 @@ public class EmailBackup extends Activity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_email_backup);
 		
-		context = getApplicationContext();		
-		fileName = SubsamplingScaleImageView.getFilename();
+		context = getApplicationContext();
 		
-		if (fileName == null)
-		{
-			//if no file has been written in SubsamplingScaleImageView
-			//then create a dummy file
-		    fileName = "DataFile.txt";
-		}
-
+		fileName = context.getFilesDir().getPath()+"/"+SubsamplingScaleImageView.getFilename();//default image path: /mnt/sdcard/Pictures/
+		
+		imageFileDir = Environment.getExternalStoragePublicDirectory(
+	            Environment.DIRECTORY_PICTURES).toString()+"/";
+				
 		ConnectionDetector cd = new ConnectionDetector(context);
 		boolean isInternetPresent = cd.isConnectingToInternet(); 
 		
@@ -97,57 +96,40 @@ public class EmailBackup extends Activity
 		emailEdit = (EditText) findViewById(R.id.emailedit);	
 		textSubject = (EditText) findViewById(R.id.editTextSubject);
 		textMessage = (EditText) findViewById(R.id.editTextMessage);
-		
-		//Checkbox to delete the default layout file
-		deleteLayoutFile = (CheckBox) findViewById(R.id.deleteLayoutFile);
-		
-		deleteLayoutFile.setOnClickListener(new OnClickListener() 
-		{
-	 
-		  @Override
-		  public void onClick(View v) 
-		  {
-	        //is the box checked?
-			if (((CheckBox) v).isChecked())
-			{
-				//Delete the previous version of the file if it exists by overwriting
-				//it with a blank file
-		        File file = new File("/data/data/com.example.capstone/files/DataFile.txt.");
-		        
-				if(file.exists() == true)
-				{
-				   file.delete();
-				   Toast.makeText(EmailBackup.this, "File deleted", Toast.LENGTH_SHORT).show();
-				}
-				else
-				{
-					Toast.makeText(EmailBackup.this, "File does not exist", Toast.LENGTH_SHORT).show();
-				}
-			}
-	 
-		  }
-		  
-		});
 				
 		//Checkbox asking user if he/she wants to attach the default layout file (which
 		//is just DataFile.txt for now)
 		checkAttachment = (CheckBox) findViewById(R.id.checkAttachment);
-		 
 		checkAttachment.setOnClickListener(new OnClickListener() 
 		{
-	 
 		  @Override
 		  public void onClick(View v) 
 		  {
 	        //is the box checked?
 			if (((CheckBox) v).isChecked())
 			{
-				attachFile();
+				attachFile(fileName);
 			}
 	 
 		  }
 		});
-			
+		
+		attachImage = (CheckBox) findViewById(R.id.attachImage);
+		attachImage.setOnClickListener(new OnClickListener()
+		{
+			  @Override
+			  public void onClick(View v) 
+			  {
+		        //is the box checked?
+				if (((CheckBox) v).isChecked())
+				{
+					fileName = imageFileDir;
+					attachFile(imageFileDir);
+				}
+		 
+			  }
+			});
+				
 		//Begin asyncTask to send email
 		sendEmail.setOnClickListener(new View.OnClickListener() 
 		{
@@ -175,22 +157,13 @@ public class EmailBackup extends Activity
 	 /**
 	  * This method overwrites the existing file and attaches a new one 
 	  */
-	 private void attachFile() 
-	{
-		
-		//Write a test file
-		//The default file name is DataFile.txt
-//		String dummyInput = "1234 \n 5678 \n 8910";
-//		WriteFile(dummyInput);
-
-		readFile();
-    	
-		//Attach a file
+	 private void attachFile(String fileToAttach) 
+	{	    	
 		try 
 		{
-			//path:/data/data/com.example.capstone/files/somefile.txt.
-			m.addAttachment(context.getFilesDir().getPath()+"/"+SubsamplingScaleImageView.getFilename());
-			Toast.makeText(EmailBackup.this, "File attached successfully", Toast.LENGTH_SHORT).show();
+			//default text file path:/data/data/com.example.capstone/files/somefile.txt.
+			m.addAttachment(fileToAttach);
+			Toast.makeText(EmailBackup.this, fileToAttach, Toast.LENGTH_SHORT).show();
 			
 		} 
 		catch (Exception e) 
@@ -200,25 +173,7 @@ public class EmailBackup extends Activity
 		}
 	}
 
-	/**
-	 * 
-	 */
-	 private void readFile() {
-		//read from file on the path /data/data/com.example.capstone/files/somefile.txt
-		try 
-		{
-			inputStream = context.openFileInput(fileName);
-			Toast.makeText(EmailBackup.this, "File read successfully", Toast.LENGTH_SHORT).show();
-			
-		} catch (FileNotFoundException e1) 
-		{
-			Toast.makeText(EmailBackup.this, "File was not read", Toast.LENGTH_SHORT).show();
-			e1.printStackTrace();
-		}
-	}
-	
 	 private class EmailBackupAsync extends AsyncTask<Void, Void, Void> 
-
 	 {
 		    @Override
 		    protected Void doInBackground(Void...params) 
@@ -240,8 +195,7 @@ public class EmailBackup extends Activity
 		        {
 					if(m.send())
 					{ 
-				     
-					  
+				     		  
 					  EmailBackup.this.runOnUiThread(new Runnable()
 						{
 							  @Override
@@ -270,10 +224,9 @@ public class EmailBackup extends Activity
 				} 
 		        catch (Exception e) 
 				{
-					// TODO Auto-generated catch block
+					//TODO Auto-generated catch block
 					e.printStackTrace();
 				}       
-		    	
 		    	return null;
 		    }
 	 }
@@ -287,9 +240,8 @@ public class EmailBackup extends Activity
 		                    Intent.ACTION_PICK,
 		                    android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
-		            startActivityForResult(load, RESULT_LOAD_IMAGE);
+		         startActivityForResult(load, RESULT_LOAD_IMAGE);
 		    	
-		    
 		        try 
 		        {			  
 					  EmailBackup.this.runOnUiThread(new Runnable()
@@ -328,49 +280,60 @@ public class EmailBackup extends Activity
 	         cursor.moveToFirst();
 
 	         int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-	         String picturePath = cursor.getString(columnIndex);
+	         imageFileDir = cursor.getString(columnIndex);
 	         cursor.close();
 	         
-	         //imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
-	         Bitmap loadedImage = BitmapFactory.decodeFile(picturePath);
+             //These lines load the image into an image view window
+	         loadImage = BitmapFactory.decodeFile(imageFileDir);
 	         ImageView imageView = (ImageView) findViewById(R.id.imageView1);
 	         
-	         if(loadedImage != null)
+	         if(loadImage != null)
 	         {
-	        	 imageView.setImageBitmap(loadedImage);	 
-	        	 Toast.makeText(EmailBackup.this, "Image loaded", Toast.LENGTH_SHORT).show();
+	        	 imageView.setImageBitmap(loadImage);	 
 	         }
-	         
-	         Toast.makeText(EmailBackup.this, "Image not loaded", Toast.LENGTH_SHORT).show();
-	     }
-	     
+	         else if(loadImage == null)
+	         {
+	        	 Toast.makeText(EmailBackup.this, "Image not loaded", Toast.LENGTH_SHORT).show();
+	         }
+	     }     
 }
 	 	 
-     public static void writeFile(String output) 
-	 {
-		 //String textToSaveString = "Testing Token Method";
-		 StringTokenizer st = new StringTokenizer(output);
+     /**
+	 * @return the loadImage
+	 */
+	public Bitmap getLoadImage() 
+	{
+		return loadImage;
+	}
 
-		 try {
+	/**
+	 * @param loadImage the loadImage to set
+	 */
+	public void setLoadImage(Bitmap loadImage) 
+	{
+		this.loadImage = loadImage;
+	}
+
+	public static void writeFile() 
+	 {
+ 		 String dummyInput = "0000 \n 1111 \n 2222";
+		 
+ 		 try 
+		 {	 
 			 
-			 //Default location is /data/data/com.example.capstone/files/somefile.txt			 
-			 OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput(fileName, 0));
+				FileWriter fw = new FileWriter(layoutFile.getAbsoluteFile());
+				BufferedWriter bw = new BufferedWriter(fw);
+				bw.write(dummyInput);
+				bw.close();
 			 
-			 while (st.hasMoreElements()) 
-			 {
-				 outputStreamWriter.write(st.nextElement().toString()+ "\n");
-			 }
-			 
-			 //Toast.makeText(context.getApplicationContext(), "Writing: " + output, Toast.LENGTH_LONG).show();
-			 outputStreamWriter.flush();
-			 outputStreamWriter.close();
+			    Toast.makeText(context.getApplicationContext(), "Writing: " + dummyInput, Toast.LENGTH_SHORT).show();
+			
 		 }
 		 catch (IOException e) 
 		 {
 			 Log.e(SEND_EMAIL, "Failed to write file: " + e.toString());
 		 }
 	 }
-	 	
 }
 
 
