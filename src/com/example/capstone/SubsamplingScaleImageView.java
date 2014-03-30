@@ -99,6 +99,9 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
 	public int[] Statehouse_loc = {5030, 3856};
 	public int[] Church_loc = {5508, 3264};
 	public int[] WWFH_loc = {6230, 2605};	
+	public int[] Penitentiary_loc = {700,3800};
+	public int[] Seminary_loc = {5737,2406};
+	public int[] Asylum_loc = {4660,1771};
 	public int lowprecision = 200; //for big buildings
 	public int highprecision = 120; //for small buildings
 	public final int popupWidth = 700;    
@@ -395,6 +398,12 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
 			
 		else if (pointCheck(getpoint.x, getpoint.y, WWFH_loc, highprecision))						
 			createPopup(R.layout.popup_layout3);
+		else if (pointCheck(getpoint.x, getpoint.y, Seminary_loc, highprecision))
+			createPopup(R.layout.popup_layout5);
+		else if (pointCheck(getpoint.x, getpoint.y, Penitentiary_loc, lowprecision))
+			createPopup(R.layout.popup_layout6);
+		else if (pointCheck(getpoint.x, getpoint.y, Asylum_loc, highprecision))
+			createPopup(R.layout.popup_layout7);
 		else
 			createPopup(R.layout.popup_layout);
 		
@@ -550,6 +559,21 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
         getpoint = sourceToViewCoord(6230, 2605);
         Rect pinRectWWH = new Rect((int) getpoint.x-15,(int) getpoint.y-15,(int) getpoint.x+10,(int) getpoint.y+10);
         canvas.drawBitmap(pin, null, pinRectWWH, null);
+        
+        // draw rectangle pin for theological seminary
+        getpoint = sourceToViewCoord(5737,2406);
+        Rect pinRectSeminary = new Rect((int) getpoint.x-15,(int) getpoint.y-15, (int) getpoint.x+10, (int) getpoint.y+10);
+        canvas.drawBitmap(pin, null, pinRectSeminary, null);
+        
+        // rectangle pin for penitentiary
+        getpoint = sourceToViewCoord(700,3800);
+        Rect pinRectPenitentiary = new Rect((int) getpoint.x-25,(int) getpoint.y-25, (int) getpoint.x+20,(int) getpoint.y+20);
+        canvas.drawBitmap(pin, null, pinRectPenitentiary, null);
+        
+        // rectangle pin for female lunatic asylum
+        getpoint = sourceToViewCoord(4660,1771);
+        Rect pinRectAsylum = new Rect((int) getpoint.x-15,(int) getpoint.y-15,(int) getpoint.x+10,(int) getpoint.y+10);
+        canvas.drawBitmap(pin, null, pinRectAsylum, null);
         
         //write - touch sends x coord and y coord to file
         //WritetoFile("6000");

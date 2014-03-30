@@ -40,7 +40,19 @@
     <!-- Zion Baptist Church Strings -->
     <string name="zion_baptist">Zion Baptist Church</string>
     <string name="zion_desc">The Zion Baptist Church of Columbia was founded in 1865 by a group of people led by Reverend Frank Dobbins.</string>
+    
+    <!-- Penitentiary Strings -->
+    <string name="col_pen">Columbia Penitentiary</string>
+    <string name="pen_desc">The cell blocks of the Columbia Penitentiary circa 1872.</string>
+    
+    <!-- Theological Seminary Strings -->
+    <string name="theol_sem">Columbia Theological Seminary</string>
+    <string name="theol_desc">Columbia became the first permanent home of the Columbia Theological Seminary in 1830 and moved to rural Atlanta in the 1920\'s.  The seminary is associated with the Presbyterian Church.</string>
 
+    <!-- Female Lunatic Asylum Strings -->
+    <string name="lun_asyl">Female Lunatic Asylum</string>
+    <string name="asyl_desc">The Columbia female lunatic asylum.</string>
+    
     <!-- Close button string -->
     <string name="close_button">Close</string>
     <string name="create_login">Create Administrator Login</string>
@@ -56,8 +68,9 @@
     <string name="send">Send</string>
     <string name="title_activity_email_backup">EmailBackup</string>
     <string name="message">Message</string>
-    <string name="attach_file">Attach default layout file</string>
-    <string name="delete_file">Delete default layout file</string>
+    <string name="attach_file">Attach layout file</string>
+    <string name="delete_file">Delete layout file</string>
+    <string name="load_image">Load Image</string>
     
     <!-- Location -->
     <string name="editlocation">Editing Location</string>

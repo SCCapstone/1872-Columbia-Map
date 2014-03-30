@@ -73,6 +73,16 @@
     </EditText>
 
     <Button
+        android:id="@+id/LoadImage"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/locationtitle"
+        android:layout_below="@+id/descriptionedit"
+        android:layout_marginTop="31dp"
+        android:layout_toLeftOf="@+id/DoneEditing"
+        android:text="@string/load_image" />
+
+    <Button
         android:id="@+id/DoneEditing"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -83,5 +93,14 @@
         android:onClick="DoneEditing"
         android:text="@string/finished_editing_button"
         android:textSize="28sp" />
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignLeft="@+id/descriptionedit"
+        android:layout_below="@+id/LoadImage"
+        android:layout_marginLeft="85dp"
+        android:layout_marginTop="74dp" />
    
 </RelativeLayout>
