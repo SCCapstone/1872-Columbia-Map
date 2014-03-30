@@ -102,6 +102,7 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
 	public int[] Penitentiary_loc = {700,3800};
 	public int[] Seminary_loc = {5737,2406};
 	public int[] Asylum_loc = {4660,1771};
+	public int[] Cityhall_loc ={4414, 3315};
 	public int lowprecision = 200; //for big buildings
 	public int highprecision = 120; //for small buildings
 	public final int popupWidth = 700;    
@@ -408,6 +409,10 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
 		else if (pointCheck(getpoint.x, getpoint.y, Asylum_loc, highprecision))
 			createPopup(R.layout.asylum);
 		
+		else if (pointCheck(getpoint.x, getpoint.y, Cityhall_loc, highprecision))
+			createPopup(R.layout.city_hall);
+		// the following was creating the popup_layout wherever we touched the map
+		// causing us to not be able to zoom
 		//else
 		//	createPopup(R.layout.popup_layout);
 		
@@ -578,6 +583,11 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
         getpoint = sourceToViewCoord(4660,1771);
         Rect pinRectAsylum = new Rect((int) getpoint.x-15,(int) getpoint.y-15,(int) getpoint.x+10,(int) getpoint.y+10);
         canvas.drawBitmap(pin, null, pinRectAsylum, null);
+        
+        // rectangle pin for town hall and opera house
+        getpoint = sourceToViewCoord(4414,3315);
+        Rect pinRectTownHall = new Rect((int) getpoint.x-15,(int) getpoint.y-15,(int) getpoint.x+10,(int) getpoint.y+10);
+        canvas.drawBitmap(pin, null, pinRectTownHall, null);
         
         //write - touch sends x coord and y coord to file
         //WritetoFile("6000");
