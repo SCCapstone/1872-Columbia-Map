@@ -36,14 +36,12 @@ import android.widget.Toast;
 
 public class EditLocation extends Activity {
 	
-	//test
-	//private static final String FILENAME = "DataFile.txt";
+	private static final String FILENAME = "DataFile.txt";
 	private static String TAG = "Location DATA";
 	private Context context;
 	private String finaloutput,title,description,xLocation,yLocation;
 	private Bitmap loadedImage;
 	private static int RESULT_LOAD_IMAGE = 1;
-	private static String FILENAME;
 	
 	public EditLocation()
 	{
@@ -79,7 +77,7 @@ public class EditLocation extends Activity {
 		Double yLoc = i1.getDoubleExtra("yLocation", 0.0);
 		xLocation = new Double(xLoc).toString();
 		yLocation = new Double(yLoc).toString();
-		FILENAME = xLocation+"."+yLocation+"."+"DATA.txt";
+		//FILENAME = xLocation+"."+yLocation+"."+"DATA.txt";
 		
 		// Begin another syncTask to browse and attach an image file
 		LoadImage.setOnClickListener(new View.OnClickListener() {
@@ -99,7 +97,7 @@ public class EditLocation extends Activity {
 			return true;
 	}
 	
-	//called when user clicks on Done Editing button
+	//called when user clicks on Done Editing button 
 	public void DoneEditing(View view) 
 	{
 		EditText titleedit = (EditText) findViewById(R.id.titleedit);
@@ -107,7 +105,7 @@ public class EditLocation extends Activity {
 		EditText descriptionedit = (EditText) findViewById(R.id.descriptionedit);
 		description=descriptionedit.getText().toString();
 		String image = BitMapToString(loadedImage);
-		finaloutput=xLocation+" "+yLocation+" "+title+" "+description+" "+image;
+		finaloutput=xLocation+" "+yLocation+" "+title+" "+description+" "+image+" ";
 		WritetoFile(finaloutput);
 		Toast.makeText(context.getApplicationContext(), "Location Saved", Toast.LENGTH_LONG).show();
 	}
@@ -215,7 +213,7 @@ public class EditLocation extends Activity {
 		 StringTokenizer st = new StringTokenizer(output);
 
 		 try {
-			 OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput(FILENAME, Context.MODE_PRIVATE));
+			 OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput(FILENAME, Context.MODE_APPEND));
 			 //outputStreamWriter.write("Location Test");
 			 while (st.hasMoreElements()) {
 				 outputStreamWriter.write(st.nextElement().toString()+ "\n");
