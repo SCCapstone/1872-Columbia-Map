@@ -1096,24 +1096,38 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
 		// Get a reference to Close button, and close the pop-up when clicked.    
 		Button close = (Button) layout.findViewById(R.id.close);
 		
-		ArrayList<String> data = new ArrayList<String>();
+		//ArrayList<String> data = new ArrayList<String>();
 		
-		String xcoord,ycoord,title = null,descr = null,img = null;
+		String title = null,descr = null,img = null;
+
+		String xcoord = Float.toString((int) x);
+		String ycoord = Float.toString((int) y);
+		
 		try 
         {
-         	InputStream inputStream = context.openFileInput(x + y + FILENAME);
+						
+         	InputStream inputStream = context.openFileInput(FILENAME);
          	Scanner scanner = new Scanner(inputStream);
          
-            xcoord = ReadfromFile(scanner);
-        	scanner.nextLine();
-            ycoord = ReadfromFile(scanner);
-            scanner.nextLine();
-            title = ReadfromFile(scanner);
-            scanner.nextLine();
-            descr = ReadfromFile(scanner);
-            scanner.nextLine();
-            img = ReadfromFile(scanner);
-            
+         	while(scanner.hasNext())
+			{
+				if(ReadfromFile(scanner).equals(xcoord))
+				{
+					scanner.nextLine();
+					
+					if(ReadfromFile(scanner).equals(ycoord))
+					{
+						 scanner.nextLine();
+				         title = ReadfromFile(scanner);
+				         scanner.nextLine();
+				         descr = ReadfromFile(scanner);
+				         scanner.nextLine();
+				         img = ReadfromFile(scanner);
+				         break;
+					}
+				}
+				
+			}
             
             //  while(scanner.hasNext())
             //  {
