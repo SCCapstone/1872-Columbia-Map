@@ -69,7 +69,7 @@ public class EmailBackup extends Activity
 		
 		context = getApplicationContext();
 		
-		fileName = context.getFilesDir().getPath()+"/"+SubsamplingScaleImageView.getFilename();//default image path: /mnt/sdcard/Pictures/
+		fileName = context.getFilesDir().getPath()+"/"+EditLocation.getFilename();//default image path: /mnt/sdcard/Pictures/
 		
 		imageFileDir = Environment.getExternalStoragePublicDirectory(
 	            Environment.DIRECTORY_PICTURES).toString()+"/";
