@@ -57,6 +57,10 @@
     <string name="city_hall">Columbia Town Hall</string>
     <string name="city_hall_desc">Columbia\'s town hall was used for many purposes, one of them being an opera house.</string>
     
+    <!-- Post Office Strings -->
+    <string name="post_office">Post Office</string>
+	<string name="post_office_desc">Columbia\'s US Post Office around 1872 and the post office in 1900.</string>
+    
     <!-- Close button string -->
     <string name="close_button">Close</string>
     <string name="create_login">Create Administrator Login</string>

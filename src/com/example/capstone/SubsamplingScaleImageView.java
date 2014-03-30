@@ -102,7 +102,7 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
 	public int[] Penitentiary_loc = {700,3800};
 	public int[] Seminary_loc = {5737,2406};
 	public int[] Asylum_loc = {4660,1771};
-	public int[] Cityhall_loc ={4414, 3315};
+	public int[] Cityhall_loc = {4414, 3315};
 	public int lowprecision = 200; //for big buildings
 	public int highprecision = 120; //for small buildings
 	public final int popupWidth = 700;    
