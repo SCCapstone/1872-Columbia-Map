@@ -1100,37 +1100,45 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
 		String titletext = "TITLE HERE";
 		String descrtext = "DESCRIPTION HERE";
 		TextView title = (TextView)layout.findViewById(R.id.title);
-		title.setText(titletext);
-		TextView description = (TextView)layout.findViewById(R.id.description);
-		description.setText(descrtext);
-		
+		if (title != null)
+		{
+			title.setText(titletext);
+			TextView description = (TextView)layout.findViewById(R.id.description);
+			description.setText(descrtext);
+		}
 		//needs to reference popup layout
 		ImageView image = (ImageView)layout.findViewById(R.id.image);
-		//ImageView image = new ImageView(context);
-		//image.setImageDrawable(getResources().getDrawable(R.drawable.mappin));
-		image.setImageResource(R.drawable.historic_usc);
-
+		if (image != null)
+		{
+			//ImageView image = new ImageView(context);
+			//image.setImageDrawable(getResources().getDrawable(R.drawable.mappin));
+			image.setImageResource(R.drawable.historic_usc);
+		}
+		
 		ImageView image2 = (ImageView)layout.findViewById(R.id.image2);
-		image2.setImageResource(R.drawable.zion_church);
+		if (image2 != null)
+		{
+			image2.setImageResource(R.drawable.zion_church);
+		}
 		
-		VideoView video = (VideoView)layout.findViewById(R.id.video);
-		
+		VideoView video = (VideoView)layout.findViewById(R.id.video);	
 		//video.setId(R.drawable.anim_page_transformer_zoomout);
 		//video.setVideoPath(R.drawable.anim_page_transformer_zoomout);
 
 		//String fileName = "android.resource://" + getPackageName() + "/" + R.drawable.anim_page_transformer_zoomout;
 		//video.setVideoURI(Uri.parse(fileName));
 		//video.start();
-		  //VideoView video = new VideoView(context);
-	      
-	      String uri = "android.resource://" + context.getPackageName() + "/" + R.raw.anim_page_transformer_zoomout;
-	      video.setVideoURI(Uri.parse(uri));
+		//VideoView video = new VideoView(context);
+	      if (video != null)
+	      {
+	    	  String uri = "android.resource://" + context.getPackageName() + "/" + R.raw.anim_page_transformer_zoomout;
+	    	  video.setVideoURI(Uri.parse(uri));
 	      
 	      MediaController ctlr=new MediaController(context);
 	      ctlr.setMediaPlayer(video);
 	      video.setMediaController(ctlr);
 	      video.requestFocus();
-	      
+	      }
 	      //LinearLayout linearLayout = (LinearLayout)findViewById(R.id.layout);
 	      //linearLayout.addView(video, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 
@@ -1156,7 +1164,7 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
 		});			
 	}
 
-//WRITE
+     //WRITE
 	 private void WritetoFile(String output) 
 	 {
 		 //String textToSaveString = "Testing Token Method";
