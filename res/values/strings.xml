@@ -69,13 +69,16 @@
     <string name="title_activity_email_backup">EmailBackup</string>
     <string name="message">Message</string>
     <string name="attach_file">Attach layout file</string>
-    <string name="delete_file">Delete layout file</string>
     <string name="load_image">Load Image</string>
+    <string name="attach_image">Attach image</string>
     
     <!-- Location -->
+    <!-- &#8230; is used to replace ... for ellipsis, 8230 is the unicode for ellipsis, ; is needed as a delimiter -->
     <string name="editlocation">Editing Location</string>
-    <string name="edittitle">Enter a title for this location...</string>
-    <string name="editdescription">Enter a description for this location...</string>
+    <string name="edittitle">Enter a title for this location... </string>
+    <string name="editdescription">Enter a description for this location... </string>
     <string name="finished_editing_button">Finished Editing</string>
+    <string name="loc_title">Location Title</string>
+    <string name="loc_date">Location Date</string>
 
 </resources>
