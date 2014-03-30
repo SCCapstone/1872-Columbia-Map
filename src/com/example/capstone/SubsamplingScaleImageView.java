@@ -26,6 +26,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.lang.ref.WeakReference;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -46,7 +49,6 @@ import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -59,8 +61,6 @@ import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.Gallery.LayoutParams;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.MediaController;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -1084,10 +1084,18 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
 		ImageView image = (ImageView)layout.findViewById(R.id.image);
 		//ImageView image = new ImageView(context);
 		//image.setImageDrawable(getResources().getDrawable(R.drawable.mappin));
-		image.setImageResource(R.drawable.historic_usc);
+		//image.setImageResource(R.drawable.historic_usc);
 
-		ImageView image2 = (ImageView)layout.findViewById(R.id.image2);
-		image2.setImageResource(R.drawable.zion_church);
+		String URL ="https://dl.dropboxusercontent.com/s/5nztjmb8by1lvis/GR%2002.02.01%20US%20Post%20Office%20Stereograph.JPG";
+        // Create an object for subclass of AsyncTask
+        GetXMLTask task = new GetXMLTask();
+        // Execute the task
+        task.execute(new String[] { URL });
+
+
+		
+		//ImageView image2 = (ImageView)layout.findViewById(R.id.image2);
+		//image2.setImageResource(R.drawable.zion_church);
 		
 		VideoView video = (VideoView)layout.findViewById(R.id.video);
 		
@@ -1099,13 +1107,13 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
 		//video.start();
 		  //VideoView video = new VideoView(context);
 	      
-	      String uri = "android.resource://" + context.getPackageName() + "/" + R.raw.anim_page_transformer_zoomout;
+	     /* String uri = "android.resource://" + context.getPackageName() + "/" + R.raw.anim_page_transformer_zoomout;
 	      video.setVideoURI(Uri.parse(uri));
 	      
 	      MediaController ctlr=new MediaController(context);
 	      ctlr.setMediaPlayer(video);
 	      video.setMediaController(ctlr);
-	      video.requestFocus();
+	      video.requestFocus();*/
 	      
 	      //LinearLayout linearLayout = (LinearLayout)findViewById(R.id.layout);
 	      //linearLayout.addView(video, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
@@ -1176,6 +1184,62 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
              	//scanner.close();
      	
 		return input;
+     }
+     
+     public class GetXMLTask extends AsyncTask<String, Void, Bitmap> {
+         @Override
+         protected Bitmap doInBackground(String... urls) {
+             Bitmap map = null;
+             for (String url : urls) {
+                 map = downloadImage(url);
+             }
+             return map;
+         }
+  
+         // Sets the Bitmap returned by doInBackground
+         @Override
+         protected void onPostExecute(Bitmap result) {
+             //image.setImageBitmap(result);
+         }
+  
+         // Creates Bitmap from InputStream and returns it
+         public Bitmap downloadImage(String url) {
+             Bitmap bitmap = null;
+             InputStream stream = null;
+             BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+             bmOptions.inSampleSize = 1;
+  
+             try {
+                 stream = getHttpConnection(url);
+                 bitmap = BitmapFactory.
+                         decodeStream(stream, null, bmOptions);
+                 stream.close();
+             } catch (IOException e1) {
+                 e1.printStackTrace();
+             }
+             return bitmap;
+         }
+  
+         // Makes HttpURLConnection and returns InputStream
+         public InputStream getHttpConnection(String urlString)
+                 throws IOException {
+             InputStream stream = null;
+             URL url = new URL(urlString);
+             URLConnection connection = url.openConnection();
+  
+             try {
+                 HttpURLConnection httpConnection = (HttpURLConnection) connection;
+                 httpConnection.setRequestMethod("GET");
+                 httpConnection.connect();
+  
+                 if (httpConnection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                     stream = httpConnection.getInputStream();
+                 }
+             } catch (Exception ex) {
+                 ex.printStackTrace();
+             }
+             return stream;
+         }
      }
      
 	
