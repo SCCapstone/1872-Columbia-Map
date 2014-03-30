@@ -26,9 +26,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.lang.ref.WeakReference;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -49,9 +46,9 @@ import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.AttributeSet;
-import android.util.Base64;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.Gravity;
@@ -62,6 +59,8 @@ import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.Gallery.LayoutParams;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.MediaController;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -94,7 +93,7 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
 
     private static final String TAG = SubsamplingScaleImageView.class.getSimpleName();
 	private static final String FILENAME = "DataFile.txt";
-	public ImageView image;
+	
     //locations for this map resolution
 	public int[] USC_loc = {6290, 4226};
 	public int[] Statehouse_loc = {5030, 3856};
@@ -103,6 +102,7 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
 	public int[] Penitentiary_loc = {700,3800};
 	public int[] Seminary_loc = {5737,2406};
 	public int[] Asylum_loc = {4660,1771};
+	public int[] Cityhall_loc = {4414, 3315};
 	public int lowprecision = 200; //for big buildings
 	public int highprecision = 120; //for small buildings
 	public final int popupWidth = 700;    
@@ -388,25 +388,33 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
 		//pointCheck(int X_touched, int Y_touched, int locs[], int precision)
 		if(isZooming == false){
 		
-		/*if (pointCheck(getpoint.x, getpoint.y, USC_loc, highprecision))			
-			createPopup(R.layout.popup_layout2);							
+		if (pointCheck(getpoint.x, getpoint.y, USC_loc, highprecision))			
+			createPopup(R.layout.university);							
 		
 		else if (pointCheck(getpoint.x, getpoint.y, Church_loc, highprecision))			
-			createPopup(R.layout.popup_layout4);						 
+			createPopup(R.layout.zion_bapt);						 
 			
 		else if (pointCheck(getpoint.x, getpoint.y, Statehouse_loc, highprecision))
-			createPopup(R.layout.popup_layout1);        			
+			createPopup(R.layout.state_house);        			
 			
 		else if (pointCheck(getpoint.x, getpoint.y, WWFH_loc, highprecision))						
-			createPopup(R.layout.popup_layout3);
+			createPopup(R.layout.wilson_howe);
+		
 		else if (pointCheck(getpoint.x, getpoint.y, Seminary_loc, highprecision))
-			createPopup(R.layout.popup_layout5);
+			createPopup(R.layout.seminary);
+		
 		else if (pointCheck(getpoint.x, getpoint.y, Penitentiary_loc, lowprecision))
-			createPopup(R.layout.popup_layout6);
+			createPopup(R.layout.prison);
+		
 		else if (pointCheck(getpoint.x, getpoint.y, Asylum_loc, highprecision))
-			createPopup(R.layout.popup_layout7);
-		else*/
-			createPopup(R.layout.popup_layout, getpoint.x, getpoint.y);
+			createPopup(R.layout.asylum);
+		
+		else if (pointCheck(getpoint.x, getpoint.y, Cityhall_loc, highprecision))
+			createPopup(R.layout.city_hall);
+		// the following was creating the popup_layout wherever we touched the map
+		// causing us to not be able to zoom
+		//else
+		//	createPopup(R.layout.popup_layout);
 		
 		
 		}
@@ -575,6 +583,11 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
         getpoint = sourceToViewCoord(4660,1771);
         Rect pinRectAsylum = new Rect((int) getpoint.x-15,(int) getpoint.y-15,(int) getpoint.x+10,(int) getpoint.y+10);
         canvas.drawBitmap(pin, null, pinRectAsylum, null);
+        
+        // rectangle pin for town hall and opera house
+        getpoint = sourceToViewCoord(4414,3315);
+        Rect pinRectTownHall = new Rect((int) getpoint.x-15,(int) getpoint.y-15,(int) getpoint.x+10,(int) getpoint.y+10);
+        canvas.drawBitmap(pin, null, pinRectTownHall, null);
         
         //write - touch sends x coord and y coord to file
         //WritetoFile("6000");
@@ -1076,7 +1089,7 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
 			return false;
 	}
 
-	public void createPopup(int location, float x, float y)
+	public void createPopup(int location)
 	{		
 		popupon=true; //prevents multiple pop-up bug during OnTouch and OnRelease		
 		LayoutInflater layoutInflator = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);	
@@ -1096,71 +1109,60 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
 		// Get a reference to Close button, and close the pop-up when clicked.    
 		Button close = (Button) layout.findViewById(R.id.close);
 		
-		ArrayList<String> data = new ArrayList<String>();
 		
-		String xcoord,ycoord,title = null,descr = null,img = null;
-		try 
-        {
-         	InputStream inputStream = context.openFileInput(x + y + FILENAME);
-         	Scanner scanner = new Scanner(inputStream);
-         
-            xcoord = ReadfromFile(scanner);
-        	scanner.nextLine();
-            ycoord = ReadfromFile(scanner);
-            scanner.nextLine();
-            title = ReadfromFile(scanner);
-            scanner.nextLine();
-            descr = ReadfromFile(scanner);
-            scanner.nextLine();
-            img = ReadfromFile(scanner);
-            
-            
-            //  while(scanner.hasNext())
-            //  {
-            //  data.add(ReadfromFile(scanner));
-            //  scanner.nextLine();
-            //  }
-             
-           
-        }
-     	catch (FileNotFoundException e) {
-         	Log.e(TAG, "File not found: " + e.toString());
-     	}
+		//Display title/description in popup
+		String titletext = "TITLE HERE";
+		String descrtext = "DESCRIPTION HERE";
+		TextView title = (TextView)layout.findViewById(R.id.title);
+		if (title != null)
+		{
+			title.setText(titletext);
+			TextView description = (TextView)layout.findViewById(R.id.description);
+			description.setText(descrtext);
+		}
+		//needs to reference popup layout
+		ImageView image = (ImageView)layout.findViewById(R.id.image);
+		if (image != null)
+		{
+			//ImageView image = new ImageView(context);
+			//image.setImageDrawable(getResources().getDrawable(R.drawable.mappin));
+			image.setImageResource(R.drawable.historic_usc);
+		}
 		
+		ImageView image2 = (ImageView)layout.findViewById(R.id.image2);
+		if (image2 != null)
+		{
+			image2.setImageResource(R.drawable.zion_church);
+		}
+		
+		VideoView video = (VideoView)layout.findViewById(R.id.video);	
+		//video.setId(R.drawable.anim_page_transformer_zoomout);
+		//video.setVideoPath(R.drawable.anim_page_transformer_zoomout);
 
-		//Display title
-		TextView Title = (TextView)layout.findViewById(R.id.title);
-		Title.setText(title);
-		//Display description
-		TextView Description = (TextView)layout.findViewById(R.id.description);
-		Description.setText(descr);
-		//Display image
-		StringToBitMap(img);
-		image = (ImageView)layout.findViewById(R.id.image);
-		image.setImageBitmap(StringToBitMap(img));
-
-		//String URL ="https://dl.dropboxusercontent.com/s/5nztjmb8by1lvis/GR%2002.02.01%20US%20Post%20Office%20Stereograph.JPG";
-        // Create an object for subclass of AsyncTask
-        //GetXMLTask task = new GetXMLTask();
-        // Execute the task
-        //task.execute(new String[] { URL });
-
-		
-		//VideoView video = (VideoView)layout.findViewById(R.id.video);
-		
-		
-	      
-	     /* String uri = "android.resource://" + context.getPackageName() + "/" + R.raw.anim_page_transformer_zoomout;
-	      video.setVideoURI(Uri.parse(uri));
+		//String fileName = "android.resource://" + getPackageName() + "/" + R.drawable.anim_page_transformer_zoomout;
+		//video.setVideoURI(Uri.parse(fileName));
+		//video.start();
+		//VideoView video = new VideoView(context);
+	      if (video != null)
+	      {
+	    	  String uri = "android.resource://" + context.getPackageName() + "/" + R.raw.anim_page_transformer_zoomout;
+	    	  video.setVideoURI(Uri.parse(uri));
 	      
 	      MediaController ctlr=new MediaController(context);
 	      ctlr.setMediaPlayer(video);
 	      video.setMediaController(ctlr);
-	      video.requestFocus();*/
-	      
+	      video.requestFocus();
+	      }
 	      //LinearLayout linearLayout = (LinearLayout)findViewById(R.id.layout);
 	      //linearLayout.addView(video, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 
+		
+		//Bitmap bImage = BitmapFactory.decodeResource(this.getResources(), R.drawable.ic_launcher);
+		//image.setImageBitmap(bImage);
+		
+		//Bitmap myBitmap = BitmapFactory.decodeFile("/sdcard/Images/test_image.jpg");
+		//Bitmap Bimage =BitmapFactory.decodeResource(getResources(), R.drawable.mappin);
+		//image.setImageBitmap(Bimage);
 		 
 		//title.setText(m.get(location).getTitle());	
 		
@@ -1176,6 +1178,36 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
 		});			
 	}
 
+     //WRITE
+	 private void WritetoFile(String output) 
+	 {
+		 //String textToSaveString = "Testing Token Method";
+		 StringTokenizer st = new StringTokenizer(output);
+
+		 try {
+			 OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput(FILENAME, Context.MODE_APPEND));
+			 //outputStreamWriter.write("Location Test");
+			 while (st.hasMoreElements()) {
+				 outputStreamWriter.write(st.nextElement().toString());
+			 }
+			 outputStreamWriter.write("\n");
+			
+			 //Toast.makeText(context.getApplicationContext(), "writing: " + output, Toast.LENGTH_LONG).show();
+			 outputStreamWriter.close();
+		 }
+		 catch (IOException e) {
+			 Log.e(TAG, "File write failed: " + e.toString());
+		 }
+
+		 //WRITE SPLIT WITH COMMA
+		 //System.out.println("---- Split by comma ',' ------");
+		 //StringTokenizer st2 = new StringTokenizer(str, ",");
+
+		 //while (st2.hasMoreElements()) {
+		 //	System.out.println(st2.nextElement());
+		 //}
+	 }
+	 
 //READ 
      private String ReadfromFile(Scanner scanner) 
      {
@@ -1190,74 +1222,6 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
              	//scanner.close();
      	
 		return input;
-     }
-     
-     public Bitmap StringToBitMap(String encodedString) {
- 		try {
- 			byte[] encodeByte = Base64.decode(encodedString, Base64.DEFAULT);
- 			Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0,
- 					encodeByte.length);
- 			return bitmap;
- 		} catch (Exception e) {
- 			e.getMessage();
- 			return null;
- 		}
-     }
-     
-     public class GetXMLTask extends AsyncTask<String, Void, Bitmap> {
-         @Override
-         protected Bitmap doInBackground(String... urls) {
-             Bitmap map = null;
-             for (String url : urls) {
-                 map = downloadImage(url);
-             }
-             return map;
-         }
-  
-         // Sets the Bitmap returned by doInBackground
-         @Override
-         protected void onPostExecute(Bitmap result) {
-             image.setImageBitmap(result);
-         }
-  
-         // Creates Bitmap from InputStream and returns it
-         public Bitmap downloadImage(String url) {
-             Bitmap bitmap = null;
-             InputStream stream = null;
-             BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-             bmOptions.inSampleSize = 1;
-  
-             try {
-                 stream = getHttpConnection(url);
-                 bitmap = BitmapFactory.
-                         decodeStream(stream, null, bmOptions);
-                 stream.close();
-             } catch (IOException e1) {
-                 e1.printStackTrace();
-             }
-             return bitmap;
-         }
-  
-         // Makes HttpURLConnection and returns InputStream
-         public InputStream getHttpConnection(String urlString)
-                 throws IOException {
-             InputStream stream = null;
-             URL url = new URL(urlString);
-             URLConnection connection = url.openConnection();
-  
-             try {
-                 HttpURLConnection httpConnection = (HttpURLConnection) connection;
-                 httpConnection.setRequestMethod("GET");
-                 httpConnection.connect();
-  
-                 if (httpConnection.getResponseCode() == HttpURLConnection.HTTP_OK) {
-                     stream = httpConnection.getInputStream();
-                 }
-             } catch (Exception ex) {
-                 ex.printStackTrace();
-             }
-             return stream;
-         }
      }
      
 	
