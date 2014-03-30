@@ -388,24 +388,28 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
 		if(isZooming == false){
 		
 		if (pointCheck(getpoint.x, getpoint.y, USC_loc, highprecision))			
-			createPopup(R.layout.popup_layout2);							
+			createPopup(R.layout.university);							
 		
 		else if (pointCheck(getpoint.x, getpoint.y, Church_loc, highprecision))			
-			createPopup(R.layout.popup_layout4);						 
+			createPopup(R.layout.zion_bapt);						 
 			
 		else if (pointCheck(getpoint.x, getpoint.y, Statehouse_loc, highprecision))
-			createPopup(R.layout.popup_layout1);        			
+			createPopup(R.layout.state_house);        			
 			
 		else if (pointCheck(getpoint.x, getpoint.y, WWFH_loc, highprecision))						
-			createPopup(R.layout.popup_layout3);
+			createPopup(R.layout.wilson_howe);
+		
 		else if (pointCheck(getpoint.x, getpoint.y, Seminary_loc, highprecision))
-			createPopup(R.layout.popup_layout5);
+			createPopup(R.layout.seminary);
+		
 		else if (pointCheck(getpoint.x, getpoint.y, Penitentiary_loc, lowprecision))
-			createPopup(R.layout.popup_layout6);
+			createPopup(R.layout.prison);
+		
 		else if (pointCheck(getpoint.x, getpoint.y, Asylum_loc, highprecision))
-			createPopup(R.layout.popup_layout7);
-		else
-			createPopup(R.layout.popup_layout);
+			createPopup(R.layout.asylum);
+		
+		//else
+		//	createPopup(R.layout.popup_layout);
 		
 		
 		}
