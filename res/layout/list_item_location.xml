@@ -21,8 +21,8 @@
         android:textStyle="bold"
         android:paddingLeft="4dp"
         android:paddingRight="4dp"
-        android:text="Location Title"/>
-    
+        android:text="@string/loc_title"/>
+ 
     <TextView
         android:id="@+id/location_list_item_dateTextView"
         android:layout_width="match_parent"
@@ -32,6 +32,6 @@
         android:paddingLeft="4dp"
         android:paddingRight="4dp"
         android:paddingTop="4dp"
-        android:text="Location Date"/>
+        android:text="@string/loc_date"/>
 
 </RelativeLayout>
