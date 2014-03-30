@@ -53,6 +53,14 @@
     <string name="lun_asyl">Female Lunatic Asylum</string>
     <string name="asyl_desc">The Columbia female lunatic asylum.</string>
     
+    <!-- Town Hall Strings -->
+    <string name="city_hall">Columbia Town Hall</string>
+    <string name="city_hall_desc">Columbia\'s town hall was used for many purposes, one of them being an opera house.</string>
+    
+    <!-- Post Office Strings -->
+    <string name="post_office">Post Office</string>
+	<string name="post_office_desc">Columbia\'s US Post Office around 1872 and the post office in 1900.</string>
+    
     <!-- Close button string -->
     <string name="close_button">Close</string>
     <string name="create_login">Create Administrator Login</string>
@@ -75,8 +83,8 @@
     <!-- Location -->
     <!-- &#8230; is used to replace ... for ellipsis, 8230 is the unicode for ellipsis, ; is needed as a delimiter -->
     <string name="editlocation">Editing Location</string>
-    <string name="edittitle">Enter a title for this location... </string>
-    <string name="editdescription">Enter a description for this location... </string>
+    <string name="edittitle">Enter a title for this location &#8230; </string>
+    <string name="editdescription">Enter a description for this location &#8230; </string>
     <string name="finished_editing_button">Finished Editing</string>
     <string name="loc_title">Location Title</string>
     <string name="loc_date">Location Date</string>

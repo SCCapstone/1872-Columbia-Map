@@ -36,7 +36,6 @@ import android.widget.Toast;
 
 public class EditLocation extends Activity {
 	
-	//test
 	private static final String FILENAME = "DataFile.txt";
 	private static String TAG = "Location DATA";
 	private Context context;
@@ -77,7 +76,8 @@ public class EditLocation extends Activity {
 		Double xLoc = i1.getDoubleExtra("xLocation", 0.0);
 		Double yLoc = i1.getDoubleExtra("yLocation", 0.0);
 		xLocation = new Double(xLoc).toString();
-		yLocation= new Double(yLoc).toString();
+		yLocation = new Double(yLoc).toString();
+		//FILENAME = xLocation+"."+yLocation+"."+"DATA.txt";
 		
 		// Begin another syncTask to browse and attach an image file
 		LoadImage.setOnClickListener(new View.OnClickListener() {
@@ -97,7 +97,7 @@ public class EditLocation extends Activity {
 			return true;
 	}
 	
-	//called when user clicks on Done Editing button
+	//called when user clicks on Done Editing button 
 	public void DoneEditing(View view) 
 	{
 		EditText titleedit = (EditText) findViewById(R.id.titleedit);
@@ -105,7 +105,7 @@ public class EditLocation extends Activity {
 		EditText descriptionedit = (EditText) findViewById(R.id.descriptionedit);
 		description=descriptionedit.getText().toString();
 		String image = BitMapToString(loadedImage);
-		finaloutput=xLocation+yLocation+title+description+image;
+		finaloutput=xLocation+" "+yLocation+" "+title+" "+description+" "+image+" ";
 		WritetoFile(finaloutput);
 		Toast.makeText(context.getApplicationContext(), "Location Saved", Toast.LENGTH_LONG).show();
 	}
