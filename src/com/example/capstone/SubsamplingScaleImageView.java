@@ -1164,10 +1164,21 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
 		//Display description
 		TextView Description = (TextView)layout.findViewById(R.id.description);
 		Description.setText(descr);
-		//Display image
-		StringToBitMap(img);
 		image = (ImageView)layout.findViewById(R.id.image);
-		image.setImageBitmap(StringToBitMap(img));
+		//Display image
+		if(img.substring(0,3).equals("http"))
+		{
+			// Create an object for subclass of AsyncTask
+	        GetXMLTask task = new GetXMLTask();
+	        // Execute the task
+	        task.execute(new String[] { img });
+		}
+		else
+		{
+			StringToBitMap(img);
+			image.setImageBitmap(StringToBitMap(img));
+		}
+		
 
 		//String URL ="https://dl.dropboxusercontent.com/s/5nztjmb8by1lvis/GR%2002.02.01%20US%20Post%20Office%20Stereograph.JPG";
         // Create an object for subclass of AsyncTask
