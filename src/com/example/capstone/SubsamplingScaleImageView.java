@@ -600,10 +600,15 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
             getpoint = sourceToViewCoord(x, y);
             Rect pinRecttest = new Rect((int) getpoint.x-15,(int) getpoint.y-15,(int) getpoint.x+10,(int) getpoint.y+10);
             canvas.drawBitmap(pin, null, pinRecttest, null);
-            
-            scanner.nextLine();
-            scanner.nextLine();
-            scanner.nextLine();
+            if(scanner.hasNext())
+            	{scanner.nextLine();
+           		if(scanner.hasNext())
+           			{scanner.nextLine();
+           			if(scanner.hasNext())
+           				{scanner.nextLine();}
+           				else break;}
+           			else break;}
+           		else break;
             
             x = Integer.parseInt(ReadfromFile(scanner));
             scanner.nextLine();
