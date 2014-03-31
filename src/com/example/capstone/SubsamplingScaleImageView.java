@@ -545,7 +545,7 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
         PointF getpoint;
         Bitmap pin =BitmapFactory.decodeResource(getResources(), R.drawable.mappin);
         
-        getpoint = sourceToViewCoord(6290, 4226);
+       /* getpoint = sourceToViewCoord(6290, 4226);
         Rect pinRectUSC = new Rect((int) getpoint.x-15,(int) getpoint.y-15,(int) getpoint.x+10,(int) getpoint.y+10);
         canvas.drawBitmap(pin, null, pinRectUSC, null);
         
@@ -575,7 +575,7 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
         getpoint = sourceToViewCoord(4660,1771);
         Rect pinRectAsylum = new Rect((int) getpoint.x-15,(int) getpoint.y-15,(int) getpoint.x+10,(int) getpoint.y+10);
         canvas.drawBitmap(pin, null, pinRectAsylum, null);
-        
+        */
         //write - touch sends x coord and y coord to file
         //WritetoFile("6000");
         //WritetoFile("2000");
@@ -590,19 +590,30 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
          	InputStream inputStream = context.openFileInput(FILENAME);
          	Scanner scanner = new Scanner(inputStream);
          
-            x = Integer.parseInt(ReadfromFile(scanner));
-        	scanner.nextLine();
+         	x = Integer.parseInt(ReadfromFile(scanner));
+            scanner.nextLine();
             y = Integer.parseInt(ReadfromFile(scanner));
            
+            while(scanner.hasNext())
+            {
+            
+            getpoint = sourceToViewCoord(x, y);
+            Rect pinRecttest = new Rect((int) getpoint.x-15,(int) getpoint.y-15,(int) getpoint.x+10,(int) getpoint.y+10);
+            canvas.drawBitmap(pin, null, pinRecttest, null);
+            
+            scanner.nextLine();
+            scanner.nextLine();
+            scanner.nextLine();
+            
+            x = Integer.parseInt(ReadfromFile(scanner));
+            scanner.nextLine();
+            y = Integer.parseInt(ReadfromFile(scanner));
+            }
         }
      	catch (FileNotFoundException e) {
          	Log.e(TAG, "File not found: " + e.toString());
      	}
         //read - read read.next x coord and y coord, set pinrect
-        
-        getpoint = sourceToViewCoord(x, y);
-        Rect pinRecttest = new Rect((int) getpoint.x-15,(int) getpoint.y-15,(int) getpoint.x+10,(int) getpoint.y+10);
-        //canvas.drawBitmap(pin, null, pinRecttest, null);
         
         
         //auto refresh canvas
