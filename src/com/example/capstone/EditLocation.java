@@ -104,23 +104,47 @@ public class EditLocation extends Activity {
 		title=titleedit.getText().toString();
 		EditText descriptionedit = (EditText) findViewById(R.id.descriptionedit);
 		description=descriptionedit.getText().toString();
-		if(loadedImage!=null){
+		
+	    StringBuilder builder = new StringBuilder("");
+	    
+		if(loadedImage!=null)
+		{
 			String image = BitMapToString(loadedImage);
-			finaloutput=xLocation+"\n"+yLocation+"\n"+title+"\n"+description+"\n"+image;
+			//finaloutput=xLocation+"\n"+yLocation+"\n"+title+"\n"+description+"\n"+image;
+			builder.append(xLocation);
+			builder.append("\n");
+			builder.append(yLocation);
+			builder.append("\n");
+			builder.append(title);
+			builder.append("\n");
+			builder.append(description);
+			builder.append("\n");
+			builder.append(image);
+			
 			//WritetoFile(xLocation);
 			//WritetoFile(yLocation);
 			//WritetoFile(title);
 			//WritetoFile(description);
 			//WritetoFile(image);
 		}
-		else{
+		else
+		{
 			//WritetoFile(xLocation);
 			//WritetoFile(yLocation);
 			//WritetoFile(title);
 			//WritetoFile(description);
-			finaloutput=xLocation+"\n"+yLocation+"\n"+title+"\n"+description;
+			//finaloutput=xLocation+"\n"+yLocation+"\n"+title+"\n"+description;
+			builder.append(xLocation);
+			builder.append("\n");
+			builder.append(yLocation);
+			builder.append("\n");
+			builder.append(title);
+			builder.append("\n");
+			builder.append(description);
+			
+			
 		}
-		WritetoFile(finaloutput);
+		WritetoFile(builder.toString());
 		Toast.makeText(context.getApplicationContext(), "Location Saved", Toast.LENGTH_LONG).show();
 	}
 	
