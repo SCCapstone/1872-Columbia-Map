@@ -95,6 +95,7 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
     private static final String TAG = SubsamplingScaleImageView.class.getSimpleName();
 	private static final String FILENAME = "DataFile.txt";
 	public ImageView image;
+	public ArrayList<Integer> data = new ArrayList<Integer>();
     //locations for this map resolution
 	public int[] USC_loc = {6290, 4226};
 	public int[] Statehouse_loc = {5030, 3856};
@@ -406,9 +407,16 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
 		else if (pointCheck(getpoint.x, getpoint.y, Asylum_loc, highprecision))
 			createPopup(R.layout.popup_layout7);
 		else*/
-			createPopup(R.layout.popup_layout, getpoint.x, getpoint.y);
-		
-		
+			int[] array = new int[1];
+			for(int x: data){
+				array[0] = x;
+				array[1] = x+1;
+				if (pointCheck(getpoint.x, getpoint.y, array, highprecision))
+				{
+				createPopup(R.layout.popup_layout, getpoint.x, getpoint.y);
+				}
+				
+			}
 		}
         return super.onTouchEvent(event);
     }
@@ -589,13 +597,16 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
         {
          	InputStream inputStream = context.openFileInput(FILENAME);
          	Scanner scanner = new Scanner(inputStream);
-         
+         	if(scanner.hasNext())
+         	{
          	x = Integer.parseInt(ReadfromFile(scanner));
+         	data.add(x);
             scanner.nextLine();
             y = Integer.parseInt(ReadfromFile(scanner));
-           
+            data.add(y);
+            
             while(scanner.hasNext())
-            {
+            	{
             
             getpoint = sourceToViewCoord(x, y);
             Rect pinRecttest = new Rect((int) getpoint.x-15,(int) getpoint.y-15,(int) getpoint.x+10,(int) getpoint.y+10);
@@ -611,9 +622,12 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
            		else break;
             
             x = Integer.parseInt(ReadfromFile(scanner));
+            data.add(x);
             scanner.nextLine();
             y = Integer.parseInt(ReadfromFile(scanner));
-            }
+            data.add(y);
+            	}
+         	}
         }
      	catch (FileNotFoundException e) {
          	Log.e(TAG, "File not found: " + e.toString());
