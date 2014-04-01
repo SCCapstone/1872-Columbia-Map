@@ -331,9 +331,34 @@ public class TestAdminSubsampling extends View implements OnTouchListener {
                 refreshRequiredTiles(true);
                 break;
         }
+        
+        /////////////////////////////
+        //test code
+        /////////////////////////////
+        if (popupon)
+    		return true;
+		
+		PointF getpoint = viewToSourceCoord(event.getX(), event.getY());
+		final double xLoc = getpoint.x;
+		final double yLoc = getpoint.y;
+		
+		//getpoint now contains x and y in image's coordinate system.		
+		//pointCheck(int X_touched, int Y_touched, int locs[], int precision)
+		if(isZooming == false){
+			setOnLongClickListener(new OnLongClickListener(){
+				public boolean onLongClick(View v){
+					Intent i1 = new Intent (context, EditLocation.class);
+					i1.putExtra("xLocation", xLoc);
+					i1.putExtra("yLocation", yLoc);
+			        context.startActivity(i1);
+			        return true;
+				}
+			});
+		}
+		////////////////////////////
         return true;
     }
-
+    
     //test
     @Override
     public boolean onTouch(View v, MotionEvent event) 
@@ -357,15 +382,17 @@ public class TestAdminSubsampling extends View implements OnTouchListener {
                 toast.cancel(); 
             }
          }, 1000);        
-    	    	
+    	*/
     	//END TEST AREA
-		*/
+		
+    	/*
     	if (popupon)
     		return true;
 		
 		PointF getpoint = viewToSourceCoord(event.getX(), event.getY());
 		final double xLoc = getpoint.x;
 		final double yLoc = getpoint.y;
+		
 		//getpoint now contains x and y in image's coordinate system.		
 		//pointCheck(int X_touched, int Y_touched, int locs[], int precision)
 		if(isZooming == false){
@@ -381,8 +408,30 @@ public class TestAdminSubsampling extends View implements OnTouchListener {
 				}
 			});
 		}
+		
+		if(isZooming==false){
+			Intent i1 = new Intent (context, EditLocation.class);
+			i1.putExtra("xLocation", xLoc);
+			i1.putExtra("yLocation", yLoc);
+	        context.startActivity(i1);
+		}
+		
+		
+		v.setOnLongClickListener(new View.OnLongClickListener() {
+		    @Override
+		    public boolean onLongClick(View v) {
+		    	Intent i1 = new Intent (context, EditLocation.class);
+				i1.putExtra("xLocation", xLoc);
+				i1.putExtra("yLocation", yLoc);
+		        context.startActivity(i1);
+		        return true;
+		    }
+		});
+		*/
         return super.onTouchEvent(event);
+
     }
+	
     /*
     public boolean onDoubleTap(View v, MotionEvent event)
     {
