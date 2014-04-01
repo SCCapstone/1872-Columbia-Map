@@ -97,7 +97,7 @@ public class EditLocation extends Activity {
 			return true;
 	}
 	
-	//called when user clicks on Done Editing button 
+	//called when user clicks on Done Editing button i
 	public void DoneEditing(View view) 
 	{
 		EditText titleedit = (EditText) findViewById(R.id.titleedit);
