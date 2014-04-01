@@ -592,6 +592,7 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
         
         int x = 0;
         int y = 0;
+        float xf,yf;
         
         try 
         {
@@ -599,10 +600,12 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
          	Scanner scanner = new Scanner(inputStream);
          	if(scanner.hasNext())
          	{
-         	x = Integer.parseInt(ReadfromFile(scanner));
+         	xf = Float.valueOf(ReadfromFile(scanner));
+         	x = (int) xf;
          	data.add(x);
             scanner.nextLine();
-            y = Integer.parseInt(ReadfromFile(scanner));
+            yf = Float.valueOf(ReadfromFile(scanner));
+            y = (int) yf;
             data.add(y);
             
             while(scanner.hasNext())
