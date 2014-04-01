@@ -104,8 +104,13 @@ public class EditLocation extends Activity {
 		title=titleedit.getText().toString();
 		EditText descriptionedit = (EditText) findViewById(R.id.descriptionedit);
 		description=descriptionedit.getText().toString();
-		String image = BitMapToString(loadedImage);
-		finaloutput=xLocation+"\n"+yLocation+"\n"+title+"\n"+description+"\n"+image;
+		if(loadedImage!=null){
+			String image = BitMapToString(loadedImage);
+			finaloutput=xLocation+"\n"+yLocation+"\n"+title+"\n"+description+"\n"+image;
+		}
+		else{
+			finaloutput=xLocation+"\n"+yLocation+"\n"+title+"\n"+description;
+		}
 		WritetoFile(finaloutput);
 		Toast.makeText(context.getApplicationContext(), "Location Saved", Toast.LENGTH_LONG).show();
 	}
