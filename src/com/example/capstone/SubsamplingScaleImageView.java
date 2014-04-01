@@ -1237,7 +1237,7 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
     	 String input = "";
              	if(scanner.hasNext()) {
              		input = scanner.nextLine();
-             		scanner.next();
+             		scanner.nextLine();
              		
                  	//Toast.makeText(context.getApplicationContext(), "Reading: " + input, Toast.LENGTH_LONG).show();
              	}
