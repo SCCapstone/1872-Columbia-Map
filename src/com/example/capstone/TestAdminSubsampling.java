@@ -517,7 +517,7 @@ public class TestAdminSubsampling extends View implements OnTouchListener {
         mmpoint2 = sourceToViewCoord(1280,800);
         canvas.drawRect(mmpoint1.x+5, mmpoint1.y+5, mmpoint2.x-5, mmpoint2.y-5, paint);
 
-        
+        /*
         //Pins
         PointF getpoint;
         Bitmap pin =BitmapFactory.decodeResource(getResources(), R.drawable.mappin);
@@ -537,7 +537,7 @@ public class TestAdminSubsampling extends View implements OnTouchListener {
         getpoint = sourceToViewCoord(6230, 2605);
         Rect pinRectWWH = new Rect((int) getpoint.x-15,(int) getpoint.y-15,(int) getpoint.x+10,(int) getpoint.y+10);
         canvas.drawBitmap(pin, null, pinRectWWH, null);
-        
+        */
         
         
         //auto refresh canvas

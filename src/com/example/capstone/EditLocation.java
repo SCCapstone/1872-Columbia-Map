@@ -105,7 +105,7 @@ public class EditLocation extends Activity {
 		EditText descriptionedit = (EditText) findViewById(R.id.descriptionedit);
 		description=descriptionedit.getText().toString();
 		String image = BitMapToString(loadedImage);
-		finaloutput=xLocation+" "+yLocation+" "+title+" "+description+" "+image+" ";
+		finaloutput=xLocation+"\n"+yLocation+"\n"+title+"\n"+description+"\n"+image;
 		WritetoFile(finaloutput);
 		Toast.makeText(context.getApplicationContext(), "Location Saved", Toast.LENGTH_LONG).show();
 	}
@@ -210,15 +210,15 @@ public class EditLocation extends Activity {
 	private void WritetoFile(String output) 
 	 {
 		//String textToSaveString = "Testing Token Method";
-		 StringTokenizer st = new StringTokenizer(output);
+		 //StringTokenizer st = new StringTokenizer(output);
 
 		 try {
 			 OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput(FILENAME, Context.MODE_APPEND));
 			 //outputStreamWriter.write("Location Test");
-			 while (st.hasMoreElements()) {
-				 outputStreamWriter.write(st.nextElement().toString()+ "\n");
-			 }
-			
+			 //while (st.hasMoreElements()) {
+				 //outputStreamWriter.write(st.nextElement().toString()+ "\n");
+			 //}
+			 outputStreamWriter.write(output);
 			 //Toast.makeText(context.getApplicationContext(), "writing: " + output, Toast.LENGTH_LONG).show();
 			 outputStreamWriter.close();
 			 Toast.makeText(context.getApplicationContext(), "Location Saved", Toast.LENGTH_LONG).show();
