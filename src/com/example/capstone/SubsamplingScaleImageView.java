@@ -24,7 +24,6 @@ package com.example.capstone;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStreamWriter;
 import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -34,7 +33,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.StringTokenizer;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -65,7 +63,6 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.VideoView;
 //import android.os.Handler;
 //import com.capstone.historiccolumbiamap.R;
 
@@ -95,7 +92,7 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
     private static final String TAG = SubsamplingScaleImageView.class.getSimpleName();
 	private static final String FILENAME = "DataFile.txt";
 	public ImageView image;
-	public ArrayList<Integer> data = new ArrayList<Integer>();
+	public List<Integer> data = new ArrayList<Integer>();
     //locations for this map resolution
 	public int[] USC_loc = {6290, 4226};
 	public int[] Statehouse_loc = {5030, 3856};
@@ -385,6 +382,7 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
     		return true;
 		
 		PointF getpoint = viewToSourceCoord(event.getX(), event.getY());
+		
 		//getpoint now contains x and y in image's coordinate system.		
 		//pointCheck(int X_touched, int Y_touched, int locs[], int precision)
 		if(isZooming == false){
@@ -407,14 +405,16 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
 		else if (pointCheck(getpoint.x, getpoint.y, Asylum_loc, highprecision))
 			createPopup(R.layout.popup_layout7);
 		else*/
-			int[] array = new int[1];
-			for(int x: array){
-				array[0] = x;
-				array[1] = x+1;
-				if (pointCheck(getpoint.x, getpoint.y, array, highprecision))
-				{
-				createPopup(R.layout.popup_layout, getpoint.x, getpoint.y);
-				}
+			int[] array = new int[2];
+			
+			for(int i = 0; i < data.size()-1; i++){
+				array[0] = data.get(0);
+				array[1] = data.get(1);
+				
+					if (pointCheck(getpoint.x, getpoint.y, array, highprecision))
+					{
+						createPopup(R.layout.popup_layout, array[0], array[1]);
+					}
 				
 			}
 		}
@@ -589,7 +589,7 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
         //WritetoFile("2000");
        // WritetoFile("This is the title");
        // WritetoFile("This is the description");
-        
+
         int x = 0;
         int y = 0;
         float xf,yf;
@@ -612,7 +612,6 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
                 yf = Float.valueOf(scanner.next());
                 y = (int) yf;
                 data.add(y);
-                
             	getpoint = sourceToViewCoord(x, y);
             	Rect pinRecttest = new Rect((int) getpoint.x-15,(int) getpoint.y-15,(int) getpoint.x+10,(int) getpoint.y+10);
             	canvas.drawBitmap(pin, null, pinRecttest, null);
@@ -1118,7 +1117,7 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
 			return false;
 	}
 
-	public void createPopup(int location, float x, float y)
+	public void createPopup(int location, int x, int y)
 	{		
 		popupon=true; //prevents multiple pop-up bug during OnTouch and OnRelease		
 		LayoutInflater layoutInflator = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);	
@@ -1142,8 +1141,6 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
 		
 		String title = null,descr = null,img = null;
 
-		String xcoord = Float.toString((int) x);
-		String ycoord = Float.toString((int) y);
 		
 		try 
         {
@@ -1153,18 +1150,20 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
          
          	while(scanner.hasNext())
 			{
-				if(scanner.next().equals(xcoord))
-				{
-					scanner.nextLine();
-					
-					if(scanner.next().equals(ycoord))
+         		float xcoord = Float.valueOf(scanner.next());
+				if((int) xcoord == x)
+				{	
+					float ycoord = Float.valueOf(scanner.next());
+					if((int) ycoord == y)
 					{
 						 
-				         title = scanner.nextLine();
+				         title = scanner.next();
 				         scanner.nextLine();
 				         descr = scanner.nextLine();
-				         scanner.nextLine();
+				         //scanner.nextLine();
+				         //Toast.makeText(context, scanner.nextLine(), Toast.LENGTH_LONG).show();
 				         img = scanner.nextLine();
+				         //Toast.makeText(context, img, Toast.LENGTH_LONG).show();
 				         break;
 					}
 				}
@@ -1192,18 +1191,18 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
 		Description.setText(descr);
 		image = (ImageView)layout.findViewById(R.id.image);
 		//Display image
-		if(img.substring(0,3).equals("http"))
-		{
-			// Create an object for subclass of AsyncTask
-	        GetXMLTask task = new GetXMLTask();
-	        // Execute the task
-	        task.execute(new String[] { img });
-		}
-		else
-		{
-			StringToBitMap(img);
+//		if(img.substring(0,3).equals("http"))
+//		{
+//			// Create an object for subclass of AsyncTask
+//	        GetXMLTask task = new GetXMLTask();
+//	        // Execute the task
+//	        task.execute(new String[] { img });
+//		}
+//		else
+//		{
+
 			image.setImageBitmap(StringToBitMap(img));
-		}
+		//}
 		
 
 		//String URL ="https://dl.dropboxusercontent.com/s/5nztjmb8by1lvis/GR%2002.02.01%20US%20Post%20Office%20Stereograph.JPG";

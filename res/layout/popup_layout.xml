@@ -37,13 +37,13 @@
       			android:layout_marginRight="10dp"/>
       			<!-- android:contentDescription="@null"/>--> 
        			
-     		<ImageView
+<!--      		<ImageView
        			android:id="@+id/image2"
        			android:layout_width="wrap_content"
       			android:layout_height="wrap_content"
       			android:layout_marginLeft="10dp"
       			android:layout_marginRight="10dp"/>
-      			<!-- android:contentDescription="@null"/>--> 
+      			android:contentDescription="@null"/> 
  
        			
      		<VideoView 
@@ -51,7 +51,7 @@
      		    android:layout_height="480dp"
 	        	android:layout_width="640dp"
 	        	android:layout_marginLeft="10dp"
-      			android:layout_marginRight="10dp"/>
+      			android:layout_marginRight="10dp"/> -->
     
       	</LinearLayout>
 	 </HorizontalScrollView>
