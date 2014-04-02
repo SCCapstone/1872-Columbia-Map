@@ -112,15 +112,15 @@ public class EditLocation extends Activity {
 			String image = BitMapToString(loadedImage);
 			//finaloutput=xLocation+"\n"+yLocation+"\n"+title+"\n"+description+"\n"+image;
 			builder.append(xLocation);
-		
+			builder.append("\n");
 			builder.append(yLocation);
-		
+			builder.append("\n");
 			builder.append(title);
-	
+			builder.append("\n");
 			builder.append(description);
-	
+			builder.append("\n");
 			builder.append(image);
-			
+			builder.append("\n");
 			//WritetoFile(xLocation);
 			//WritetoFile(yLocation);
 			//WritetoFile(title);
@@ -135,13 +135,13 @@ public class EditLocation extends Activity {
 			//WritetoFile(description);
 			//finaloutput=xLocation+"\n"+yLocation+"\n"+title+"\n"+description;
 			builder.append(xLocation);
-		
+			builder.append("\n");
 			builder.append(yLocation);
-	
+			builder.append("\n");
 			builder.append(title);
-	
+			builder.append("\n");
 			builder.append(description);
-			
+			builder.append("\n");
 			
 		}
 		WritetoFile(builder.toString());

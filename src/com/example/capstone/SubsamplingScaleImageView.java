@@ -408,7 +408,7 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
 			createPopup(R.layout.popup_layout7);
 		else*/
 			int[] array = new int[1];
-			for(int x: data){
+			for(int x: array){
 				array[0] = x;
 				array[1] = x+1;
 				if (pointCheck(getpoint.x, getpoint.y, array, highprecision))
@@ -598,39 +598,48 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
         {
          	InputStream inputStream = context.openFileInput(FILENAME);
          	Scanner scanner = new Scanner(inputStream);
-         	if(scanner.hasNext())
-         	{
-         	xf = Float.valueOf(ReadfromFile(scanner));
-         	x = (int) xf;
-         	data.add(x);
-            scanner.nextLine();
-            yf = Float.valueOf(ReadfromFile(scanner));
-            y = (int) yf;
-            data.add(y);
+         	//if(scanner.hasNext())
+         	//{
+         		
+         	
             
             while(scanner.hasNext())
             	{
+            	
+            	xf = Float.valueOf(scanner.next());
+             	x = (int) xf;
+             	data.add(x);
+                yf = Float.valueOf(scanner.next());
+                y = (int) yf;
+                data.add(y);
+                
+            	getpoint = sourceToViewCoord(x, y);
+            	Rect pinRecttest = new Rect((int) getpoint.x-15,(int) getpoint.y-15,(int) getpoint.x+10,(int) getpoint.y+10);
+            	canvas.drawBitmap(pin, null, pinRecttest, null);
             
-            getpoint = sourceToViewCoord(x, y);
-            Rect pinRecttest = new Rect((int) getpoint.x-15,(int) getpoint.y-15,(int) getpoint.x+10,(int) getpoint.y+10);
-            canvas.drawBitmap(pin, null, pinRecttest, null);
+            
             if(scanner.hasNext())
             	{scanner.nextLine();
            		if(scanner.hasNext())
            			{scanner.nextLine();
            			if(scanner.hasNext())
-           				{scanner.nextLine();}
+           				{scanner.nextLine();
+           					if(scanner.hasNext())
+           						{scanner.nextLine();}
            				else break;}
            			else break;}
-           		else break;
+           		else break;}
+            else break;
             
-            x = Integer.parseInt(ReadfromFile(scanner));
-            data.add(x);
+            /*xf = Float.valueOf(ReadfromFile(scanner));
+         	x = (int) xf;
+         	data.add(x);
             scanner.nextLine();
-            y = Integer.parseInt(ReadfromFile(scanner));
-            data.add(y);
+            yf = Float.valueOf(ReadfromFile(scanner));
+            y = (int) yf;
+            data.add(y);*/
             	}
-         	}
+         	//}
         }
      	catch (FileNotFoundException e) {
          	Log.e(TAG, "File not found: " + e.toString());
@@ -1144,18 +1153,18 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
          
          	while(scanner.hasNext())
 			{
-				if(ReadfromFile(scanner).equals(xcoord))
+				if(scanner.next().equals(xcoord))
 				{
 					scanner.nextLine();
 					
-					if(ReadfromFile(scanner).equals(ycoord))
+					if(scanner.next().equals(ycoord))
 					{
-						 scanner.nextLine();
-				         title = ReadfromFile(scanner);
+						 
+				         title = scanner.nextLine();
 				         scanner.nextLine();
-				         descr = ReadfromFile(scanner);
+				         descr = scanner.nextLine();
 				         scanner.nextLine();
-				         img = ReadfromFile(scanner);
+				         img = scanner.nextLine();
 				         break;
 					}
 				}
@@ -1240,7 +1249,7 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
     	 String input = "";
              	if(scanner.hasNext()) {
              		input = scanner.nextLine();
-             		scanner.nextLine();
+             		scanner.next();
              		
                  	//Toast.makeText(context.getApplicationContext(), "Reading: " + input, Toast.LENGTH_LONG).show();
              	}
