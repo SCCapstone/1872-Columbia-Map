@@ -39,7 +39,7 @@ public class EditLocation extends Activity {
 	private static final String FILENAME = "DataFile.txt";
 	private static String TAG = "Location DATA";
 	private Context context;
-	private String finaloutput,title,description,xLocation,yLocation;
+	private String finalimage,finaloutput,title,description,xLocation,yLocation;
 	private Bitmap loadedImage;
 	private static int RESULT_LOAD_IMAGE = 1;
 	
@@ -105,22 +105,29 @@ public class EditLocation extends Activity {
 		EditText descriptionedit = (EditText) findViewById(R.id.descriptionedit);
 		description=descriptionedit.getText().toString();
 		
-	    StringBuilder builder = new StringBuilder("");
+	    //StringBuilder builder = new StringBuilder("");
 	    
 		if(loadedImage!=null)
 		{
 			String image = BitMapToString(loadedImage);
-			//finaloutput=xLocation+"\n"+yLocation+"\n"+title+"\n"+description+"\n"+image;
-			builder.append(xLocation);
-			builder.append("\n");
-			builder.append(yLocation);
-			builder.append("\n");
-			builder.append(title);
-			builder.append("\n");
-			builder.append(description);
-			builder.append("\n");
-			builder.append(image);
-			builder.append("\n");
+			StringBuffer stringBuffer = new StringBuffer();
+			for (int i = 0; i < image.length(); i++) {
+				if (image.charAt(i) != '\n' && image.charAt(i) != '\r') {
+					stringBuffer.append(image.charAt(i));
+				}
+			}
+			finalimage = stringBuffer.toString();
+			finaloutput=xLocation+"\n"+yLocation+"\n"+title+"\n"+description+"\n"+finalimage;
+			//builder.append(xLocation);
+			//builder.append("\n");
+			//builder.append(yLocation);
+			//builder.append("\n");
+			//builder.append(title);
+			//builder.append("\n");
+			//builder.append(description);
+			//builder.append("\n");
+			//builder.append(image);
+			//builder.append("\n");
 			//WritetoFile(xLocation);
 			//WritetoFile(yLocation);
 			//WritetoFile(title);
@@ -133,18 +140,18 @@ public class EditLocation extends Activity {
 			//WritetoFile(yLocation);
 			//WritetoFile(title);
 			//WritetoFile(description);
-			//finaloutput=xLocation+"\n"+yLocation+"\n"+title+"\n"+description;
-			builder.append(xLocation);
-			builder.append("\n");
-			builder.append(yLocation);
-			builder.append("\n");
-			builder.append(title);
-			builder.append("\n");
-			builder.append(description);
-			builder.append("\n");
+			finaloutput=xLocation+"\n"+yLocation+"\n"+title+"\n"+description;
+			//builder.append(xLocation);
+			//builder.append("\n");
+			//builder.append(yLocation);
+			//builder.append("\n");
+			//builder.append(title);
+			//builder.append("\n");
+			//builder.append(description);
+			//builder.append("\n");
 			
 		}
-		WritetoFile(builder.toString());
+		WritetoFile(finaloutput);
 		Toast.makeText(context.getApplicationContext(), "Location Saved", Toast.LENGTH_LONG).show();
 	}
 	
