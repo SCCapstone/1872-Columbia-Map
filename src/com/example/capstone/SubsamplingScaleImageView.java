@@ -592,7 +592,7 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
 
         int x = 0;
         int y = 0;
-        float xf,yf;
+        float xf = 0,yf = 0;
         
         try 
         {
@@ -603,13 +603,14 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
          		
          	
             
-            while(scanner.hasNext())
+            while(scanner.hasNextLine())
             	{
-            	
-            	xf = Float.valueOf(scanner.next());
+            	//Toast.makeText(this, scanner.nextLine(), Toast.LENGTH_LONG).show();
+            	xf = Float.valueOf(scanner.nextLine());
              	x = (int) xf;
              	data.add(x);
-                yf = Float.valueOf(scanner.next());
+             	//Toast.makeText(this, scanner.nextLine(), Toast.LENGTH_LONG).show();
+                yf = Float.valueOf(scanner.nextLine());
                 y = (int) yf;
                 data.add(y);
             	getpoint = sourceToViewCoord(x, y);
@@ -617,18 +618,17 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
             	canvas.drawBitmap(pin, null, pinRecttest, null);
             
             
-            if(scanner.hasNext())
+            if(scanner.hasNextLine())
             	{scanner.nextLine();
-           		if(scanner.hasNext())
+           		if(scanner.hasNextLine())
            			{scanner.nextLine();
-           			if(scanner.hasNext())
-           				{scanner.nextLine();
-           					if(scanner.hasNext())
-           						{scanner.nextLine();}
+           			if(scanner.hasNextLine())
+           				{scanner.nextLine();}
+           				//while(scanner.nextLine().length() > 1000 || scanner.nextLine().startsWith("http"))
+   				         //{scanner.nextLine();}}
            				else break;}
            			else break;}
-           		else break;}
-            else break;
+           		else break;
             
             /*xf = Float.valueOf(ReadfromFile(scanner));
          	x = (int) xf;
@@ -637,8 +637,9 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
             yf = Float.valueOf(ReadfromFile(scanner));
             y = (int) yf;
             data.add(y);*/
-            	}
-         	//}
+            	//}
+         	}
+            
         }
      	catch (FileNotFoundException e) {
          	Log.e(TAG, "File not found: " + e.toString());
