@@ -639,11 +639,13 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
             data.add(y);*/
             	//}
          	}
-            
+            scanner.close();
         }
      	catch (FileNotFoundException e) {
          	Log.e(TAG, "File not found: " + e.toString());
      	}
+       
+        
         //read - read read.next x coord and y coord, set pinrect
         
         
@@ -1149,22 +1151,22 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
          	InputStream inputStream = context.openFileInput(FILENAME);
          	Scanner scanner = new Scanner(inputStream);
          
-         	while(scanner.hasNext())
+         	while(scanner.hasNextLine())
 			{
-         		float xcoord = Float.valueOf(scanner.next());
+         		float xcoord = Float.valueOf(scanner.nextLine());
 				if((int) xcoord == x)
 				{	
-					float ycoord = Float.valueOf(scanner.next());
+					float ycoord = Float.valueOf(scanner.nextLine());
 					if((int) ycoord == y)
 					{
 						 
-				         title = scanner.next();
-				         scanner.nextLine();
+				         title = scanner.nextLine();
 				         descr = scanner.nextLine();
-				         //scanner.nextLine();
-				         //Toast.makeText(context, scanner.nextLine(), Toast.LENGTH_LONG).show();
-				         img = scanner.nextLine();
-				         //Toast.makeText(context, img, Toast.LENGTH_LONG).show();
+				         //if(scanner.nextLine().length() > 1000 || scanner.nextLine().startsWith("http"))
+				        	 img = scanner.nextLine();
+				        // while(scanner.nextLine().length() > 1000 || scanner.nextLine().startsWith("http"))
+	   				         //{scanner.nextLine();}}
+					         //Toast.makeText(context, img, Toast.LENGTH_LONG).show();
 				         break;
 					}
 				}
