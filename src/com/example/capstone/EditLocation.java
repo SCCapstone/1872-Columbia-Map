@@ -117,7 +117,7 @@ public class EditLocation extends Activity {
 				}
 			}
 			finalimage = stringBuffer.toString();
-			finaloutput=xLocation+"\n"+yLocation+"\n"+title+"\n"+description+"\n"+finalimage;
+			finaloutput=xLocation+"\n"+yLocation+"\n"+title+"\n"+description+"\n"+finalimage+"\n";
 			//builder.append(xLocation);
 			//builder.append("\n");
 			//builder.append(yLocation);
