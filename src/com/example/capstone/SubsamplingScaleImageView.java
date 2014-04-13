@@ -93,6 +93,7 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
 	private static final String FILENAME = "DataFile.txt";
 	public ImageView image;
 	public List<Integer> data = new ArrayList<Integer>();
+	public int[] array = new int[2];
     //locations for this map resolution
 	public int[] USC_loc = {6290, 4226};
 	public int[] Statehouse_loc = {5030, 3856};
@@ -356,63 +357,23 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
     @Override
     public boolean onTouch(View v, MotionEvent event) 
     {   
-    	/*
-    	//TEST AREA 
-    	//Toast Coordinate using: public PointF viewToSourceCoord(PointF vxy)
-
-    	String x = Float.toString(temp.x);
-    	String y = Float.toString(temp.y);
     	
-    	final Toast toast = Toast.makeText(context, x+", "+y, Toast.LENGTH_SHORT);
-        toast.show();
-
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() 
-        {        	
-            @Override
-            public void run() 
-            {
-                toast.cancel(); 
-            }
-         }, 1000);        
-    	    	
-    	//END TEST AREA
-		*/
     	if (popupon)
     		return true;
 		
 		PointF getpoint = viewToSourceCoord(event.getX(), event.getY());
 		
-		//getpoint now contains x and y in image's coordinate system.		
-		//pointCheck(int X_touched, int Y_touched, int locs[], int precision)
+
 		if(isZooming == false){
 		
-		/*if (pointCheck(getpoint.x, getpoint.y, USC_loc, highprecision))			
-			createPopup(R.layout.popup_layout2);							
-		
-		else if (pointCheck(getpoint.x, getpoint.y, Church_loc, highprecision))			
-			createPopup(R.layout.popup_layout4);						 
-			
-		else if (pointCheck(getpoint.x, getpoint.y, Statehouse_loc, highprecision))
-			createPopup(R.layout.popup_layout1);        			
-			
-		else if (pointCheck(getpoint.x, getpoint.y, WWFH_loc, highprecision))						
-			createPopup(R.layout.popup_layout3);
-		else if (pointCheck(getpoint.x, getpoint.y, Seminary_loc, highprecision))
-			createPopup(R.layout.popup_layout5);
-		else if (pointCheck(getpoint.x, getpoint.y, Penitentiary_loc, lowprecision))
-			createPopup(R.layout.popup_layout6);
-		else if (pointCheck(getpoint.x, getpoint.y, Asylum_loc, highprecision))
-			createPopup(R.layout.popup_layout7);
-		else*/
-			int[] array = new int[2];
-			
 			for(int i = 0; i < data.size()-1; i++){
-				array[0] = data.get(0);
-				array[1] = data.get(1);
+				array[0] = data.get(i);
+				array[1] = data.get(i+1);
 				
 					if (pointCheck(getpoint.x, getpoint.y, array, highprecision))
 					{
+						//String s = Integer.toString(array[0]) + " " + Integer.toString(array[1]);
+						//Toast.makeText(context, s, Toast.LENGTH_LONG).show();
 						createPopup(R.layout.popup_layout, array[0], array[1]);
 					}
 				
@@ -482,23 +443,6 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
         // Optimum sample size for current scale
         int sampleSize = Math.min(fullImageSampleSize, calculateInSampleSize((int) (sWidth * scale), (int) (sHeight * scale)));
 
-        /*
-        //TEST AREA Toast sample size
-        String temp = Float.toString(sampleSize);   	
-    	final Toast toast = Toast.makeText(context, "sampleSize= "+temp, Toast.LENGTH_SHORT);
-        toast.show();
-
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() 
-        {        	
-            @Override
-            public void run() 
-            {
-                toast.cancel(); 
-            }
-         }, 750);        
-        //END TEST AREA
-        */
     	
         // First check for missing tiles - if there are any we need the base layer underneath to avoid gaps
         boolean hasMissingTiles = false;
@@ -584,11 +528,6 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
         Rect pinRectAsylum = new Rect((int) getpoint.x-15,(int) getpoint.y-15,(int) getpoint.x+10,(int) getpoint.y+10);
         canvas.drawBitmap(pin, null, pinRectAsylum, null);
         */
-        //write - touch sends x coord and y coord to file
-        //WritetoFile("6000");
-        //WritetoFile("2000");
-       // WritetoFile("This is the title");
-       // WritetoFile("This is the description");
 
         int x = 0;
         int y = 0;
@@ -629,26 +568,14 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
            				else break;}
            			else break;}
            		else break;
-            
-            /*xf = Float.valueOf(ReadfromFile(scanner));
-         	x = (int) xf;
-         	data.add(x);
-            scanner.nextLine();
-            yf = Float.valueOf(ReadfromFile(scanner));
-            y = (int) yf;
-            data.add(y);*/
-            	//}
+
          	}
             scanner.close();
         }
      	catch (FileNotFoundException e) {
          	Log.e(TAG, "File not found: " + e.toString());
      	}
-       
-        
-        //read - read read.next x coord and y coord, set pinrect
-        
-        
+
         //auto refresh canvas
         //invalidate();
 
@@ -1143,7 +1070,8 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
 		//ArrayList<String> data = new ArrayList<String>();
 		
 		String title = null,descr = null,img = null;
-
+		float xcoord;
+		float ycoord;
 		
 		try 
         {
@@ -1153,32 +1081,31 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
          
          	while(scanner.hasNextLine())
 			{
-         		float xcoord = Float.valueOf(scanner.nextLine());
-				if((int) xcoord == x)
+         		xcoord = Float.valueOf(scanner.nextLine());
+         		ycoord = Float.valueOf(scanner.nextLine());
+				if((int) xcoord == x && (int) ycoord == y)
 				{	
-					float ycoord = Float.valueOf(scanner.nextLine());
-					if((int) ycoord == y)
-					{
 						 
 				         title = scanner.nextLine();
 				         descr = scanner.nextLine();
 				         //if(scanner.nextLine().length() > 1000 || scanner.nextLine().startsWith("http"))
-				        	 img = scanner.nextLine();
+				         img = scanner.nextLine();
 				        // while(scanner.nextLine().length() > 1000 || scanner.nextLine().startsWith("http"))
 	   				         //{scanner.nextLine();}}
 					         //Toast.makeText(context, img, Toast.LENGTH_LONG).show();
 				         break;
-					}
+				}
+				else
+				{
+					scanner.nextLine();
+					scanner.nextLine();
+					scanner.nextLine();
 				}
 				
 			}
             
-            //  while(scanner.hasNext())
-            //  {
-            //  data.add(ReadfromFile(scanner));
-            //  scanner.nextLine();
-            //  }
-             
+         
+             scanner.close();
            
         }
      	catch (FileNotFoundException e) {
