@@ -3,16 +3,13 @@ package com.example.capstone;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.util.StringTokenizer;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
-import java.util.Scanner;
+import java.util.Vector;
+
 import android.app.Activity;
+import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -28,13 +25,17 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
-public class EditLocation extends Activity {
+public class EditLocation extends ListActivity {
 	
 	private static final String FILENAME = "DataFile.txt";
 	private static String TAG = "Location DATA";
@@ -42,6 +43,10 @@ public class EditLocation extends Activity {
 	private String finalimage,finaloutput,title,description,xLocation,yLocation;
 	private Bitmap loadedImage;
 	private static int RESULT_LOAD_IMAGE = 1;
+	private String getTitle = "";
+	
+	//create a really big array to store location titles
+	private String[] locationTitles = new String[100];
 	
 	public EditLocation()
 	{
@@ -60,7 +65,7 @@ public class EditLocation extends Activity {
 		super.onCreate(savedInstanceState);	
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 		setContentView(R.layout.location_edit);
-	
+		
 		final Button LoadImage = (Button) findViewById(R.id.LoadImage);
 		final Button DoneEditing = (Button) findViewById(R.id.DoneEditing);
 		TextView EditScreenTitle = (TextView) findViewById(R.id.editscreentitle);
@@ -79,7 +84,7 @@ public class EditLocation extends Activity {
 		yLocation = new Double(yLoc).toString();
 		//FILENAME = xLocation+"."+yLocation+"."+"DATA.txt";
 		
-		// Begin another syncTask to browse and attach an image file
+		//Begin another syncTask to browse and attach an image file
 		LoadImage.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -87,6 +92,28 @@ public class EditLocation extends Activity {
 				loadImageTask.execute();
 			}
 		});
+		
+		//View location titles in a list
+		/*if(locationTitles.length != 0)
+		{
+			ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.location_edit, locationTitles);
+			setListAdapter(adapter);
+		}
+		
+		ListView listView = getListView();
+		listView.setTextFilterEnabled(true);
+		listView.setOnItemClickListener(new OnItemClickListener() 
+		{
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position,
+					long id) 
+			{
+				
+				Toast.makeText(getApplicationContext(),
+						((TextView) view).getText(), Toast.LENGTH_SHORT).show();
+			}
+		});*/
+ 
 	}
 
 	@Override
@@ -105,54 +132,65 @@ public class EditLocation extends Activity {
 		EditText descriptionedit = (EditText) findViewById(R.id.descriptionedit);
 		description=descriptionedit.getText().toString();
 		
-	    //StringBuilder builder = new StringBuilder("");
-	    
 		if(loadedImage!=null)
 		{
 			String image = BitMapToString(loadedImage);
 			StringBuffer stringBuffer = new StringBuffer();
-			for (int i = 0; i < image.length(); i++) {
-				if (image.charAt(i) != '\n' && image.charAt(i) != '\r') {
+			for (int i = 0; i < image.length(); i++) 
+			{
+				if (image.charAt(i) != '\n' && image.charAt(i) != '\r') 
+				{
 					stringBuffer.append(image.charAt(i));
 				}
 			}
 			finalimage = stringBuffer.toString();
+			
 			finaloutput=xLocation+"\n"+yLocation+"\n"+title+"\n"+description+"\n"+finalimage+"\n";
-			//builder.append(xLocation);
-			//builder.append("\n");
-			//builder.append(yLocation);
-			//builder.append("\n");
-			//builder.append(title);
-			//builder.append("\n");
-			//builder.append(description);
-			//builder.append("\n");
-			//builder.append(image);
-			//builder.append("\n");
-			//WritetoFile(xLocation);
-			//WritetoFile(yLocation);
-			//WritetoFile(title);
-			//WritetoFile(description);
-			//WritetoFile(image);
+			
+			//Write location data to an instance of the location object class
+			createLocationObject();
 		}
 		else
 		{
-			//WritetoFile(xLocation);
-			//WritetoFile(yLocation);
-			//WritetoFile(title);
-			//WritetoFile(description);
 			finaloutput=xLocation+"\n"+yLocation+"\n"+title+"\n"+description;
-			//builder.append(xLocation);
-			//builder.append("\n");
-			//builder.append(yLocation);
-			//builder.append("\n");
-			//builder.append(title);
-			//builder.append("\n");
-			//builder.append(description);
-			//builder.append("\n");
-			
+			createLocationObject();
 		}
+		
 		WritetoFile(finaloutput);
 		Toast.makeText(context.getApplicationContext(), "Location Saved", Toast.LENGTH_LONG).show();
+	}
+
+	/**
+	 * Writes location data to a location object 
+	 */
+	private void createLocationObject() 
+	{
+		Vector<LocationObject> locationVector = new Vector();
+		LocationObject saveLocation = new LocationObject(xLocation, yLocation, title, description, finalimage);
+		
+		//save the object to a vector
+		if (saveLocation != null)
+		{
+			locationVector.add(saveLocation);
+		}
+				
+		//check to see what is inside the vector
+		ListIterator iter = locationVector.listIterator();
+		for(int i=0; i<locationVector.size(); i++)
+		{
+			getTitle = locationVector.get(i).getLocTitle();
+			Log.v("LOCATION",getTitle);
+		}
+		
+		//write the title of each location to the array of titles
+		for(int k=0; k<locationTitles.length; k++)
+		{
+			for(int i=0; i<locationVector.size(); i++)
+			{
+				locationTitles[k] = locationVector.get(i).getLocTitle();
+			}	
+		}
+		
 	}
 	
 	private class LoadImageAsync extends AsyncTask<Void, Void, Void> 
@@ -181,7 +219,6 @@ public class EditLocation extends Activity {
 				} 
 		        catch (Exception e) 
 				{
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}       
 		    	
