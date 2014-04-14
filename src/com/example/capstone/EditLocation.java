@@ -4,10 +4,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
+import android.annotation.SuppressLint;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -16,14 +19,17 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -31,19 +37,20 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class EditLocation extends ListActivity {
+@SuppressLint("UseValueOf")
+public class EditLocation extends ListActivity implements OnClickListener {
 	
 	private static final String FILENAME = "DataFile.txt";
 	private static String TAG = "Location DATA";
 	private Context context;
-	private String finalimage,finaloutput,title,description,xLocation,yLocation;
+	private String finalimage,finaloutput,locationTitle,description,xLocation,yLocation;
 	private Bitmap loadedImage;
 	private static int RESULT_LOAD_IMAGE = 1;
-	private String getTitle = "";
 	private ListView titlesList;
 	private Vector<String> titleVector;
-	ItemsAdapter adapter;
-
+	private ArrayAdapter<String> adapter;
+	private Button SelectLocationButton;
+	
 	public EditLocation()
 	{
 		
@@ -53,17 +60,27 @@ public class EditLocation extends ListActivity {
 	{
         this.context = context;
     }
-    
+
+	public String getLocationTitle() {
+		return locationTitle;
+	}
+
+	public void setLocationTitle(String locationTitle) {
+		this.locationTitle = locationTitle;
+	}
+	
+	@SuppressLint("UseValueOf")
 	@Override	
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);	
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 		setContentView(R.layout.location_edit);
+		context = getApplicationContext();
 		
 		final Button LoadImage = (Button) findViewById(R.id.LoadImage);
 		final Button DoneEditing = (Button) findViewById(R.id.DoneEditing);
-		final Button SelectLocationButton = (Button)findViewById(R.id.selectLocationButton);
+		SelectLocationButton = (Button)findViewById(R.id.selectLocationButton);
 		TextView EditScreenTitle = (TextView) findViewById(R.id.editscreentitle);
 		TextView locationsList = (TextView) findViewById(R.id.locationsList);
 		Typeface TradeGothic = Typeface.createFromAsset(getAssets(),"TradeGothic.ttf");
@@ -73,9 +90,9 @@ public class EditLocation extends ListActivity {
 		LoadImage.setTypeface(TradeGothic);
 		locationsList.setTypeface(TradeGothic);
 		SelectLocationButton.setTypeface(TradeGothic);
-											
-		context = getApplicationContext();
 		
+		initViews();
+		  
 		Intent i1 = getIntent();
 		Double xLoc = i1.getDoubleExtra("xLocation", 0.0);
 		Double yLoc = i1.getDoubleExtra("yLocation", 0.0);
@@ -91,54 +108,60 @@ public class EditLocation extends ListActivity {
 				loadImageTask.execute();
 			}
 		});
+		    
+	   	   
+	    //Initialize the vector and the adapter
+		titleVector = new Vector<String>();
 		
-	    titlesList = (ListView) findViewById(android.R.id.list);
-	    titlesList.setScrollbarFadingEnabled(false);
-	    
-	    titleVector = new Vector<String>();	    
-	    
-	    adapter = new ItemsAdapter(this, titleVector);
-	   
-	    SelectLocationButton.setOnClickListener(new OnClickListener() 
-	    {
-	        @Override
-	        public void onClick(View v) 
-	        {
-	        	adapter.add(title);
-	        	adapter.notifyDataSetChanged();
-	        	
-//	        	new Runnable()
-//	        	{
-//	        		public void run()
-//	        		{
-//		        		 for(int i=0; i<titleVector.size(); i++)
-//		   	        	 {
-//		   	        		 adapter.add(titleVector.get(i));
-//		   	        	 }
-//		        		 adapter.add(title);
-//	   	        	     adapter.notifyDataSetChanged();
-//	        		}		
-//	        	};
-	        }
-	    });
+		//Get the data stored in SharedPreferences
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		Map<String,?> keys = prefs.getAll();
 
-	    setListAdapter(adapter);
+		//Put everything in shared prefs into the vector
+		for(Map.Entry<String,?> entry : keys.entrySet())
+		{
+		    Log.v("PREFS",entry.getKey() + ": " + entry.getValue().toString());
+		    titleVector.add(entry.getValue().toString());
+		 }
 	    
+	    adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,titleVector);
+	    titlesList.setAdapter(adapter);	    
 	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) 
+    
+	public void initViews()
 	{
-			// Inflate the menu; this adds items to the action bar if it is present.
-			getMenuInflater().inflate(R.menu.main, menu);
-			return true;
+		titlesList = (ListView) findViewById(android.R.id.list);
+	    titlesList.setScrollbarFadingEnabled(false);
+	    SelectLocationButton.setOnClickListener(this);
 	}
 	
-	//called when user clicks on Done Editing button i
+	private void addTitlesToVector()
+	{
+	
+		titleVector.add(getLocationTitle());
+		
+		for(int i=0; i<titleVector.size(); i++)
+		{
+		Log.v("VECTOR", titleVector.get(i));
+		}
+	}
+	
+	@Override
+	public void onClick(View v) 
+	{
+		switch (v.getId()) {  
+        case R.id.selectLocationButton:  
+             addTitlesToVector();  
+             break;  
+        }  
+		
+		adapter.notifyDataSetChanged();
+	}
+	//called when user clicks on Done Editing button 
 	public void DoneEditing(View view) 
 	{
 		EditText titleedit = (EditText) findViewById(R.id.titleedit);
-		title=titleedit.getText().toString();
+		locationTitle=titleedit.getText().toString();
 		EditText descriptionedit = (EditText) findViewById(R.id.descriptionedit);
 		description=descriptionedit.getText().toString();
 		
@@ -156,20 +179,35 @@ public class EditLocation extends ListActivity {
 			}
 			finalimage = stringBuffer.toString();
 			
-			finaloutput=xLocation+"\n"+yLocation+"\n"+title+"\n"+description+"\n"+finalimage+"\n";
-				
+			finaloutput=xLocation+"\n"+yLocation+"\n"+locationTitle+"\n"+description+"\n"+finalimage+"\n";
+			
+			setLocationTitle(locationTitle);	
+			storeLocationTitleInSharedPrefs();
 			//Write location data to an instance of the location object class
 			createLocationObject();
 		}
 		else
 		{
-			finaloutput=xLocation+"\n"+yLocation+"\n"+title+"\n"+description;
+			finaloutput=xLocation+"\n"+yLocation+"\n"+locationTitle+"\n"+description;
+			setLocationTitle(locationTitle);
+			storeLocationTitleInSharedPrefs();
 			createLocationObject();
 		}
 		
 		WritetoFile(finaloutput);
-		Toast.makeText(context.getApplicationContext(), "Location Saved", Toast.LENGTH_LONG).show();
+		Toast.makeText(context.getApplicationContext(), "Location Saved", Toast.LENGTH_SHORT).show();
+		
 	}
+
+	/**
+	 * 
+	 */
+	private void storeLocationTitleInSharedPrefs() {
+		PreferenceManager.getDefaultSharedPreferences(this)
+		.edit().putString(getLocationTitle(), getLocationTitle()).commit();
+	}
+
+
 
 	/**
 	 * Writes location data to a location object 
@@ -177,21 +215,14 @@ public class EditLocation extends ListActivity {
 	private void createLocationObject() 
 	{
 		Vector<LocationObject> locationVector = new Vector();
-		LocationObject saveLocation = new LocationObject(xLocation, yLocation, title, description, finalimage);
+		LocationObject saveLocation = new LocationObject(xLocation, yLocation, locationTitle, description, finalimage);
 		
 		//save the object to a vector
 		if (saveLocation != null)
 		{
 			locationVector.add(saveLocation);
 		}
-				
-		//check to see what is inside the vector
-     	for(int i=0; i<locationVector.size(); i++)
-		{
-			getTitle = locationVector.get(i).getLocTitle();
-			Log.v("LOCATION",getTitle);
-		}
-		
+					
 	}
 	
 	private class LoadImageAsync extends AsyncTask<Void, Void, Void> 
@@ -273,7 +304,7 @@ public class EditLocation extends ListActivity {
 	}
 	
 	//convert string to bitmap
-	/*public Bitmap StringToBitMap(String encodedString) {
+	public Bitmap StringToBitMap(String encodedString) {
 		try {
 			byte[] encodeByte = Base64.decode(encodedString, Base64.DEFAULT);
 			Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0,
@@ -283,7 +314,7 @@ public class EditLocation extends ListActivity {
 			e.getMessage();
 			return null;
 		}
-	}*/
+	}
 	
 	public static String getFilename() 
 	{
@@ -292,9 +323,7 @@ public class EditLocation extends ListActivity {
 	
 	private void WritetoFile(String output) 
 	 {
-		//String textToSaveString = "Testing Token Method";
-		 //StringTokenizer st = new StringTokenizer(output);
-
+		
 		 try {
 			 OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput(FILENAME, Context.MODE_APPEND));
 			 //outputStreamWriter.write("Location Test");
@@ -302,7 +331,6 @@ public class EditLocation extends ListActivity {
 				 //outputStreamWriter.write(st.nextElement().toString()+ "\n");
 			 //}
 			 outputStreamWriter.write(output);
-			 //Toast.makeText(context.getApplicationContext(), "writing: " + output, Toast.LENGTH_LONG).show();
 			 outputStreamWriter.close();
 			 Toast.makeText(context.getApplicationContext(), "Location Saved", Toast.LENGTH_LONG).show();
 		 }
@@ -318,48 +346,8 @@ public class EditLocation extends ListActivity {
 		 //	System.out.println(st2.nextElement());
 		 //}
 	 }
-	
-	class ItemsAdapter extends ArrayAdapter<String> 
-	{
 
-	    public ItemsAdapter(Context context, List<String> list) 
-	    {
-	        super(context, R.layout.location_adapter, list);
-	    }
 
-	    @Override
-	    public View getView(final int position, View row, final ViewGroup parent) 
-	    {
-	        final String item = getItem(position);
-
-	        ItemWrapper wrapper = null;
-	        if (row == null) {
-	            row = getLayoutInflater().inflate(R.layout.location_adapter, parent, false);
-	            wrapper = new ItemWrapper(row);
-
-	            row.setTag(wrapper);
-	        } else {
-	            wrapper = (ItemWrapper) row.getTag();
-	        }
-	        wrapper.refreshData(item);
-
-	        return row;
-	    }
-
-	    class ItemWrapper {
-
-	        TextView text;
-
-	        public ItemWrapper(View row) {
-	            text = (TextView) row.findViewById(R.id.elementLista);
-	        }
-
-	        public void refreshData(String item) {
-	            text.setText(item);
-	        }
-
-	    }
-	    }    
 } 
 	 
 
