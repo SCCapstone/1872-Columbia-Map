@@ -1,18 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
     android:background="@color/black"
     tools:context=".MainMenu" >
+    
+<ScrollView
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    
+<LinearLayout
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
 
     <TextView
         android:id="@+id/editscreentitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-		android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
         android:textColor="@color/yellow"
         android:text="@string/editlocation"
@@ -21,21 +31,18 @@
 
     <TextView
         android:id="@+id/locationtitle"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/editscreentitle"
         android:layout_marginTop="69dp"
-        android:layout_toLeftOf="@+id/titleedit"
         android:text="@string/edittitle"
         android:textSize="24sp"
         android:textStyle="bold" />
 
     <EditText
         android:id="@+id/titleedit"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/locationtitle"
-        android:layout_centerHorizontal="true"
+        android:layout_marginTop="69dp"
         android:ems="10"
         android:inputType="text"
         android:textSize="24sp"
@@ -43,68 +50,84 @@
 
     <TextView
         android:id="@+id/description"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/descriptionedit"
-        android:layout_alignBottom="@+id/descriptionedit"
-        android:layout_alignRight="@+id/locationtitle"
+        android:layout_marginTop="69dp"
         android:text="@string/editdescription"
         android:textSize="24sp"
         android:textStyle="bold" />
 
     <EditText
         android:id="@+id/descriptionedit"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/titleedit"
-        android:layout_below="@+id/locationtitle"
+        android:layout_marginTop="69dp"
         android:ems="10"
         android:gravity="top|left"
         android:inputType="textMultiLine"
-        android:lines="8"
-        android:maxLines="20"
-        android:minLines="6"
+        android:lines="2"
+        android:maxLines="10"
+        android:minLines="1"
         android:scrollbars="vertical"
         android:textSize="24sp"
         android:textStyle="bold" >
         <requestFocus />
     </EditText>
-    
+     
     <ImageView
         android:id="@+id/imageView1"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_below="@+id/descriptionedit"
-        android:layout_alignLeft="@+id/descriptionedit"
-        android:layout_marginLeft="85dp"
+        android:layout_marginTop="69dp"
         />
     
-    <ListView
+   <TextView
+        android:id="@+id/locationsList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="69dp"
+        android:textColor="@color/yellow"
+        android:text="@string/locations_list"
+        android:textSize="32sp"
+        android:textStyle="bold" />
+  
+   <ListView
         android:id="@android:id/list"
-	    android:layout_width="fill_parent"
-	    android:layout_height="fill_parent"
-	    android:padding="10dp"
-	    android:textSize="20sp" >
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="69dp"
+        android:scrollbarFadeDuration="0"
+        android:background="@drawable/shape">
     </ListView>
-
+    
     <Button
         android:id="@+id/LoadImage"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/imageView1"
-        android:text="@string/load_image" />
-
-    <Button
-        android:id="@+id/DoneEditing"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/editscreentitle"
-        android:layout_marginRight="35dp"
+        android:layout_marginTop="69dp"
         android:background="@drawable/button_color"
-        android:onClick="DoneEditing"
-        android:text="@string/finished_editing_button"
+        android:text="@string/load_image"
         android:textSize="28sp" />
 
-   
+	<Button
+	    android:id="@+id/DoneEditing"
+	    android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="69dp"
+	    android:background="@drawable/button_color"
+	    android:onClick="DoneEditing"
+	    android:text="@string/finished_editing_button"
+	    android:textSize="28sp" />
+	
+	<Button
+		android:id="@+id/selectLocationButton"
+		android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="69dp"
+        android:background="@drawable/button_color"
+	    android:text="@string/selectLocation"
+	    android:textSize="28sp" />
+
+</LinearLayout>
+</ScrollView>
 </RelativeLayout>

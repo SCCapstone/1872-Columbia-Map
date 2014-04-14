@@ -88,5 +88,7 @@
     <string name="finished_editing_button">Finished Editing</string>
     <string name="loc_title">Location Title</string>
     <string name="loc_date">Location Date</string>
+    <string name="selectLocation">Select Location</string>
+    <string name="locations_list">List of locations:</string>
 
 </resources>

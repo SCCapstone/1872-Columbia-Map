@@ -3,12 +3,8 @@ package com.example.capstone;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.util.ArrayList;
-import java.util.ListIterator;
-import java.util.Map;
+import java.util.List;
 import java.util.Vector;
-
-import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
@@ -25,8 +21,8 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -44,10 +40,10 @@ public class EditLocation extends ListActivity {
 	private Bitmap loadedImage;
 	private static int RESULT_LOAD_IMAGE = 1;
 	private String getTitle = "";
-	
-	//create a really big array to store location titles
-	private String[] locationTitles = new String[100];
-	
+	private ListView titlesList;
+	private Vector<String> titleVector;
+	ItemsAdapter adapter;
+
 	public EditLocation()
 	{
 		
@@ -58,7 +54,6 @@ public class EditLocation extends ListActivity {
         this.context = context;
     }
     
-	
 	@Override	
 	protected void onCreate(Bundle savedInstanceState) 
 	{
@@ -68,12 +63,16 @@ public class EditLocation extends ListActivity {
 		
 		final Button LoadImage = (Button) findViewById(R.id.LoadImage);
 		final Button DoneEditing = (Button) findViewById(R.id.DoneEditing);
+		final Button SelectLocationButton = (Button)findViewById(R.id.selectLocationButton);
 		TextView EditScreenTitle = (TextView) findViewById(R.id.editscreentitle);
+		TextView locationsList = (TextView) findViewById(R.id.locationsList);
 		Typeface TradeGothic = Typeface.createFromAsset(getAssets(),"TradeGothic.ttf");
 		Typeface TradeGothic18 = Typeface.createFromAsset(getAssets(),"TradeG18.ttf");
 		EditScreenTitle.setTypeface(TradeGothic18);
 		DoneEditing.setTypeface(TradeGothic);
 		LoadImage.setTypeface(TradeGothic);
+		locationsList.setTypeface(TradeGothic);
+		SelectLocationButton.setTypeface(TradeGothic);
 											
 		context = getApplicationContext();
 		
@@ -93,27 +92,38 @@ public class EditLocation extends ListActivity {
 			}
 		});
 		
-		//View location titles in a list
-		/*if(locationTitles.length != 0)
-		{
-			ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.location_edit, locationTitles);
-			setListAdapter(adapter);
-		}
-		
-		ListView listView = getListView();
-		listView.setTextFilterEnabled(true);
-		listView.setOnItemClickListener(new OnItemClickListener() 
-		{
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position,
-					long id) 
-			{
-				
-				Toast.makeText(getApplicationContext(),
-						((TextView) view).getText(), Toast.LENGTH_SHORT).show();
-			}
-		});*/
- 
+	    titlesList = (ListView) findViewById(android.R.id.list);
+	    titlesList.setScrollbarFadingEnabled(false);
+	    
+	    titleVector = new Vector<String>();	    
+	    
+	    adapter = new ItemsAdapter(this, titleVector);
+	   
+	    SelectLocationButton.setOnClickListener(new OnClickListener() 
+	    {
+	        @Override
+	        public void onClick(View v) 
+	        {
+	        	adapter.add(title);
+	        	adapter.notifyDataSetChanged();
+	        	
+//	        	new Runnable()
+//	        	{
+//	        		public void run()
+//	        		{
+//		        		 for(int i=0; i<titleVector.size(); i++)
+//		   	        	 {
+//		   	        		 adapter.add(titleVector.get(i));
+//		   	        	 }
+//		        		 adapter.add(title);
+//	   	        	     adapter.notifyDataSetChanged();
+//	        		}		
+//	        	};
+	        }
+	    });
+
+	    setListAdapter(adapter);
+	    
 	}
 
 	@Override
@@ -136,6 +146,7 @@ public class EditLocation extends ListActivity {
 		{
 			String image = BitMapToString(loadedImage);
 			StringBuffer stringBuffer = new StringBuffer();
+			
 			for (int i = 0; i < image.length(); i++) 
 			{
 				if (image.charAt(i) != '\n' && image.charAt(i) != '\r') 
@@ -146,7 +157,7 @@ public class EditLocation extends ListActivity {
 			finalimage = stringBuffer.toString();
 			
 			finaloutput=xLocation+"\n"+yLocation+"\n"+title+"\n"+description+"\n"+finalimage+"\n";
-			
+				
 			//Write location data to an instance of the location object class
 			createLocationObject();
 		}
@@ -175,20 +186,10 @@ public class EditLocation extends ListActivity {
 		}
 				
 		//check to see what is inside the vector
-		ListIterator iter = locationVector.listIterator();
-		for(int i=0; i<locationVector.size(); i++)
+     	for(int i=0; i<locationVector.size(); i++)
 		{
 			getTitle = locationVector.get(i).getLocTitle();
 			Log.v("LOCATION",getTitle);
-		}
-		
-		//write the title of each location to the array of titles
-		for(int k=0; k<locationTitles.length; k++)
-		{
-			for(int i=0; i<locationVector.size(); i++)
-			{
-				locationTitles[k] = locationVector.get(i).getLocTitle();
-			}	
 		}
 		
 	}
@@ -227,7 +228,7 @@ public class EditLocation extends ListActivity {
 	 }
 	
 	@Override
-	 protected void onActivityResult(int requestCode, int resultCode, Intent data) 
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) 
 	 {
 	     super.onActivityResult(requestCode, resultCode, data);
 
@@ -317,5 +318,48 @@ public class EditLocation extends ListActivity {
 		 //	System.out.println(st2.nextElement());
 		 //}
 	 }
+	
+	class ItemsAdapter extends ArrayAdapter<String> 
+	{
+
+	    public ItemsAdapter(Context context, List<String> list) 
+	    {
+	        super(context, R.layout.location_adapter, list);
+	    }
+
+	    @Override
+	    public View getView(final int position, View row, final ViewGroup parent) 
+	    {
+	        final String item = getItem(position);
+
+	        ItemWrapper wrapper = null;
+	        if (row == null) {
+	            row = getLayoutInflater().inflate(R.layout.location_adapter, parent, false);
+	            wrapper = new ItemWrapper(row);
+
+	            row.setTag(wrapper);
+	        } else {
+	            wrapper = (ItemWrapper) row.getTag();
+	        }
+	        wrapper.refreshData(item);
+
+	        return row;
+	    }
+
+	    class ItemWrapper {
+
+	        TextView text;
+
+	        public ItemWrapper(View row) {
+	            text = (TextView) row.findViewById(R.id.elementLista);
+	        }
+
+	        public void refreshData(String item) {
+	            text.setText(item);
+	        }
+
+	    }
+	    }    
+} 
 	 
-}
+
