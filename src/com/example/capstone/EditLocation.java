@@ -11,6 +11,7 @@ import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -28,9 +29,12 @@ import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -48,9 +52,14 @@ public class EditLocation extends ListActivity implements OnClickListener {
 	private static int RESULT_LOAD_IMAGE = 1;
 	private ListView titlesList;
 	private Vector<String> titleVector;
+	private Vector<LocationObject> locationVector;
 	private ArrayAdapter<String> adapter;
+	private ArrayAdapter<String> adapterFresh;
 	private Button SelectLocationButton;
-	
+	private SharedPreferences prefs;
+	private boolean DELETE_FLAG=false;
+	private int indexOfLocationToBeDeleted;
+
 	public EditLocation()
 	{
 		
@@ -80,15 +89,19 @@ public class EditLocation extends ListActivity implements OnClickListener {
 		
 		final Button LoadImage = (Button) findViewById(R.id.LoadImage);
 		final Button DoneEditing = (Button) findViewById(R.id.DoneEditing);
-		SelectLocationButton = (Button)findViewById(R.id.selectLocationButton);
+		final Button Delete = (Button)findViewById(R.id.deleteLocationButton);
+		SelectLocationButton = (Button)findViewById(R.id.loadLocationButton);
+		
 		TextView EditScreenTitle = (TextView) findViewById(R.id.editscreentitle);
 		TextView locationsList = (TextView) findViewById(R.id.locationsList);
 		Typeface TradeGothic = Typeface.createFromAsset(getAssets(),"TradeGothic.ttf");
 		Typeface TradeGothic18 = Typeface.createFromAsset(getAssets(),"TradeG18.ttf");
+		
 		EditScreenTitle.setTypeface(TradeGothic18);
 		DoneEditing.setTypeface(TradeGothic);
 		LoadImage.setTypeface(TradeGothic);
 		locationsList.setTypeface(TradeGothic);
+		Delete.setTypeface(TradeGothic);
 		SelectLocationButton.setTypeface(TradeGothic);
 		
 		initViews();
@@ -108,15 +121,15 @@ public class EditLocation extends ListActivity implements OnClickListener {
 				loadImageTask.execute();
 			}
 		});
-		    
-	   	   
+		     
 	    //Initialize the vector and the adapter
 		titleVector = new Vector<String>();
 		
 		//Get the data stored in SharedPreferences
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		Map<String,?> keys = prefs.getAll();
+		prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
+		Map<String,?> keys = prefs.getAll();
+		
 		//Put everything in shared prefs into the vector
 		for(Map.Entry<String,?> entry : keys.entrySet())
 		{
@@ -125,10 +138,60 @@ public class EditLocation extends ListActivity implements OnClickListener {
 		 }
 	    
 	    adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,titleVector);
-	    titlesList.setAdapter(adapter);	    
+	    titlesList.setAdapter(adapter);
+	    
+	    if(adapter != null) 
+	    {
+			//check to see if the item was selected
+			titlesList.setOnItemClickListener(new OnItemClickListener() 
+			{
+
+				@Override
+				public void onItemClick(AdapterView<?> parent, View view,
+						int position, long id) {
+
+					indexOfLocationToBeDeleted = position;
+					DELETE_FLAG = true;
+					Log.v("LIST", String.valueOf(position));
+
+					runOnUiThread(new Runnable() {
+
+						@Override
+						public void run() {
+							Toast.makeText(
+									EditLocation.this,
+									"This location has been marked for deletion",
+									Toast.LENGTH_SHORT).show();
+						}
+					});
+				}
+			});
+			
+			Delete.setOnClickListener(new View.OnClickListener() 
+			{
+				@Override
+				public void onClick(View v) {
+					//The location is actually deleted from the list in OnClick(View v) below because the adapter needs to be updated there
+					deleteLocation();
+				}
+			});
+		}
 	}
     
-	public void initViews()
+	private void deleteLocation()
+	{
+		
+		//make sure the location was deleted 
+		for(int i=0; i<titleVector.size(); i++)
+		{
+			if(titleVector.get(i)!= null)
+			{
+				Log.v("VECTOR", titleVector.get(i));
+			}
+		}
+	}
+	
+	private void initViews()
 	{
 		titlesList = (ListView) findViewById(android.R.id.list);
 	    titlesList.setScrollbarFadingEnabled(false);
@@ -139,32 +202,54 @@ public class EditLocation extends ListActivity implements OnClickListener {
 	{
 	
 		titleVector.add(getLocationTitle());
-		
-		for(int i=0; i<titleVector.size(); i++)
-		{
-		Log.v("VECTOR", titleVector.get(i));
-		}
 	}
 	
 	@Override
 	public void onClick(View v) 
 	{
-		switch (v.getId()) {  
-        case R.id.selectLocationButton:  
-             addTitlesToVector();  
-             break;  
-        }  
-		
-		adapter.notifyDataSetChanged();
+		if (adapter != null) 
+		{
+			//add location
+			switch (v.getId()) 
+			{
+			case R.id.loadLocationButton:
+				addTitlesToVector();
+				break;
+			}
+			adapter.notifyDataSetChanged();
+			
+			//delete location if one is selected
+			if (DELETE_FLAG == true) 
+			{
+				switch (v.getId()) 
+				{
+				case R.id.loadLocationButton:
+					RemoveFromSharedPrefs(indexOfLocationToBeDeleted);
+					titleVector.remove(indexOfLocationToBeDeleted);
+					adapter.remove(adapter.getItem(indexOfLocationToBeDeleted));
+					break;
+				}
+				adapter.notifyDataSetChanged();
+			}
+			Log.v("LOCATION", "deleting?");
+		}
 	}
+	
+	public void RemoveFromSharedPrefs(int indexOfLocationToBeDeleted)
+	{
+		String titleToBeRemoved = titleVector.get(indexOfLocationToBeDeleted);
+		prefs.edit().remove(titleToBeRemoved).commit();
+	}
+	
 	//called when user clicks on Done Editing button 
 	public void DoneEditing(View view) 
 	{
 		EditText titleedit = (EditText) findViewById(R.id.titleedit);
 		locationTitle=titleedit.getText().toString();
+		
 		EditText descriptionedit = (EditText) findViewById(R.id.descriptionedit);
 		description=descriptionedit.getText().toString();
-		
+			
 		if(loadedImage!=null)
 		{
 			String image = BitMapToString(loadedImage);
@@ -182,7 +267,7 @@ public class EditLocation extends ListActivity implements OnClickListener {
 			finaloutput=xLocation+"\n"+yLocation+"\n"+locationTitle+"\n"+description+"\n"+finalimage+"\n";
 			
 			setLocationTitle(locationTitle);	
-			storeLocationTitleInSharedPrefs();
+			storeLocationInSharedPrefs();
 			//Write location data to an instance of the location object class
 			createLocationObject();
 		}
@@ -190,7 +275,7 @@ public class EditLocation extends ListActivity implements OnClickListener {
 		{
 			finaloutput=xLocation+"\n"+yLocation+"\n"+locationTitle+"\n"+description;
 			setLocationTitle(locationTitle);
-			storeLocationTitleInSharedPrefs();
+			storeLocationInSharedPrefs();
 			createLocationObject();
 		}
 		
@@ -202,19 +287,19 @@ public class EditLocation extends ListActivity implements OnClickListener {
 	/**
 	 * 
 	 */
-	private void storeLocationTitleInSharedPrefs() {
+	private void storeLocationInSharedPrefs() 
+	{
 		PreferenceManager.getDefaultSharedPreferences(this)
-		.edit().putString(getLocationTitle(), getLocationTitle()).commit();
+		.edit().putString(getLocationTitle(), getLocationTitle()).commit();	
+		
 	}
-
-
 
 	/**
 	 * Writes location data to a location object 
 	 */
 	private void createLocationObject() 
 	{
-		Vector<LocationObject> locationVector = new Vector();
+	    locationVector = new Vector();
 		LocationObject saveLocation = new LocationObject(xLocation, yLocation, locationTitle, description, finalimage);
 		
 		//save the object to a vector
