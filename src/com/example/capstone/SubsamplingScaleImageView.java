@@ -1106,8 +1106,6 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
 				}
 				
 			}
-            
-         
              scanner.close();
            
         }
@@ -1123,6 +1121,7 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
 		TextView Description = (TextView)layout.findViewById(R.id.description);
 		Description.setText(descr);
 		image = (ImageView)layout.findViewById(R.id.image);
+		
 		//Display image
 //		if(img.substring(0,3).equals("http"))
 //		{

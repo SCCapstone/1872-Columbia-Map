@@ -500,23 +500,6 @@ public class TestAdminSubsampling extends View implements OnTouchListener {
         // Optimum sample size for current scale
         int sampleSize = Math.min(fullImageSampleSize, calculateInSampleSize((int) (sWidth * scale), (int) (sHeight * scale)));
 
-        /*
-        //TEST AREA Toast sample size
-        String temp = Float.toString(sampleSize);   	
-    	final Toast toast = Toast.makeText(context, "sampleSize= "+temp, Toast.LENGTH_SHORT);
-        toast.show();
-
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() 
-        {        	
-            @Override
-            public void run() 
-            {
-                toast.cancel(); 
-            }
-         }, 750);        
-        //END TEST AREA
-        */
     	
         // First check for missing tiles - if there are any we need the base layer underneath to avoid gaps
         boolean hasMissingTiles = false;
@@ -552,44 +535,6 @@ public class TestAdminSubsampling extends View implements OnTouchListener {
             }
         }
        
-        
-        //MiniMap
-        Bitmap minimap =BitmapFactory.decodeResource(getResources(), R.drawable.map_mini);
-        Rect mapRect = new Rect(5,5,305,210);
-        canvas.drawBitmap(minimap, null, mapRect, null);
-        
-        paint.setColor(Color.WHITE);
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeWidth(2);    
-        PointF mmpoint1, mmpoint2;
-        mmpoint1 = sourceToViewCoord(0,0);
-        mmpoint2 = sourceToViewCoord(1280,800);
-        canvas.drawRect(mmpoint1.x+5, mmpoint1.y+5, mmpoint2.x-5, mmpoint2.y-5, paint);
-
-        /*
-        //Pins
-        PointF getpoint;
-        Bitmap pin =BitmapFactory.decodeResource(getResources(), R.drawable.mappin);
-        
-        getpoint = sourceToViewCoord(6290, 4226);
-        Rect pinRectUSC = new Rect((int) getpoint.x-15,(int) getpoint.y-15,(int) getpoint.x+10,(int) getpoint.y+10);
-        canvas.drawBitmap(pin, null, pinRectUSC, null);
-        
-        getpoint = sourceToViewCoord(5030, 3856);
-        Rect pinRectCapital = new Rect((int) getpoint.x-15,(int) getpoint.y-15,(int) getpoint.x+10,(int) getpoint.y+10);
-        canvas.drawBitmap(pin, null, pinRectCapital, null);
-        
-        getpoint = sourceToViewCoord(5508, 3264);
-        Rect pinRectChurch = new Rect((int) getpoint.x-15,(int) getpoint.y-15,(int) getpoint.x+10,(int) getpoint.y+10);
-        canvas.drawBitmap(pin, null, pinRectChurch, null);
-
-        getpoint = sourceToViewCoord(6230, 2605);
-        Rect pinRectWWH = new Rect((int) getpoint.x-15,(int) getpoint.y-15,(int) getpoint.x+10,(int) getpoint.y+10);
-        canvas.drawBitmap(pin, null, pinRectWWH, null);
-        */
-        
-        
-        //auto refresh canvas
         //invalidate();
 
     }
