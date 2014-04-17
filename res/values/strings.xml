@@ -85,10 +85,10 @@
     <string name="editlocation">Editing Location</string>
     <string name="edittitle">Enter a title for this location &#8230; </string>
     <string name="editdescription">Enter a description for this location &#8230; </string>
-    <string name="finished_editing_button">Finished Editing</string>
+    <string name="finished_editing_button">Add Location</string>
     <string name="loc_title">Location Title</string>
     <string name="loc_date">Location Date</string>
-    <string name="selectLocation">Update Locations</string>
+    <string name="selectLocation">Update List</string>
     <string name="deleteLocation">Delete Location</string>
     <string name="locations_list">List of Locations:</string>
 

@@ -1,5 +1,8 @@
 package com.example.capstone;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class LocationObject 
 {
 	private String xCoord;
@@ -95,5 +98,27 @@ public class LocationObject
 	public void setImageString(String imageString) {
 		this.imageString = imageString;
 	}
+	
+	public JSONObject toJSON() throws JSONException
+	{
+		JSONObject json = new JSONObject();
+		json.put("xCoord", xCoord);
+		json.put("yCoord", yCoord);
+		json.put("locTitle", locTitle);
+		json.put("locDescription", locDescription);
+		json.put("imageString", imageString);
+		return json;
+	}
+	
+	public LocationObject(JSONObject json) throws JSONException
+	{
+		xCoord = json.getString("xCoord");
+		yCoord = json.getString("yCoord");
+		locTitle = json.getString("locTitle");
+		locDescription = json.getString("locDescription");
+		imageString = json.getString("imageString");
+		
+	}
+	
 	
 }

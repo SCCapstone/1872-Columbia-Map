@@ -535,7 +535,10 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
         
         try 
         {
-         	InputStream inputStream = context.openFileInput(FILENAME);
+        	EditLocation location = new EditLocation();
+        	String newFileName = location.getFilename();
+        	Log.v("FILENAME", newFileName);
+         	InputStream inputStream = context.openFileInput(newFileName);
          	Scanner scanner = new Scanner(inputStream);
          	//if(scanner.hasNext())
          	//{

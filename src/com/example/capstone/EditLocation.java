@@ -3,15 +3,14 @@ package com.example.capstone;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.util.List;
 import java.util.Map;
 import java.util.Vector;
+import org.json.JSONArray;
 import android.annotation.SuppressLint;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -24,17 +23,12 @@ import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -44,17 +38,20 @@ import android.widget.Toast;
 @SuppressLint("UseValueOf")
 public class EditLocation extends ListActivity implements OnClickListener {
 	
-	private static final String FILENAME = "DataFile.txt";
-	private static String TAG = "Location DATA";
+	private static String FILENAME = "DataFile.txt";
 	private Context context;
 	private String finalimage,finaloutput,locationTitle,description,xLocation,yLocation;
 	private Bitmap loadedImage;
 	private static int RESULT_LOAD_IMAGE = 1;
 	private ListView titlesList;
+	private Vector<String> xCoordVector;
+	private Vector<String> yCoordVector;
 	private Vector<String> titleVector;
+	private Vector<String> specialTitleVector;
+	private Vector<String> descriptionVector;
+	private Vector<String> imageStringVector;
 	private Vector<LocationObject> locationVector;
 	private ArrayAdapter<String> adapter;
-	private ArrayAdapter<String> adapterFresh;
 	private Button SelectLocationButton;
 	private SharedPreferences prefs;
 	private boolean DELETE_FLAG=false;
@@ -78,6 +75,27 @@ public class EditLocation extends ListActivity implements OnClickListener {
 		this.locationTitle = locationTitle;
 	}
 	
+	/**
+	 * @return the fILENAME
+	 */
+	public static String getFILENAME() {
+		return FILENAME;
+	}
+
+	/**
+	 * @param fILENAME the fILENAME to set
+	 */
+	public static void setFILENAME(String fILENAME) {
+		FILENAME = fILENAME;
+	}
+
+	public String switchFilename(String oldFileName)
+	{
+		String changeName = oldFileName;
+		changeName = "change.txt";
+		return changeName;
+	}
+	
 	@SuppressLint("UseValueOf")
 	@Override	
 	protected void onCreate(Bundle savedInstanceState) 
@@ -89,7 +107,7 @@ public class EditLocation extends ListActivity implements OnClickListener {
 		
 		final Button LoadImage = (Button) findViewById(R.id.LoadImage);
 		final Button DoneEditing = (Button) findViewById(R.id.DoneEditing);
-		final Button Delete = (Button)findViewById(R.id.deleteLocationButton);
+		//final Button Delete = (Button)findViewById(R.id.deleteLocationButton);
 		SelectLocationButton = (Button)findViewById(R.id.loadLocationButton);
 		
 		TextView EditScreenTitle = (TextView) findViewById(R.id.editscreentitle);
@@ -101,7 +119,7 @@ public class EditLocation extends ListActivity implements OnClickListener {
 		DoneEditing.setTypeface(TradeGothic);
 		LoadImage.setTypeface(TradeGothic);
 		locationsList.setTypeface(TradeGothic);
-		Delete.setTypeface(TradeGothic);
+		//Delete.setTypeface(TradeGothic);
 		SelectLocationButton.setTypeface(TradeGothic);
 		
 		initViews();
@@ -123,20 +141,60 @@ public class EditLocation extends ListActivity implements OnClickListener {
 		});
 		     
 	    //Initialize the vector and the adapter
+		specialTitleVector = new Vector<String>();
 		titleVector = new Vector<String>();
+		xCoordVector = new Vector<String>();
+		yCoordVector = new Vector<String>();
+		descriptionVector = new Vector<String>();
+		imageStringVector = new Vector<String>();
 		
 		//Get the data stored in SharedPreferences
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
 		Map<String,?> keys = prefs.getAll();
 		
-		//Put everything in shared prefs into the vector
-		for(Map.Entry<String,?> entry : keys.entrySet())
-		{
+		//Put everything from shared prefs into vectors
+	    for(Map.Entry<String,?> entry : keys.entrySet())
+	    {
 		    Log.v("PREFS",entry.getKey() + ": " + entry.getValue().toString());
-		    titleVector.add(entry.getValue().toString());
-		 }
-	    
+		    
+		    titleVector.add(entry.getKey().toString());
+//		    if(!entry.getKey().contains("locationTitle") && !entry.getKey().contains("xLocation") &&
+//		    		!entry.getKey().contains("yLocation") && !entry.getKey().contains("description")
+//		    		&& !entry.getKey().contains("imageString"))
+//		    {
+//		    	specialTitleVector.add(entry.getKey());
+//		    }
+//		    
+//		    if(entry.getKey().equals("locationTitle"))
+//		    {
+//		    	titleVector.add(entry.getValue().toString());
+//		    	Log.v("TITLE_VECTOR", entry.getValue().toString());
+//		    }
+//		    else if(entry.getKey().equals("xLocation"))
+//		    {
+//		    	xCoordVector.add(entry.getValue().toString());
+//		    	Log.v("XCOORD", entry.getValue().toString());
+//		    }
+//		    else if(entry.getKey().equals("yLocation"))
+//		    {
+//		    	yCoordVector.add(entry.getValue().toString());
+//		    	Log.v("YCOORD", entry.getValue().toString());
+//		    }
+//		    
+//		    else if(entry.getKey().equals("description"))
+//		    {
+//		    	descriptionVector.add(entry.getValue().toString());
+//		    	Log.v("DESCRIPTION", entry.getValue().toString());
+//		    }
+//		    else if(entry.getKey().equals("imageString"))
+//		    {
+//		    	imageStringVector.add(entry.getValue().toString());
+//		    	Log.v("IMAGE", entry.getValue().toString());
+//		    }
+//		    
+		}
+		
 	    adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,titleVector);
 	    titlesList.setAdapter(adapter);
 	    
@@ -152,7 +210,6 @@ public class EditLocation extends ListActivity implements OnClickListener {
 
 					indexOfLocationToBeDeleted = position;
 					DELETE_FLAG = true;
-					Log.v("LIST", String.valueOf(position));
 
 					runOnUiThread(new Runnable() {
 
@@ -167,28 +224,41 @@ public class EditLocation extends ListActivity implements OnClickListener {
 				}
 			});
 			
-			Delete.setOnClickListener(new View.OnClickListener() 
-			{
-				@Override
-				public void onClick(View v) {
-					//The location is actually deleted from the list in OnClick(View v) below because the adapter needs to be updated there
-					deleteLocation();
-				}
-			});
+			vectorSizeCheck();
+//			Delete.setOnClickListener(new View.OnClickListener() 
+//			{
+//				@Override
+//				public void onClick(View v) {
+//					
+//					//The location is in fact deleted from the list in OnClick(View v) below because the adapter needs to be updated there
+//					vectorSizeCheck();
+//				}
+//			});
 		}
 	}
     
-	private void deleteLocation()
+	private void readJSON()
 	{
-		
-		//make sure the location was deleted 
-		for(int i=0; i<titleVector.size(); i++)
-		{
-			if(titleVector.get(i)!= null)
-			{
-				Log.v("VECTOR", titleVector.get(i));
-			}
+		try {
+		    JSONArray jsonArray2 = new JSONArray(prefs.getString("key", "[]"));
+		    for (int i = 0; i < jsonArray2.length(); i++) {
+		         Log.v("RETRIEVE", jsonArray2.getInt(i)+"");
+		    }
+		} catch (Exception e) {
+		    e.printStackTrace();
 		}
+	}
+	
+	private void vectorSizeCheck()
+	{	
+		//check vector sizes 
+	    Log.v("SAVE", String.valueOf(specialTitleVector.size()));
+	    Log.v("TITLE_VECTOR", String.valueOf(titleVector.size()));
+	    Log.v("XCOORD", String.valueOf(xCoordVector.size()));
+	    Log.v("YCOORD", String.valueOf(yCoordVector.size()));
+	    Log.v("DESCRIPTION", String.valueOf(descriptionVector.size()));
+	    Log.v("IMAGE", String.valueOf(imageStringVector.size()));
+			
 	}
 	
 	private void initViews()
@@ -218,6 +288,9 @@ public class EditLocation extends ListActivity implements OnClickListener {
 			}
 			adapter.notifyDataSetChanged();
 			
+			//if we are not deleting anything, make sure the default filename is set
+			setFILENAME(FILENAME);
+			
 			//delete location if one is selected
 			if (DELETE_FLAG == true) 
 			{
@@ -225,20 +298,50 @@ public class EditLocation extends ListActivity implements OnClickListener {
 				{
 				case R.id.loadLocationButton:
 					RemoveFromSharedPrefs(indexOfLocationToBeDeleted);
-					titleVector.remove(indexOfLocationToBeDeleted);
-					adapter.remove(adapter.getItem(indexOfLocationToBeDeleted));
+					//specialTitleVector.remove(indexOfLocationToBeDeleted);
+     				titleVector.remove(indexOfLocationToBeDeleted);
+//					xCoordVector.remove(indexOfLocationToBeDeleted);
+//					yCoordVector.remove(indexOfLocationToBeDeleted);
+//					descriptionVector.remove(indexOfLocationToBeDeleted);
+//					imageStringVector.remove(indexOfLocationToBeDeleted);
+//					adapter.remove(adapter.getItem(indexOfLocationToBeDeleted));
 					break;
 				}
 				adapter.notifyDataSetChanged();
+				
+				String overWriteData ="";
+				for (int i=0; i<titleVector.size(); i++)
+				{       
+					    overWriteData = xLocation+"\n"+yLocation+"\n"+locationTitle+"\n"+description+"\n"+finalimage+"\n";
+					    
+					    /*produces index out of bounds error even though it should not*/
+				    	//overWriteData=xCoordVector.get(i)+"\n"+yCoordVector.get(i)+"\n"+titleVector.get(i)+"\n"+descriptionVector.get(i)+"\n"+imageStringVector.get(i)+"\n";
+				    	OverWriteFile(overWriteData); 
+				}
+				    
 			}
-			Log.v("LOCATION", "deleting?");
 		}
 	}
 	
 	public void RemoveFromSharedPrefs(int indexOfLocationToBeDeleted)
 	{
+//		String specialTitleToBeRemoved = specialTitleVector.get(indexOfLocationToBeDeleted);
+//		prefs.edit().remove(specialTitleToBeRemoved).commit();
+		
 		String titleToBeRemoved = titleVector.get(indexOfLocationToBeDeleted);
 		prefs.edit().remove(titleToBeRemoved).commit();
+		
+//		String xCoordToBeRemoved = xCoordVector.get(indexOfLocationToBeDeleted);
+//		prefs.edit().remove(xCoordToBeRemoved).commit();
+//		
+//		String yCoordToBeRemoved = yCoordVector.get(indexOfLocationToBeDeleted);
+//		prefs.edit().remove(yCoordToBeRemoved).commit();
+//		
+//		String descrToBeRemoved = descriptionVector.get(indexOfLocationToBeDeleted);
+//		prefs.edit().remove(descrToBeRemoved).commit();
+//		
+//		String imageToBeRemoved = imageStringVector.get(indexOfLocationToBeDeleted);
+//		prefs.edit().remove(imageToBeRemoved).commit();
 	}
 	
 	//called when user clicks on Done Editing button 
@@ -267,15 +370,16 @@ public class EditLocation extends ListActivity implements OnClickListener {
 			finaloutput=xLocation+"\n"+yLocation+"\n"+locationTitle+"\n"+description+"\n"+finalimage+"\n";
 			
 			setLocationTitle(locationTitle);	
-			storeLocationInSharedPrefs();
+			storeLocationDataInSharedPrefs();
 			//Write location data to an instance of the location object class
 			createLocationObject();
 		}
 		else
 		{
-			finaloutput=xLocation+"\n"+yLocation+"\n"+locationTitle+"\n"+description;
+			finalimage = "dummyString";
+			finaloutput=xLocation+"\n"+yLocation+"\n"+locationTitle+"\n"+description+finalimage+"\n";
 			setLocationTitle(locationTitle);
-			storeLocationInSharedPrefs();
+			storeLocationDataInSharedPrefs();
 			createLocationObject();
 		}
 		
@@ -283,15 +387,26 @@ public class EditLocation extends ListActivity implements OnClickListener {
 		Toast.makeText(context.getApplicationContext(), "Location Saved", Toast.LENGTH_SHORT).show();
 		
 	}
-
-	/**
-	 * 
-	 */
-	private void storeLocationInSharedPrefs() 
+	private void storeLocationDataInSharedPrefs() 
 	{
+		//for specialTitleVector to be displayed as the location list
 		PreferenceManager.getDefaultSharedPreferences(this)
 		.edit().putString(getLocationTitle(), getLocationTitle()).commit();	
 		
+//		PreferenceManager.getDefaultSharedPreferences(this)
+//		.edit().putString("xLocation", xLocation).commit();	
+//		
+//		PreferenceManager.getDefaultSharedPreferences(this)
+//		.edit().putString("yLocation", yLocation).commit();	
+//		
+//		PreferenceManager.getDefaultSharedPreferences(this)
+//		.edit().putString("locationTitle", locationTitle).commit();
+//		
+//		PreferenceManager.getDefaultSharedPreferences(this)
+//		.edit().putString("description", description).commit();
+//		
+//		PreferenceManager.getDefaultSharedPreferences(this)
+//		.edit().putString("imageString", finalimage).commit();	
 	}
 
 	/**
@@ -302,12 +417,14 @@ public class EditLocation extends ListActivity implements OnClickListener {
 	    locationVector = new Vector();
 		LocationObject saveLocation = new LocationObject(xLocation, yLocation, locationTitle, description, finalimage);
 		
-		//save the object to a vector
-		if (saveLocation != null)
-		{
-			locationVector.add(saveLocation);
-		}
-					
+		locationVector.add(saveLocation);
+		
+//		JSONArray jsonArray = new JSONArray();
+//		jsonArray.put(locationVector);
+//		Editor editor = prefs.edit();
+//		editor.putString(locationTitle, jsonArray.toString());
+//		editor.commit();
+	
 	}
 	
 	private class LoadImageAsync extends AsyncTask<Void, Void, Void> 
@@ -406,6 +523,27 @@ public class EditLocation extends ListActivity implements OnClickListener {
 		return FILENAME;
 	}
 	
+	private void OverWriteFile(String output)
+	{
+
+		 try 
+		 {
+			 //this new file name will be used by the main map 
+			 String switchedName = switchFilename(FILENAME);
+			 Log.v("HELP", switchedName);
+			 setFILENAME(switchedName);
+			 OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput(switchedName, Context.MODE_PRIVATE));
+			
+			 outputStreamWriter.write(output);
+			 outputStreamWriter.close();
+			 Toast.makeText(context.getApplicationContext(), "Location Deleted", Toast.LENGTH_LONG).show();
+		 }
+		 catch (IOException e) {
+			 Log.e("HELP", "File overwrite failed: " + e.toString());
+		 }
+		
+	}
+	
 	private void WritetoFile(String output) 
 	 {
 		
@@ -420,7 +558,7 @@ public class EditLocation extends ListActivity implements OnClickListener {
 			 Toast.makeText(context.getApplicationContext(), "Location Saved", Toast.LENGTH_LONG).show();
 		 }
 		 catch (IOException e) {
-			 Log.e(TAG, "File write failed: " + e.toString());
+			 Log.e("HELP", "File write failed: " + e.toString());
 		 }
 
 		 //WRITE SPLIT WITH COMMA
