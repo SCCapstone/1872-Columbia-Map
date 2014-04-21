@@ -5,14 +5,17 @@ import org.json.JSONObject;
 
 public class LocationObject 
 {
+	private long _id;
 	private String xCoord;
 	private String yCoord;
 	private String locTitle;
 	private String locDescription;
 	private String imageString;
+	private long id;
 	
 	public LocationObject()
 	{
+		id = 0;
 		xCoord = "";
 		yCoord = "";
 		locTitle = "";
@@ -20,8 +23,20 @@ public class LocationObject
 		imageString = "";
 	}
 	
-	public LocationObject(String x, String y, String title, String description, String image)
+	public long getId() 
 	{
+		return id;
+	}
+
+	public void setId(long id) 
+	{
+		this.id = id;
+	}
+
+	
+	public LocationObject(int id, String x, String y, String title, String description, String image)
+	{
+		this._id = id;
 		xCoord = x;
 		yCoord = y;
 		locTitle = title;
@@ -44,22 +59,36 @@ public class LocationObject
 	}
 
 	/**
+	 * @param string 
 	 * @return the locTitle
 	 */
+	public String getLocTitle(String string) {
+		return locTitle;
+	}
+	
 	public String getLocTitle() {
 		return locTitle;
 	}
 
 	/**
+	 * @param string 
 	 * @return the locDescription
 	 */
-	public String getLocDescription() {
+	public String getLocDescription(String string) {
 		return locDescription;
 	}
 
+	public String getLocDescription() {
+		return locDescription;
+	}
 	/**
+	 * @param string 
 	 * @return the imageString
 	 */
+	public String getImageString(String string) {
+		return imageString;
+	}
+	
 	public String getImageString() {
 		return imageString;
 	}
@@ -119,6 +148,5 @@ public class LocationObject
 		imageString = json.getString("imageString");
 		
 	}
-	
 	
 }

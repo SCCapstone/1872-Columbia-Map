@@ -88,7 +88,6 @@
     <string name="finished_editing_button">Add Location</string>
     <string name="loc_title">Location Title</string>
     <string name="loc_date">Location Date</string>
-    <string name="selectLocation">Update List</string>
     <string name="deleteLocation">Delete Location</string>
     <string name="locations_list">List of Locations:</string>
 

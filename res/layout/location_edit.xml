@@ -120,13 +120,14 @@
 	    android:textSize="28sp" />
 	
 	<Button
-		android:id="@+id/loadLocationButton"
+		android:id="@+id/deleteLocationButton"
 		android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="69dp"
         android:background="@drawable/button_color"
-	    android:text="@string/selectLocation"
+	    android:text="Delete Location"
 	    android:textSize="28sp" />
+	
 
 </LinearLayout>
 </ScrollView>

@@ -535,37 +535,41 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
         
         try 
         {
-        	EditLocation location = new EditLocation();
-        	String newFileName = location.getFilename();
-        	Log.v("FILENAME", newFileName);
-         	InputStream inputStream = context.openFileInput(newFileName);
+         	InputStream inputStream = context.openFileInput(FILENAME);
          	Scanner scanner = new Scanner(inputStream);
          	//if(scanner.hasNext())
-         	//{
-         		
-         	
-            
+         	//{   
             while(scanner.hasNextLine())
             	{
-            	//Toast.makeText(this, scanner.nextLine(), Toast.LENGTH_LONG).show();
-            	xf = Float.valueOf(scanner.nextLine());
+            	
+              	xf = Float.valueOf(scanner.nextLine());
              	x = (int) xf;
              	data.add(x);
-             	//Toast.makeText(this, scanner.nextLine(), Toast.LENGTH_LONG).show();
+             	Log.v("INPUT x:", String.valueOf(xf));
+             
                 yf = Float.valueOf(scanner.nextLine());
                 y = (int) yf;
                 data.add(y);
             	getpoint = sourceToViewCoord(x, y);
             	Rect pinRecttest = new Rect((int) getpoint.x-15,(int) getpoint.y-15,(int) getpoint.x+10,(int) getpoint.y+10);
             	canvas.drawBitmap(pin, null, pinRecttest, null);
-            
+               	Log.v("INPUT y:", String.valueOf(yf));
             
             if(scanner.hasNextLine())
-            	{scanner.nextLine();
+            	{
+       
+            		String title = scanner.nextLine();
+            		Log.v("INPUT title:", String.valueOf(title));
            		if(scanner.hasNextLine())
-           			{scanner.nextLine();
+           			{
+           			
+           			String descr = scanner.nextLine();
+           			Log.v("INPUT descr:", String.valueOf(descr));
            			if(scanner.hasNextLine())
-           				{scanner.nextLine();}
+           				{
+           				String image = scanner.nextLine();
+           				Log.v("INPUT imageString:", String.valueOf(image));
+           				}
            				//while(scanner.nextLine().length() > 1000 || scanner.nextLine().startsWith("http"))
    				         //{scanner.nextLine();}}
            				else break;}
