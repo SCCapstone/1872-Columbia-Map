@@ -106,12 +106,12 @@ public class DataSource {
 	  private LocationObject cursorToLocation(Cursor cursor) {
 		  
 	    LocationObject location = new LocationObject();
-	    location.setId(cursor.getLong(0));
-	    location.setxCoord(cursor.getString(1));
-	    location.setyCoord(cursor.getString(2));
-	    location.setLocTitle(cursor.getString(3));
-	    location.setLocDescription(cursor.getString(4));
-	    location.setImageString(cursor.getString(5));
+	    location.setId(cursor.getInt(cursor.getColumnIndex(MySQLiteHelper.COLUMN_ID)));
+	    location.setxCoord(cursor.getString(cursor.getColumnIndex(MySQLiteHelper.KEY_XCOORD)));
+	    location.setyCoord(cursor.getString(cursor.getColumnIndex(MySQLiteHelper.KEY_YCOORD)));
+	    location.setLocTitle(cursor.getString(cursor.getColumnIndex(MySQLiteHelper.KEY_NAME)));
+	    location.setLocDescription(cursor.getString(cursor.getColumnIndex(MySQLiteHelper.KEY_DESCR)));
+	    location.setImageString(cursor.getString(cursor.getColumnIndex(MySQLiteHelper.KEY_IMAGESTRING)));
 	    
 	    Log.v("RETRIEVE title in cursorToLocation: ", location.getLocTitle());
 	    
