@@ -140,8 +140,8 @@ public class EditLocation extends ListActivity implements OnClickListener {
 		Intent i1 = getIntent();
 		Double xLoc = i1.getDoubleExtra("xLocation", 0.0);
 		Double yLoc = i1.getDoubleExtra("yLocation", 0.0);
-		xLocation = new Double(xLoc).toString();
-		yLocation = new Double(yLoc).toString();
+		xLocation = Double.toString(xLoc);
+		yLocation = Double.toString(yLoc);
 		setxLocation(xLocation);
 		setyLocation(yLocation);
 	
@@ -440,7 +440,7 @@ public class EditLocation extends ListActivity implements OnClickListener {
 	        	 imageView.setImageBitmap(loadedImage);	 
 	        	 Toast.makeText(EditLocation.this, "Image loaded", Toast.LENGTH_SHORT).show();
 	         }
-	         else if (loadedImage == null)
+	         else 
 	         {
 	        	 Toast.makeText(EditLocation.this, "Image not loaded", Toast.LENGTH_SHORT).show();
 	         }

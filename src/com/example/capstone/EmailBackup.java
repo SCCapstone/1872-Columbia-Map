@@ -291,7 +291,7 @@ public class EmailBackup extends Activity
 	         {
 	        	 imageView.setImageBitmap(loadImage);	 
 	         }
-	         else if(loadImage == null)
+	         else 
 	         {
 	        	 Toast.makeText(EmailBackup.this, "Image not loaded", Toast.LENGTH_SHORT).show();
 	         }
