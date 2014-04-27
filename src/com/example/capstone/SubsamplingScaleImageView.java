@@ -375,6 +375,7 @@ public class SubsamplingScaleImageView extends View implements OnTouchListener {
 						//String s = Integer.toString(array[0]) + " " + Integer.toString(array[1]);
 						//Toast.makeText(context, s, Toast.LENGTH_LONG).show();
 						createPopup(R.layout.popup_layout, array[0], array[1]);
+						break;
 					}
 				
 			}
