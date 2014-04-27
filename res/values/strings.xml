@@ -90,5 +90,8 @@
     <string name="loc_date">Location Date</string>
     <string name="deleteLocation">Delete Location</string>
     <string name="locations_list">List of Locations:</string>
+    <string name="checkEdit">Did you mean to edit \n        this location?</string>
+    <string name="Yes">Yes</string>
+    <string name="No">No</string>
 
 </resources>

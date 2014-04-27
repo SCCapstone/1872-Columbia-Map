@@ -94,7 +94,10 @@ public class TestAdminSubsampling extends View implements OnTouchListener {
 	public int highprecision = 120; //for small buildings
 	public final int popupWidth = 700;    
 	public final int popupHeight = 720;
-	public boolean popupon = false;		
+	public boolean popupon = false;	
+	public boolean isScrolling = false;
+	public boolean editSet = false;
+	public double xLoc,yLoc;
 	
 	// Visible window    
     //PointF getpoint = new PointF();
@@ -264,74 +267,8 @@ public class TestAdminSubsampling extends View implements OnTouchListener {
      */
     @Override
     public boolean onTouchEvent(MotionEvent event) {	        
-        PointF vCenterEnd;
-        float vDistEnd;
-        flingMomentum = null;
-        flingFrom = null;
-        // Detect flings
-        if (detector == null || detector.onTouchEvent(event))
-            return true;
         
-        // Abort if not ready
-        if ((vTranslate == null) || popupon)
-            return true;
-        
-        int touchCount = event.getPointerCount();
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-            case MotionEvent.ACTION_POINTER_1_DOWN:
-            case MotionEvent.ACTION_POINTER_2_DOWN:
-                if (touchCount >= 2) {
-                    // Start pinch to zoom. Calculate distance between touch points and center point of the pinch.                	
-                    float distance = distance(event.getX(0), event.getX(1), event.getY(0), event.getY(1));
-                    scaleStart = scale;
-                    vDistStart = distance;
-                    vTranslateStart = new PointF(vTranslate.x, vTranslate.y);
-                    vCenterStart = new PointF((event.getX(0) + event.getX(1))/2, (event.getY(0) + event.getY(1))/2);
-                    isZooming = true;
-                } else {
-                    // Start one-finger pan
-                    vTranslateStart = new PointF(vTranslate.x, vTranslate.y);
-                    vCenterStart = new PointF(event.getX(), event.getY());
-                }
-            case MotionEvent.ACTION_MOVE:
-                if (touchCount >= 2 && isZooming) {
-                    // Calculate new distance between touch points, to scale and pan relative to start values.
-                    vDistEnd = distance(event.getX(0), event.getX(1), event.getY(0), event.getY(1));
-                    vCenterEnd = new PointF((event.getX(0) + event.getX(1))/2, (event.getY(0) + event.getY(1))/2);
-                    scale = Math.min(maxScale, (vDistEnd / vDistStart) * scaleStart);
-
-                    // Translate to place the source image coordinate that was at the center of the pinch at the start
-                    // at the center of the pinch now, to give simultaneous pan + zoom.
-                    float vLeftStart = vCenterStart.x - vTranslateStart.x;
-                    float vTopStart = vCenterStart.y - vTranslateStart.y;
-                    float vLeftNow = vLeftStart * (scale/scaleStart);
-                    float vTopNow = vTopStart * (scale/scaleStart);
-                    vTranslate.x = vCenterEnd.x - vLeftNow;
-                    vTranslate.y = vCenterEnd.y - vTopNow;
-
-                    fitToBounds();
-                    refreshRequiredTiles(false);                                                       
-                } else if (!isZooming) {
-                    // One finger pan - translate the image
-                    vTranslate.x = vTranslateStart.x + (event.getX() - vCenterStart.x);
-                    vTranslate.y = vTranslateStart.y + (event.getY() - vCenterStart.y);
-                    fitToBounds();
-                    refreshRequiredTiles(true);
-                }
-                invalidate();
-                break;
-            case MotionEvent.ACTION_UP:
-            case MotionEvent.ACTION_POINTER_UP:            	
-            case MotionEvent.ACTION_POINTER_2_UP:
-                if (event.getPointerCount() < 2) {
-                    isZooming = false;
-                }           		                               
-                // Trigger load of tiles now required
-                refreshRequiredTiles(true);
-                break;
-        }
-        
+        /*
         /////////////////////////////
         //test code
         /////////////////////////////
@@ -355,87 +292,187 @@ public class TestAdminSubsampling extends View implements OnTouchListener {
 				}
 			});
 		}
-		////////////////////////////
+		////////////////////////////*/
         return true;
     }
     
-    //test
-    @Override
-    public boolean onTouch(View v, MotionEvent event) 
-    {   
-    	/*
-    	//TEST AREA 
-    	//Toast Coordinate using: public PointF viewToSourceCoord(PointF vxy)
+	// test
+	@Override
+	public boolean onTouch(View v, MotionEvent event) {
+		// boolean isScrolling = false;
+		// boolean editSet = false;
+		// if(editSet == false){
+		// isScrolling = false;
+		PointF vCenterEnd;
+		float vDistEnd;
+		flingMomentum = null;
+		flingFrom = null;
+		// Detect flings
+		if (detector == null || detector.onTouchEvent(event))
+			return true;
 
-    	String x = Float.toString(temp.x);
-    	String y = Float.toString(temp.y);
-    	
-    	final Toast toast = Toast.makeText(context, x+", "+y, Toast.LENGTH_SHORT);
-        toast.show();
+		// Abort if not ready
+		if ((vTranslate == null) || popupon)
+			return true;
 
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() 
-        {        	
-            @Override
-            public void run() 
-            {
-                toast.cancel(); 
-            }
-         }, 1000);        
-    	*/
-    	//END TEST AREA
+		int touchCount = event.getPointerCount();
+		switch (event.getAction()) {
+		case MotionEvent.ACTION_DOWN:
+		case MotionEvent.ACTION_POINTER_1_DOWN:
+		case MotionEvent.ACTION_POINTER_2_DOWN:
+			if (touchCount >= 2) {
+				// Start pinch to zoom. Calculate distance between touch points
+				// and center point of the pinch.
+				float distance = distance(event.getX(0), event.getX(1),
+						event.getY(0), event.getY(1));
+				scaleStart = scale;
+				vDistStart = distance;
+				vTranslateStart = new PointF(vTranslate.x, vTranslate.y);
+				vCenterStart = new PointF((event.getX(0) + event.getX(1)) / 2,
+						(event.getY(0) + event.getY(1)) / 2);
+				isZooming = true;
+			} else {
+				// Start one-finger pan
+				vTranslateStart = new PointF(vTranslate.x, vTranslate.y);
+				vCenterStart = new PointF(event.getX(), event.getY());
+			}
+		case MotionEvent.ACTION_MOVE:
+			if (touchCount >= 2 && isZooming) {
+				// Calculate new distance between touch points, to scale and pan
+				// relative to start values.
+				vDistEnd = distance(event.getX(0), event.getX(1),
+						event.getY(0), event.getY(1));
+				vCenterEnd = new PointF((event.getX(0) + event.getX(1)) / 2,
+						(event.getY(0) + event.getY(1)) / 2);
+				scale = Math
+						.min(maxScale, (vDistEnd / vDistStart) * scaleStart);
+
+				// Translate to place the source image coordinate that was at
+				// the center of the pinch at the start
+				// at the center of the pinch now, to give simultaneous pan +
+				// zoom.
+				float vLeftStart = vCenterStart.x - vTranslateStart.x;
+				float vTopStart = vCenterStart.y - vTranslateStart.y;
+				float vLeftNow = vLeftStart * (scale / scaleStart);
+				float vTopNow = vTopStart * (scale / scaleStart);
+				vTranslate.x = vCenterEnd.x - vLeftNow;
+				vTranslate.y = vCenterEnd.y - vTopNow;
+
+				fitToBounds();
+				refreshRequiredTiles(false);
+			} else if (!isZooming) {
+				isScrolling = true;
+
+				// One finger pan - translate the image
+				vTranslate.x = vTranslateStart.x
+						+ (event.getX() - vCenterStart.x);
+				vTranslate.y = vTranslateStart.y
+						+ (event.getY() - vCenterStart.y);
+				fitToBounds();
+				refreshRequiredTiles(true);
+
+			}
+			invalidate();
+			break;
+		case MotionEvent.ACTION_UP:
+		case MotionEvent.ACTION_POINTER_UP:
+		case MotionEvent.ACTION_POINTER_2_UP:
+			if (event.getPointerCount() < 2) {
+				isZooming = false;
+				//isScrolling = true;
+			}
+			// Trigger load of tiles now required
+			refreshRequiredTiles(true);
+			break;
+		}
+		// editSet = true;}
+
+		/*
+		 * //TEST AREA //Toast Coordinate using: public PointF
+		 * viewToSourceCoord(PointF vxy)
+		 * 
+		 * String x = Float.toString(temp.x); String y = Float.toString(temp.y);
+		 * 
+		 * final Toast toast = Toast.makeText(context, x+", "+y,
+		 * Toast.LENGTH_SHORT); toast.show();
+		 * 
+		 * Handler handler = new Handler(); handler.postDelayed(new Runnable() {
+		 * 
+		 * @Override public void run() { toast.cancel(); } }, 1000);
+		 */
+		// END TEST AREA
+
+		if (popupon){
+			return true;
+		}
 		
-    	/*
-    	if (popupon)
-    		return true;
+		/*
+		if(isScrolling == true){
+			editSet = false;
+		} else if(isScrolling == false){
+			editSet = true;
+		}
+		*/
 		
 		PointF getpoint = viewToSourceCoord(event.getX(), event.getY());
-		final double xLoc = getpoint.x;
-		final double yLoc = getpoint.y;
-		
-		//getpoint now contains x and y in image's coordinate system.		
-		//pointCheck(int X_touched, int Y_touched, int locs[], int precision)
-		if(isZooming == false){
-			setOnLongClickListener(new OnLongClickListener(){
+		xLoc = getpoint.x;
+		yLoc = getpoint.y;
+
+		// getpoint now contains x and y in image's coordinate system.
+		// pointCheck(int X_touched, int Y_touched, int locs[], int precision)
+		if (isZooming == false /*&& isScrolling == false && editSet == true*/) {
+			setOnLongClickListener(new OnLongClickListener() {
 				@Override
-				public boolean onLongClick(View v){
-					popupon=true;
-					Intent i1 = new Intent (context, EditLocation.class);
-					i1.putExtra("xLocation", xLoc);
-					i1.putExtra("yLocation", yLoc);
-			        context.startActivity(i1);
-			        return true;
+				public boolean onLongClick(View v) {
+					//while(editSet = true){
+						//createPopup(R.layout.edit_check, xLoc, yLoc);
+						Intent i1 = new Intent (context, EditLocation.class); 
+						i1.putExtra("xLocation", xLoc);
+						i1.putExtra("yLocation", yLoc); 
+						context.startActivity(i1);
+					//}
+					return true;
 				}
 			});
 		}
-		
-		if(isZooming==false){
-			Intent i1 = new Intent (context, EditLocation.class);
-			i1.putExtra("xLocation", xLoc);
-			i1.putExtra("yLocation", yLoc);
-	        context.startActivity(i1);
-		}
-		
-		
-		v.setOnLongClickListener(new View.OnLongClickListener() {
-		    @Override
-		    public boolean onLongClick(View v) {
-		    	Intent i1 = new Intent (context, EditLocation.class);
-				i1.putExtra("xLocation", xLoc);
-				i1.putExtra("yLocation", yLoc);
-		        context.startActivity(i1);
-		        return true;
-		    }
-		});
-		*/
-        return super.onTouchEvent(event);
 
-    }
+		/*
+		 * if(isZooming==false){ Intent i1 = new Intent (context,
+		 * EditLocation.class); i1.putExtra("xLocation", xLoc);
+		 * i1.putExtra("yLocation", yLoc); context.startActivity(i1); }
+		 * 
+		 * 
+		 * v.setOnLongClickListener(new View.OnLongClickListener() {
+		 * 
+		 * @Override public boolean onLongClick(View v) { Intent i1 = new Intent
+		 * (context, EditLocation.class); i1.putExtra("xLocation", xLoc);
+		 * i1.putExtra("yLocation", yLoc); context.startActivity(i1); return
+		 * true; } });
+		 */
+		return super.onTouchEvent(event);
+	}
 	
     /*
     public boolean onDoubleTap(View v, MotionEvent event)
     {
-    	editLocation();
+    	if (popupon)
+			return true;
+
+		PointF getpoint = viewToSourceCoord(event.getX(), event.getY());
+		final double xLoc = getpoint.x;
+		final double yLoc = getpoint.y;
+
+		// getpoint now contains x and y in image's coordinate system.
+		// pointCheck(int X_touched, int Y_touched, int locs[], int precision)
+		if (isZooming == false && isScrolling == false && editSet == true) {
+
+					Intent i1 = new Intent(context, EditLocation.class);
+					i1.putExtra("xLocation", xLoc);
+					i1.putExtra("yLocation", yLoc);
+					context.startActivity(i1);
+					return true;
+
+		}
     	return super.onTouchEvent(event);
     }
 	*/
@@ -500,6 +537,23 @@ public class TestAdminSubsampling extends View implements OnTouchListener {
         // Optimum sample size for current scale
         int sampleSize = Math.min(fullImageSampleSize, calculateInSampleSize((int) (sWidth * scale), (int) (sHeight * scale)));
 
+        /*
+        //TEST AREA Toast sample size
+        String temp = Float.toString(sampleSize);   	
+    	final Toast toast = Toast.makeText(context, "sampleSize= "+temp, Toast.LENGTH_SHORT);
+        toast.show();
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() 
+        {        	
+            @Override
+            public void run() 
+            {
+                toast.cancel(); 
+            }
+         }, 750);        
+        //END TEST AREA
+        */
     	
         // First check for missing tiles - if there are any we need the base layer underneath to avoid gaps
         boolean hasMissingTiles = false;
@@ -535,6 +589,44 @@ public class TestAdminSubsampling extends View implements OnTouchListener {
             }
         }
        
+        
+        //MiniMap
+        Bitmap minimap =BitmapFactory.decodeResource(getResources(), R.drawable.map_mini);
+        Rect mapRect = new Rect(5,5,305,210);
+        canvas.drawBitmap(minimap, null, mapRect, null);
+        
+        paint.setColor(Color.WHITE);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(2);    
+        PointF mmpoint1, mmpoint2;
+        mmpoint1 = sourceToViewCoord(0,0);
+        mmpoint2 = sourceToViewCoord(1280,800);
+        canvas.drawRect(mmpoint1.x+5, mmpoint1.y+5, mmpoint2.x-5, mmpoint2.y-5, paint);
+
+        /*
+        //Pins
+        PointF getpoint;
+        Bitmap pin =BitmapFactory.decodeResource(getResources(), R.drawable.mappin);
+        
+        getpoint = sourceToViewCoord(6290, 4226);
+        Rect pinRectUSC = new Rect((int) getpoint.x-15,(int) getpoint.y-15,(int) getpoint.x+10,(int) getpoint.y+10);
+        canvas.drawBitmap(pin, null, pinRectUSC, null);
+        
+        getpoint = sourceToViewCoord(5030, 3856);
+        Rect pinRectCapital = new Rect((int) getpoint.x-15,(int) getpoint.y-15,(int) getpoint.x+10,(int) getpoint.y+10);
+        canvas.drawBitmap(pin, null, pinRectCapital, null);
+        
+        getpoint = sourceToViewCoord(5508, 3264);
+        Rect pinRectChurch = new Rect((int) getpoint.x-15,(int) getpoint.y-15,(int) getpoint.x+10,(int) getpoint.y+10);
+        canvas.drawBitmap(pin, null, pinRectChurch, null);
+
+        getpoint = sourceToViewCoord(6230, 2605);
+        Rect pinRectWWH = new Rect((int) getpoint.x-15,(int) getpoint.y-15,(int) getpoint.x+10,(int) getpoint.y+10);
+        canvas.drawBitmap(pin, null, pinRectWWH, null);
+        */
+        
+        
+        //auto refresh canvas
         //invalidate();
 
     }
@@ -623,7 +715,9 @@ public class TestAdminSubsampling extends View implements OnTouchListener {
                 }
             }
         }
-
+        //isZooming = false;
+        //isScrolling = false;
+        //editSet = true;
     }
 
     /**
@@ -1005,7 +1099,7 @@ public class TestAdminSubsampling extends View implements OnTouchListener {
 			return false;
 	}
 
-	public void createPopup(int location)
+	public void createPopup(int location, final double xLocation, final double yLocation)
 	{		
 		popupon=true; //prevents multiple pop-up bug during OnTouch and OnRelease		
 		LayoutInflater layoutInflator = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);	
@@ -1023,11 +1117,12 @@ public class TestAdminSubsampling extends View implements OnTouchListener {
 		popup.showAtLocation(layout, Gravity.CENTER, 0,0);
 	
 		// Get a reference to Close button, and close the pop-up when clicked.    
-		Button close = (Button) layout.findViewById(R.id.close);
+		Button yes = (Button) layout.findViewById(R.id.Yes);
+		Button no = (Button) layout.findViewById(R.id.No);
 		//TextView title = (TextView)layout.findViewById(R.id.textView1);
 		//title.setText(m.get(location).getTitle());				
 		
-		close.setOnClickListener(new OnClickListener() 
+		no.setOnClickListener(new OnClickListener() 
 		{
 			@Override					
 			public void onClick(View v) 
@@ -1035,7 +1130,19 @@ public class TestAdminSubsampling extends View implements OnTouchListener {
 				popup.dismiss();	
 				popupon=false;
 			}								
-		});			
+		});		
+		
+		yes.setOnClickListener(new OnClickListener() 
+		{
+			@Override					
+			public void onClick(View v) 
+			{				  
+				Intent i1 = new Intent(context, EditLocation.class);
+				i1.putExtra("xLocation", xLocation);
+				i1.putExtra("yLocation", yLocation);
+				context.startActivity(i1);
+			}								
+		});	
 	}
 	
 	
